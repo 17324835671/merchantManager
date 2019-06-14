@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +25,9 @@ public class BuyController extends CommonController {
 
     @Resource
     BuyService buyService;
+
+    @Resource
+    PdfService pdfService;
 
     @RequestMapping(value ="/buySearch",method = RequestMethod.GET)
     public String goodsSearch(){
@@ -112,5 +116,12 @@ public class BuyController extends CommonController {
         this.getRequest().setAttribute("pageTag", list);
         return "buy/accountList";
     }
+
+    @RequestMapping(value ="/exportPDF")
+    public void exportPDF(HttpServletResponse response) throws Exception {
+        String timeDesc = this.getRequest().getParameter("timeDesc");
+        pdfService.exportPDF(timeDesc, response );
+    }
+
 
 }

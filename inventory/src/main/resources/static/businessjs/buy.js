@@ -19,3 +19,10 @@ function queryBuyInfoList(pageNum) {
 		 }
 	 });
 }
+
+function exportBuyInfo(){
+    var contextPath = getContextPath();
+    var timeDesc = $("#timeDesc").val();
+    var url = contextPath+"/exportPDF?"+"timeDesc="+timeDesc;
+    ExcelExport(url);
+}
