@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="resource.html">
+</head>
+<input type="hidden" id="contextPath" name="contextPath" th:value="${#request.getContextPath()}">
+
+<body class="layui-layout-body">
+    <div id="LAY_app">
+        <div class="layui-layout layui-layout-admin">
+            <!-- 头部区域 -->
+            <div class="layui-header">
+                <ul class="layui-nav layui-layout-left">
+                    <li class="layui-nav-item layadmin-flexible" lay-unselect>
+                        <a href="javascript:;" layadmin-event="flexible" title="侧边伸缩">
+                            <i class="layui-icon layui-icon-shrink-right" id="LAY_app_flexible"></i>
+                        </a>
+                    </li>
+                    <li class="layui-nav-item" lay-unselect>
+                        <a href="javascript:;" layadmin-event="refresh" title="刷新">
+                            <i class="layui-icon layui-icon-refresh-3"></i>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="layui-nav layui-layout-right">
+                    <li class="layui-nav-item">
+                        <a lay-href="app/message/index.html" layadmin-event="message" lay-text="消息中心">
+                            <i class="layui-icon layui-icon-notice"></i>
+                            <!-- 如果有新消息，则显示小圆点 -->
+                            <span class="layui-badge-dot"></span>
+                        </a>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="javascript:;" th:text="${session.userBean.displayName}"></a>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a th:href="${#request.getContextPath()+'/logout'}">退出登录</a>
+                    </li>
+                    <li class="layui-nav-item layui-hide-xs" lay-unselect>
+                        <a href="javascript:;" layadmin-event="fullscreen">
+                            <i class="layui-icon layui-icon-screen-full"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!-- 侧边菜单 -->
+            <div class="layui-side layui-side-menu">
+                <div class="layui-side-scroll">
+                    <div class="layui-logo">
+                        <i class="layui-icon">&#xe63d;</i>
+                        <span style="font-weight: bold;font-family: fangsong;">商品仓储管理系统</span>
+                    </div>
+                    <ul class="layui-nav layui-nav-tree layui-inline" lay-shrink="all" id="LAY-system-side-menu" lay-filter="layadmin-system-side-menu">
+                        <li data-name="component" class="layui-nav-item" th:each="permission,iterStat: ${permissionList}">
+                            <!-- 一級菜單 -->
+                            <a href="javascript:;" th:attr="lay-tips=${permission.permissionName}" lay-direction="2">
+                                <i class="layui-icon" th:if="${permission.permissionCode}==1000">&#xe6bb;</i>
+                                <i class="layui-icon" th:if="${permission.permissionCode}==1100">&#xe6a2;</i>
+                                <i class="layui-icon" th:if="${permission.permissionCode}==1200">&#xe659;</i>
+                                <i class="layui-icon" th:if="${permission.permissionCode}==1300">&#xe591;</i>
+                                <i class="layui-icon" th:if="${permission.permissionCode}==1400">&#xe528;</i>
+                                <i class="layui-icon" th:if="${permission.permissionCode}==1500">&#xe509;</i>
+                                <i class="layui-icon" th:if="${permission.permissionCode}==1600">&#xe62f;</i>
+                                <i class="layui-icon" th:if="${permission.permissionCode}==1700">&#xe630;</i>
+                                <i class="layui-icon" th:if="${permission.permissionCode}==1800">&#xe64c;</i>
+                                <i class="layui-icon" th:if="${permission.permissionCode}==1900">&#xe63e;</i>
+                                <i class="layui-icon" th:if="${permission.permissionCode}==2000">&#xe606;</i>
+                                <i class="layui-icon" th:if="${permission.permissionCode}==2100">&#xe709;</i>
+                                <i class="layui-icon" th:if="${permission.permissionCode}==2200">&#xe636;</i>
+                                <i class="layui-icon" th:if="${permission.permissionCode}==2300">&#xe606;</i>
+                                <i class="layui-icon" th:if="${permission.permissionCode}==2400">&#xe528;</i>
+                                <cite th:text="${permission.permissionName}"></cite>
+                            </a>
+                            <!-- 二級菜單 -->
+                            <dl class="layui-nav-child">
+                                <dd th:each="node: ${permission.permissions}">
+                                    <a th:attr="lay-href=${#request.getContextPath()+node.permissionUrl}">
+                                        <span th:text="${node.permissionName}" style="margin-left: 20px;"></span>
+                                    </a>
+                                </dd>
+                            </dl>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- 页面标签 -->
+            <div class="layadmin-pagetabs" id="LAY_app_tabs">
+                <div class="layui-icon layadmin-tabs-control layui-icon-prev" layadmin-event="leftPage"></div>
+                <div class="layui-icon layadmin-tabs-control layui-icon-next" layadmin-event="rightPage"></div>
+                <div class="layui-icon layadmin-tabs-control layui-icon-down">
+                    <ul class="layui-nav layadmin-tabs-select" lay-filter="layadmin-pagetabs-nav">
+                        <li class="layui-nav-item" lay-unselect>
+                            <a href="javascript:;"></a>
+                            <dl class="layui-nav-child layui-anim-fadein">
+                                <dd layadmin-event="closeThisTabs">
+                                    <a href="javascript:;">关闭当前标签页</a>
+                                </dd>
+                                <dd layadmin-event="closeOtherTabs">
+                                    <a href="javascript:;">关闭其它标签页</a>
+                                </dd>
+                                <dd layadmin-event="closeAllTabs">
+                                    <a href="javascript:;">关闭全部标签页</a>
+                                </dd>
+                            </dl>
+                        </li>
+                    </ul>
+                </div>
+                <div class="layui-tab" lay-unauto lay-allowClose="true" lay-filter="layadmin-layout-tabs">
+                    <ul class="layui-tab-title" id="LAY_app_tabsheader">
+                        <li lay-attr="html/console.html" class="layui-this">
+                            <i class="layui-icon layui-icon-home"></i>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- 主体内容 -->
+            <div class="layui-body" id="LAY_app_body">
+                <div class="layadmin-tabsbody-item layui-show" frameborder="0" style="background: white;overflow: auto;">
+                    <iframe id="mainContent" class="layadmin-iframe" frameborder="0">
+                    </iframe>
+                    <div th:replace="mainhome.html">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        layui.config({
+            base: 'layui/' //静态资源所在路径
+        }).extend({
+            index: 'lib/index' //主入口模块
+        }).use('index');
+        $(function () {
+
+        });
+    </script>
+</body>
+
+</html>

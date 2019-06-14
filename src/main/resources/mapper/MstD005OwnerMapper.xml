@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sparksys.common.dao.MstD005OwnerDao">
+
+  <select id="findById" parameterType="java.lang.Long" resultType="com.sparksys.common.entity.MstD005Owner">
+    select 
+	    d005.owner_uid ownerUid,
+	    d005.address address,
+	    d005.cd_time cdTime,
+	    d005.delete_flag deleteFlag,
+	    d005.kana_name kanaName,
+	    d005.owner_code ownerCode,
+	    d005.owner_name ownerName
+    from mst_d005_owner d005
+    where owner_uid = #{ownerUid,jdbcType=BIGINT}
+  </select>
+  <select id="findList" parameterType="map" resultType="com.sparksys.common.entity.MstD005Owner">
+    select 
+	    d005.owner_uid ownerUid,
+	    d005.address address,
+	    d005.cd_time cdTime,
+	    d005.delete_flag deleteFlag,
+	    d005.kana_name kanaName,
+	    d005.owner_code ownerCode,
+	    d005.owner_name ownerName
+    from mst_d005_owner d005 where 1=1
+    <if test="ownerName != null and ownerName !=''">
+      and d005.owner_name = #{ownerName,jdbcType=VARCHAR}
+    </if>
+     <if test="kanaName != null and kanaName !=''">
+      and d005.kana_name = #{kanaName,jdbcType=VARCHAR}
+    </if>
+    order by d005.owner_uid asc
+  </select>
+  <select id="findListCount" parameterType="map" resultType="int">
+    select 
+	    count(1)
+    from mst_d005_owner d005 where 1=1
+    <if test="ownerName != null and ownerName !=''">
+      and d005.owner_name = #{ownerName,jdbcType=VARCHAR}
+    </if>
+     <if test="kanaName != null and kanaName !=''">
+      and d005.kana_name = #{kanaName,jdbcType=VARCHAR}
+    </if>
+  </select>
+  <delete id="deleteById" parameterType="java.lang.Long">
+    delete from mst_d005_owner
+    where owner_uid = #{ownerUid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insertMstD005Owner" parameterType="com.sparksys.common.entity.MstD005Owner">
+    insert into mst_d005_owner 
+    		(owner_uid,
+    		address,
+    		cd_time, 
+      		delete_flag,
+      		kana_name,
+      		owner_code, 
+      		owner_name,
+      		up_time,
+      		cd_person, 
+      		up_person)
+    values (#{ownerUid,jdbcType=BIGINT},
+    		#{address,jdbcType=VARCHAR},
+    		NOW(), 
+      		#{deleteFlag,jdbcType=BIGINT},
+      		#{kanaName,jdbcType=VARCHAR},
+      		#{ownerCode,jdbcType=VARCHAR}, 
+      		#{ownerName,jdbcType=VARCHAR}, 
+      		NOW(), 
+      		#{cdPerson,jdbcType=BIGINT}, 
+			#{upPerson,jdbcType=BIGINT})
+  </insert>
+  <update id="updateMstD005Owner" parameterType="com.sparksys.common.entity.MstD005Owner">
+    update mst_d005_owner
+    	set address = #{address,jdbcType=VARCHAR},
+      		delete_flag = #{deleteFlag,jdbcType=BIGINT},
+      		kana_name = #{kanaName,jdbcType=VARCHAR},
+      		owner_code = #{ownerCode,jdbcType=VARCHAR},
+      		owner_name = #{ownerName,jdbcType=VARCHAR},
+      		up_time = NOW(),
+      		up_person = #{upPerson,jdbcType=BIGINT}
+    where owner_uid = #{ownerUid,jdbcType=BIGINT}
+  </update>
+</mapper>

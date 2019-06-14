@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="resource1.html">
+</head>
+  <body>
+  <input type="hidden" id="contextPath" name="contextPath" th:value="${#request.getContextPath()}">
+    <div class="x-body layui-anim" align="center">
+        <form class="layui-form layui-form-pane">
+        	<input type="hidden" id="stopFlag" name="stopFlag" value="0">
+        	<table>
+				<tr height="80px;">
+					<td>
+						<label class="layui-form-label"><span class="x-red">*</span>商品名称</label>
+						<div class="layui-input-inline" style="width: 57%;">
+							<select name="materialId" id="materialId">
+								<option th:each="material : ${materialList}" th:value="${material.materialId}" th:text="${material.materialName}+'('+${material.color}+${material.capacity}+'G)'"></option>
+							</select>
+						</div>
+					</td>
+					<td>
+						<label class="layui-form-label"><span class="x-red">*</span>定价组名称</label>
+						<div class="layui-input-inline">
+							<input type="text" id="reqpName" name="reqpName" lay-verify="required" class="layui-input">
+						</div>
+					</td>
+				</tr>
+				<tr height="80px;">
+					<td>
+						<label class="layui-form-label"><span class="x-red">*</span>有效期From</label>
+						<div class="layui-input-inline">
+							<input type="text" id="effMonthFrom" name="effMonthFrom" lay-verify="date" class="layui-input">
+						</div>
+					</td>
+					<td>
+						<label class="layui-form-label"><span class="x-red">*</span>有效期To</label>
+						<div class="layui-input-inline">
+							<input type="text" id="effMonthTo" name="effMonthTo" lay-verify="date" class="layui-input">
+						</div>
+					</td>
+				</tr>
+				<tr height="80px;">
+					<td colspan="2">
+						<label class="layui-form-label"><span class="x-red">*</span>是否过期</label>
+						<div class="layui-input-inline">
+							<input type="checkbox" name="StopFlag" id="StopFlag" lay-text="否|是" checked="checked" lay-filter="StopFlag" value="0"
+								lay-skin="switch" class="layui-input">
+						</div>
+					</td>
+				</tr>
+			</table>
+		  	<button id="submitForm" style="display: none;" lay-filter="saveMstD007ReqPriceH" lay-submit=""></button>
+      </form>
+    </div>
+    <script>
+	    layui.use('laydate', function() {
+			var laydate = layui.laydate;
+	
+			// 执行一个laydate实例
+			laydate.render({
+				elem : '#effMonthFrom',
+				calendar : true
+			});
+			// 执行一个laydate实例
+			laydate.render({
+				elem : '#effMonthTo',
+				calendar : true
+			});
+		});
+        layui.use(['form','layer'], function(){
+            $ = layui.jquery;
+            var form = layui.form
+            ,layer = layui.layer;
+	        //监听checkbox
+	          form.on('switch(StopFlag)', function(data){
+	        	  console.log(data.elem.checked);
+	        	  if(data.elem.checked){
+	        		  document.getElementById("stopFlag").value= "0";
+	        	  }else{
+	        		  document.getElementById("stopFlag").value= "1";
+	        	  }
+	        	});
+	          form.on('submit(saveMstD007ReqPriceH)', function(data){
+	              AjaxHttpRequest("/saveMstD007ReqPriceH",data.field);
+	              return false;
+	          });
+        });
+    </script>
+  </body>
+
+</html>

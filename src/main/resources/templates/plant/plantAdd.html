@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="resource1.html">
+</head>
+  <body>
+  <input type="hidden" id="contextPath" name="contextPath" th:value="${#request.getContextPath()}">
+    <div class="x-body layui-anim">
+        <form class="layui-form layui-form-pane">
+        	<input type="hidden" id="deleteFlag" name="deleteFlag" value="0">
+        	<table>
+				<tr height="50px;">
+					<td>
+					<label class="layui-form-label"><span class="x-red">*</span>单位名称</label>
+						<div class="layui-input-inline" style="width: 60%;">
+							<input type="text" id="plantName" name="plantName" lay-verify="required" class="layui-input">
+						</div>
+					</td>
+					<td>
+					<label class="layui-form-label">单位简称</label>
+						<div class="layui-input-inline" style="width: 60%;">
+							<input type="text" id="kanaName" name="kanaName" class="layui-input">
+						</div>
+					</td>
+				</tr>
+				<tr height="50px;">
+					<td>
+						<label class="layui-form-label"><span class="x-red">*</span>单位类型</label>
+						<div class="layui-input-inline" style="width: 60%;">
+							<select name="plantType">
+								<option th:each="plantType : ${plantTypes}" th:value="${plantType.typeId}" th:text="${plantType.typeName}"></option>
+							</select>
+						</div>
+					</td>
+					<td>
+						<label class="layui-form-label"><span class="x-red">*</span>供应商</label>
+						<div class="layui-input-inline" style="width: 60%;">
+							<select name="ownerUId">
+								<option th:each="owner : ${owners}" th:value="${owner.ownerUid}" th:text="${owner.ownerName}"></option>
+							</select>
+						</div>
+					</td>
+				</tr>
+				<tr height="50px;">
+					<td>
+						<label class="layui-form-label">客服部门</label>
+						<div class="layui-input-inline" style="width: 60%;">
+							<input type="text" id="buDeptName" name="buDeptName" class="layui-input">
+						</div>
+					</td>
+					<td>
+						<label class="layui-form-label">客服电话</label>
+						<div class="layui-input-inline" style="width: 60%;">
+							<input type="text" id="buDeptTel" name="buDeptTel" lay-verify="phone" class="layui-input">
+						</div>
+					</td>
+				</tr>
+				<tr height="50px;">
+					<td>
+						<label class="layui-form-label"><span class="x-red">*</span>状态</label>
+						<div class="layui-input-inline">
+							<input type="checkbox" name="DeleteFlag" id="DeleteFlag" lay-text="开启|停用" checked="checked" lay-filter="DeleteFlag" value="0"
+								lay-skin="switch" class="layui-input">
+						</div>
+					</td>
+				</tr>
+				<tr height="50px;">
+					<td colspan="2">
+						<label class="layui-form-label"><span class="x-red">*</span>详细地址</label>
+						<div class="layui-input-inline" style="width: 82%;">
+							<textarea id="address" name="address" lay-verify="required" class="layui-textarea">
+							</textarea>
+						</div>
+					</td>
+				</tr>
+			</table>
+		  	<button id="submitForm" style="display: none;" lay-filter="addPlant" lay-submit=""></button>
+		  	<button id="uploadFiles" style="display: none;" onclick="uploadShowFile();"></button>
+      </form>
+    </div>
+    <script>
+        layui.use(['form','layer'], function(){
+            $ = layui.jquery;
+            var form = layui.form
+            ,layer = layui.layer;
+        //监听checkbox
+          form.on('switch(DeleteFlag)', function(data){
+        	  console.log(data.elem.checked);
+        	  if(data.elem.checked){
+        		  document.getElementById("deleteFlag").value= "0";
+        	  }else{
+        		  document.getElementById("deleteFlag").value= "1";
+        	  }
+        	});
+          form.on('switch(UnitChangeFlag)', function(data){
+        	  console.log(data.elem.checked);
+        	  if(data.elem.checked){
+        		  document.getElementById("unitChangeFlag").value= "0";
+        	  }else{
+        		  document.getElementById("unitChangeFlag").value= "1";
+        	  }
+        	});
+          form.on('submit(addPlant)', function(data){
+              AjaxHttpRequest("/savePlant",data.field);
+              return false;
+          });
+        });
+        function test(data){
+        	alert(data);
+        }
+    </script>
+  </body>
+
+</html>

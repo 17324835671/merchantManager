@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="resource1.html">
+</head>
+  <body>
+  <input type="hidden" id="contextPath" name="contextPath" th:value="${#request.getContextPath()}">
+    <div class="x-body layui-anim" align="center">
+        <form class="layui-form layui-form-pane">
+        	<input type="hidden" id="lotMangFlag" name="lotMangFlag" value="1">
+        	<input type="hidden" id="deleteFlag" name="deleteFlag" value="0">
+        	<table>
+				<tr height="50px;">
+					<td>
+					<label class="layui-form-label"><span class="x-red">*</span>商品名称</label>
+						<div class="layui-input-inline" style="width: 60%;">
+							<input type="text" id="materialName" name="materialName" lay-verify="required" class="layui-input">
+						</div>
+					</td>
+					<td>
+					<label class="layui-form-label">英文名称</label>
+						<div class="layui-input-inline" style="width: 60%;">
+							<input type="text" id="enName" name="enName" class="layui-input">
+						</div>
+					</td>
+				</tr>
+				<tr height="50px;">
+					<td>
+						<label class="layui-form-label"><span class="x-red">*</span>所属货架</label>
+						<div class="layui-input-inline" style="width: 60%;">
+							<select name="shelfId" class="shelfId" lay-filter="shelfId">
+								<option th:each="shelf : ${shelfs}" th:value="${shelf.shelfId}" th:text="${shelf.shelfName}"></option>
+                             </select>
+						</div>
+					</td>
+					<td>
+						<label class="layui-form-label"><span class="x-red">*</span>单位</label>
+						<div class="layui-input-inline" style="width: 60%;">
+							<input type="text" id="unitCode" name="unitCode" class="layui-input">
+						</div>
+					</td>
+				</tr>
+				<tr height="50px;">
+					<td>
+						<label class="layui-form-label">容量</label>
+						<div class="layui-input-inline" style="width: 60%;">
+							<input type="text" id="capacity" name="capacity" class="layui-input">
+						</div>
+					</td>
+					<td>
+						<label class="layui-form-label">颜色</label>
+						<div class="layui-input-inline" style="width: 60%;">
+							<input type="text" id="color" name="color" class="layui-input">
+						</div>
+					</td>
+				</tr>
+				<tr height="50px;">
+					<td>
+						<label class="layui-form-label">尺寸</label>
+						<div class="layui-input-inline" style="width: 60%;">
+							<input type="text" id="materialSize" name="materialSize" class="layui-input">
+						</div>
+					</td>
+					<td>
+						<label class="layui-form-label">颜色标识</label>
+						<div class="layui-input-inline" style="width: 60%;">
+							<input type="text" id="colorFlag" name="colorFlag" class="layui-input">
+						</div>
+					</td>
+				</tr>
+				<tr height="50px;">
+					<td>
+						<label class="layui-form-label">尺寸标识</label>
+						<div class="layui-input-inline" style="width: 60%;">
+							<input type="text" id="sizeFlag" name="sizeFlag" class="layui-input">
+						</div>
+					</td>
+					<td>
+						<label class="layui-form-label">定价（不含税:元）</label>
+						<div class="layui-input-inline" style="width: 60%;">
+							<input type="text" id="printNoTax" name="printNoTax" class="layui-input">
+						</div>
+					</td>
+				</tr>
+				<tr height="50px;">
+					<td>
+						<label class="layui-form-label">规格宽度</label>
+						<div class="layui-input-inline" style="width: 60%;">
+							<input type="text" id="specWidth" name="specWidth" class="layui-input">
+						</div>
+					</td>
+					<td>
+						<label class="layui-form-label">宽度单位</label>
+						<div class="layui-input-inline" style="width: 60%;">
+							<input type="text" id="widthUnit" name="widthUnit" class="layui-input">
+						</div>
+					</td>
+				</tr>
+				<tr height="50px;">
+					<td>
+						<label class="layui-form-label">规格长度</label>
+						<div class="layui-input-inline" style="width: 60%;">
+							<input type="text" id="specLength" name="specLength" class="layui-input">
+						</div>
+					</td>
+					<td>
+						<label class="layui-form-label">长度单位</label>
+						<div class="layui-input-inline" style="width: 60%;">
+							<input type="text" id="lengthUnit" name="lengthUnit" class="layui-input">
+						</div>
+					</td>
+				</tr>
+				<tr height="50px;">
+					<td>
+						<label class="layui-form-label">重量</label>
+						<div class="layui-input-inline" style="width: 60%;">
+							<input type="text" id="weight" name="weight" class="layui-input">
+						</div>
+					</td>
+					<td>
+						<label class="layui-form-label">批次管理</label>
+						<div class="layui-input-inline">
+							<input type="checkbox" name="LotMangFlag" id="LotMangFlag" lay-text="启用|停用" checked="checked" lay-filter="LotMangFlag" value="1"
+								lay-skin="switch" class="layui-input">
+						</div>
+					</td>
+				</tr>
+				<tr height="50px;">
+					<td>
+						<label class="layui-form-label"><span class="x-red">*</span>是否过期</label>
+						<div class="layui-input-inline">
+							<input type="checkbox" name="DeleteFlag" id="DeleteFlag" lay-text="否|是" checked="checked" lay-filter="DeleteFlag" value="0"
+								lay-skin="switch" class="layui-input">
+						</div>
+					</td>
+				</tr>
+			</table>
+		  	<button id="submitForm" style="display: none;" lay-filter="saveMaterial" lay-submit=""></button>
+      </form>
+    </div>
+    <script>
+        layui.use(['form','layer'], function(){
+            $ = layui.jquery;
+            var form = layui.form
+            ,layer = layui.layer;
+        //监听checkbox
+          form.on('switch(DeleteFlag)', function(data){
+        	  console.log(data.elem.checked);
+        	  if(data.elem.checked){
+        		  document.getElementById("deleteFlag").value= "0";
+        	  }else{
+        		  document.getElementById("deleteFlag").value= "1";
+        	  }
+        	});
+          form.on('switch(LotMangFlag)', function(data){
+        	  console.log(data.elem.checked);
+        	  if(data.elem.checked){
+        		  document.getElementById("LotMangFlag").value= "1";
+        	  }else{
+        		  document.getElementById("LotMangFlag").value= "0";
+        	  }
+        	});
+          form.on('submit(saveMaterial)', function(data){
+              AjaxHttpRequest("/saveMaterial",data.field);
+              return false;
+          });
+        });
+    </script>
+  </body>
+
+</html>

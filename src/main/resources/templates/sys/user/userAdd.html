@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="resource1.html">
+</head>
+  <body>
+  <input type="hidden" id="contextPath" name="contextPath" th:value="${#request.getContextPath()}">
+    <div class="x-body layui-anim">
+        <form class="layui-form layui-form-pane">
+        <input type="hidden" id="isdel" name="isdel" value="0">
+        <input type="hidden" id="fileId" name="fileId">
+          <div class="layui-form-item">
+          	<table>
+          		<tr height="50px;">
+          			<td>
+          				<label class="layui-form-label">
+			                  <span class="x-red">*</span>登录名
+			              </label>
+			              <div class="layui-input-inline">
+			                  <input type="text" id="userName" name="userName" required="" lay-verify="required"
+			                  class="layui-input">
+			              </div>
+          			</td>
+          			<td>
+          				<label class="layui-form-label">
+		                  <span class="x-red">*</span>姓名</label>
+		              <div class="layui-input-inline">
+		                  <input type="text" id="displayName" name="displayName" required="" lay-verify="displayName"
+		                  class="layui-input">
+		              </div>
+          			</td>
+          		</tr>
+          		<tr height="50px;">
+          			<td>
+          				<label class="layui-form-label">
+		                  <span class="x-red">*</span>密码
+		              </label>
+		              <div class="layui-input-inline">
+		                  <input type="password" id="password" name="password" required=""  lay-verify="password"
+		                  class="layui-input">
+		              </div>
+          			</td>
+          			<td>
+          				<label class="layui-form-label">
+		                  <span class="x-red">*</span>确认密码
+		              </label>
+		              <div class="layui-input-inline">
+		                  <input type="password" id="confirmpass" name="confirmpass" required="" lay-verify="confirmpassword"
+		                  class="layui-input">
+		              </div>
+          			</td>
+          		</tr>
+          		<tr height="50px;">
+          			<td>
+          				<label class="layui-form-label"><span class="x-red">*</span>性别</label>
+					    <div class="layui-input-block">
+					      <input type="radio" name="sex" value="0" title="男" checked>
+					      <input type="radio" name="sex" value="1" title="女">
+					    </div>
+          			</td>
+          			<td>
+          				<label class="layui-form-label"><span class="x-red">*</span>出生日期</label>
+					    <div class="layui-input-inline">
+			                  <input type="text" id="birthDay" name="birthDay" required="" lay-verify="date"
+			                  class="layui-input">
+			              </div>
+          			</td>
+          		</tr>
+          		<tr height="50px;">
+          			<td>
+          				<label class="layui-form-label"><span class="x-red">*</span>手机号</label>
+					    <div class="layui-input-inline">
+			                  <input type="text" id="telPhone" name="telPhone" required="" lay-verify="phone"
+			                  class="layui-input">
+			              </div>
+          			</td>
+          			<td>
+          				<label class="layui-form-label">微信号</label>
+					    <div class="layui-input-inline">
+			                  <input type="text" id="wechat" name="wechat"
+			                  class="layui-input">
+			              </div>
+          			</td>
+          		</tr>
+          		<tr height="50px;">
+          			<td>
+          			<label class="layui-form-label"><span class="x-red">*</span>邮箱</label>
+				    <div class="layui-input-inline">
+		                  <input type="text" id="email" name="email" lay-verify="email"
+		                   class="layui-input">
+		              </div>
+          			</td>
+          			<td>
+          				<label class="layui-form-label"><span class="x-red">*</span>状态</label>
+					    <div class="layui-input-inline">
+			                  <input type="checkbox" name="AddIsdel"  id="AddIsdel" lay-text="开启|停用" lay-filter="addIsdel"  checked="checked" value="0" lay-skin="switch" class="layui-input">
+			             </div>
+          			</td>
+          		</tr>
+          	</table>
+          </div>
+		  <button id="submitForm" style="display: none;" lay-filter="adduser" lay-submit=""></button>
+      </form>
+    </div>
+    <script>
+	  layui.use('laydate', function() {
+	    	var laydate = layui.laydate;
+	
+	    	// 执行一个laydate实例
+	    	laydate.render({
+	    		elem : '#birthDay' // 指定元素
+	    	});
+	    });
+        layui.use(['form','layer'], function(){
+            $ = layui.jquery;
+          var form = layui.form
+          form.verify({
+        	  displayName: function(value){
+	        	  var length = value.length;
+	        	  var isChines = /^[\u4E00-\u9FA5\uf900-\ufa2d·s]{2,20}$/;
+	              if(length ==0){
+	                return '姓名不能为空！';
+	              }else if(length ==1){
+	              	return '请输入两位以上！';
+	              }
+	              else if(!isChines.test(value)){
+	              	return '请输入中文！'; 
+	              }
+	          },password: [/(.+){6,12}$/, '密码必须6到16位']
+	            ,confirmpassword: function(value){
+	                if($('#password').val()!=$('#confirmpass').val()){
+	                    return '两次密码不一致';
+	                }
+	            }
+          });
+        //监听checkbox
+          form.on('switch(addIsdel)', function(data){
+        	  console.log(data.elem.checked);
+        	  if(data.elem.checked){
+        		  document.getElementById("isdel").value= "0";
+        	  }else{
+        		  document.getElementById("isdel").value= "1";
+        	  }
+        	});
+          form.on('submit(adduser)', function(data){
+              AjaxHttpRequest("/saveUser",data.field);
+              return false;
+          });
+        });
+    </script>
+  </body>
+
+</html>

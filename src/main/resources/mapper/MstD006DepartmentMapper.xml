@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sparksys.common.dao.MstD006DepartmentDao">
+
+  <select id="findById" parameterType="java.lang.Long" resultType="com.sparksys.common.entity.MstD006Department">
+    select 
+	    d006.dept_uid deptUid,
+	    d006.delete_flag deleteFlag,
+	    d006.dept_code deptCode,
+	    d006.dept_head deptHead,
+	    d006.dept_name deptName,
+	    d006.dept_telno deptTelno,
+	    d006.owner_uid ownerUid,
+	    d005.owner_name ownerName
+    from mst_d006_department d006
+    left join mst_d005_owner d005 on d005.owner_uid = d006.owner_uid
+    where dept_uid = #{deptUid,jdbcType=BIGINT}
+  </select>
+  <select id="findDepartmentListByOwnerUid" parameterType="java.lang.Long" resultType="com.sparksys.common.entity.MstD006Department">
+    select 
+	    d006.dept_uid deptUid,
+	    d006.delete_flag deleteFlag,
+	    d006.dept_code deptCode,
+	    d006.dept_head deptHead,
+	    d006.dept_name deptName,
+	    d006.dept_telno deptTelno,
+	    d006.owner_uid ownerUid
+	from mst_d006_department d006
+    where d006.owner_uid = #{ownerUid,jdbcType=BIGINT}
+    order by d006.dept_uid asc
+  </select>
+  <select id="findList" parameterType="map" resultType="com.sparksys.common.entity.MstD006Department">
+    select 
+	    d006.dept_uid deptUid,
+	    d006.delete_flag deleteFlag,
+	    d006.dept_code deptCode,
+	    d006.dept_head deptHead,
+	    d006.dept_name deptName,
+	    d006.dept_telno deptTelno,
+	    d006.owner_uid ownerUid,
+	    d005.owner_name ownerName
+    from mst_d006_department d006
+    left join mst_d005_owner d005 on d005.owner_uid = d006.owner_uid
+    where 1=1
+    <if test="deptName != null and deptName !=''">
+      and d006.dept_name = #{deptName,jdbcType=VARCHAR}
+    </if>
+     <if test="ownerUid != null and ownerUid !=''">
+      and d006.owner_uid = #{ownerUid,jdbcType=VARCHAR}
+    </if>
+    order by d006.dept_uid asc
+  </select>
+  <select id="findListCount" parameterType="map" resultType="int">
+    select 
+    count(1)
+    from mst_d006_department d006
+    left join mst_d005_owner d005 on d005.owner_uid = d006.owner_uid
+    where 1=1
+    <if test="deptName != null and deptName !=''">
+      and d006.dept_name = #{deptName,jdbcType=VARCHAR}
+    </if>
+     <if test="ownerUid != null and ownerUid !=''">
+      and d006.owner_uid = #{ownerUid,jdbcType=VARCHAR}
+    </if>
+  </select>
+  <delete id="deleteById" parameterType="java.lang.Long">
+    delete from mst_d006_department
+    where dept_uid = #{deptUid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insertMstD006Department" parameterType="com.sparksys.common.entity.MstD006Department">
+    insert into mst_d006_department 
+    		(dept_uid,
+    		cd_time,
+    		delete_flag, 
+      		dept_code,
+      		dept_head,
+      		dept_name,
+      		dept_telno,
+      		up_time,
+      		cd_person, 
+      		owner_uid,
+      		up_person)
+    values (#{deptUid,jdbcType=BIGINT},
+    		NOW(),
+    		#{deleteFlag,jdbcType=BIGINT}, 
+      		#{deptCode,jdbcType=VARCHAR},
+      		#{deptHead,jdbcType=VARCHAR},
+      		#{deptName,jdbcType=VARCHAR}, 
+      		#{deptTelno,jdbcType=VARCHAR},
+      		NOW(),
+      		#{cdPerson,jdbcType=BIGINT}, 
+      		#{ownerUid,jdbcType=BIGINT},
+      		#{upPerson,jdbcType=BIGINT})
+  </insert>
+  <update id="updateMstD006Department" parameterType="com.sparksys.common.entity.MstD006Department">
+    update mst_d006_department
+		set delete_flag = #{deleteFlag,jdbcType=BIGINT},
+			dept_code = #{deptCode,jdbcType=VARCHAR},
+			dept_head = #{deptHead,jdbcType=VARCHAR},
+			dept_name = #{deptName,jdbcType=VARCHAR},
+			dept_telno = #{deptTelno,jdbcType=VARCHAR},
+			up_time = NOW(),
+			owner_uid = #{ownerUid,jdbcType=BIGINT},
+			up_person = #{upPerson,jdbcType=BIGINT}
+    where dept_uid = #{deptUid,jdbcType=BIGINT}
+  </update>
+</mapper>

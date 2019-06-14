@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div class="layui-col-md12">
+      <div class="layui-card">
+        <div class="layui-card-header">查询结果</div>
+        <div class="layui-card-body" style="height: 530px;;overflow: auto;">
+        	<table class="layui-table layui-form">
+		        <thead>
+			        <tr>
+			            <th>序号</th>
+			            <th>商品名称</th>
+			            <th>商品定价组名称</th>
+			            <th>单价有效期From</th>
+			            <th>单价有效期To</th>
+						<th style="text-align: center;">是否失效</th>
+						<th style="text-align: center;">操作</th>
+					</tr>
+		        </thead>
+		        <tbody>
+		          <tr th:each="mstD007,iterStat: ${mstD007List}">
+		          	<td th:text="${iterStat.index+1}"></td>
+		            <td th:text="${mstD007.materialName}+'('+${mstD007.color}+${mstD007.capacity}+'G)'"></td>
+		            <td th:text="${mstD007.reqpName}"></td>
+		            <td th:text="${#dates.format(mstD007.effMonthFrom, 'yyyy-MM-dd')}"></td>
+		            <td th:text="${#dates.format(mstD007.effMonthTo, 'yyyy-MM-dd')}"></td>
+		            <td align="center">
+		            	<span class="layui-btn layui-btn-xs" th:if="${mstD007.stopFlag}==0" th:text="未失效"></span>
+		            	<span class="layui-btn layui-btn-primary layui-btn-xs layui-btn-disabled" th:if="${mstD007.stopFlag}==1" th:text="已失效"></span>
+		            </td>
+		            <td align="center">
+		              <button th:id="${mstD007.reqpUid}" class="layui-btn layui-btn-primary layui-btn-xs" onclick="viewMstD007ReqPriceHInfo(this);"><i class="layui-icon">&#xe679;</i>查看</button>
+		              <button th:id="${mstD007.reqpUid}" class="layui-btn layui-btn layui-btn-xs"  onclick="updateMstD007ReqPriceHForword(this)" ><i class="layui-icon">&#xe62b;</i>编辑</button>
+		              <button th:id="${mstD007.reqpUid}" class="layui-btn-danger layui-btn layui-btn-xs"  onclick="deleteMstD007ReqPriceH(this)"><i class="layui-icon">&#xe640;</i>删除</button>
+		            </td>
+		          </tr>
+		        </tbody>
+		      </table>
+		      <div id="pageTag" th:include="pageTag.html">
+        </div>
+      </div>
+    </div>
+</div>
+</html>       

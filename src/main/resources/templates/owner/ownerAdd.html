@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="resource1.html">
+</head>
+<body>
+	<input type="hidden" id="contextPath" name="contextPath" th:value="${#request.getContextPath()}">
+	<div class="x-body layui-anim">
+		<form class="layui-form layui-form-pane">
+			<input type="hidden" id="deleteFlag" name="deleteFlag" value="0">
+			<table style="width: 100%">
+				<tr height="50px;">
+					<td>
+						<label class="layui-form-label"> <span class="x-red">*</span>供应商名称</label>
+						<div class="layui-input-inline">
+							<input type="text" id="ownerName" name="ownerName" lay-verify="required" class="layui-input">
+						</div></td>
+					<td>
+						<label class="layui-form-label">供应商简称</label>
+						<div class="layui-input-inline">
+							<input type="text" id="kanaName" name="kanaName" class="layui-input">
+						</div>
+					</td>
+				</tr>
+        		<tr height="50px;">
+        			<td colspan="2">
+        				<label class="layui-form-label"><span class="x-red">*</span>供应商地址</label>
+			            <div class="layui-input-inline" style="width: 77.5%;">
+			            	<textarea id="address" name="address" lay-verify="required" class="layui-textarea">
+							</textarea>
+			            </div>
+        			</td>
+        		</tr>
+        		<tr height="50px;">
+					<td colspan="2">
+						<label class="layui-form-label"><span class="x-red">*</span>状态</label>
+						<div class="layui-input-inline">
+							<input type="checkbox" name="DeleteFlag" id="DeleteFlag" lay-text="正常|停用" lay-filter="DeleteFlag" checked="checked" value="0" lay-skin="switch" class="layui-input">
+						</div>
+					</td>
+				</tr>
+			</table>
+			<button id="submitForm" style="display: none;" lay-filter="addOwner"
+				lay-submit=""></button>
+		</form>
+	</div>
+	<script>
+		layui.use([ 'form', 'layer' ], function() {
+			$ = layui.jquery;
+			var form = layui.form, layer = layui.layer;
+			//监听checkbox
+			form.on('switch(DeleteFlag)', function(data) {
+				console.log(data.elem.checked);
+				if (data.elem.checked) {
+					document.getElementById("deleteFlag").value = "0";
+				} else {
+					document.getElementById("deleteFlag").value = "1";
+				}
+			});
+			form.on('submit(addOwner)', function(data) {
+				AjaxHttpRequest("/saveMstD005Owner", data.field);
+				return false;
+			});
+		});
+	</script>
+</body>
+
+</html>
