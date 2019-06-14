@@ -24,7 +24,7 @@ public class UserController extends CommonController{
 	
 	@RequestMapping(value ="/queryUserInfoList")
 	public String queryUserInfoList(){
-		int pageNum = 0;
+		int pageNum =  0;
 		String currentNum = this.getRequest().getParameter("currentNum");
 		String displayName = this.getRequest().getParameter("displayName");
 		String isdel = this.getRequest().getParameter("isdel");
