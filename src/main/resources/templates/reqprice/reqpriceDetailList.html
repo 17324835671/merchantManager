@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div class="layui-col-md12">
+      <div class="layui-card">
+        <div class="layui-card-header">查询结果</div>
+        <div class="layui-card-body" style="height: 530px;;overflow: auto;">
+        	<table class="layui-table layui-form">
+		        <thead>
+			        <tr>
+			            <th>序号</th>
+			            <th>商品定价组名称</th>
+			            <th>单价有效期From</th>
+			            <th>单价有效期To</th>
+			            <th>单价定价</th>
+			            <th>单价单位</th>
+						<th style="text-align: center;">操作</th>
+					</tr>
+		        </thead>
+		        <tbody>
+		          <tr th:each="mstD008,iterStat: ${mstD008List}">
+		          	<td th:text="${iterStat.index+1}"></td>
+		            <td th:text="${mstD008.mstD007ReqPriceH.reqpName}"></td>
+		            <td th:text="${#dates.format(mstD008.mstD007ReqPriceH.effMonthFrom, 'yyyy-MM-dd')}"></td>
+		            <td th:text="${#dates.format(mstD008.mstD007ReqPriceH.effMonthTo, 'yyyy-MM-dd')}"></td>
+		            <td th:text="${mstD008.unitPrice}"></td>
+		            <td th:text="${mstD008.parity.parityChName}+'('+${mstD008.parity.parityEnName}+')'"></td>
+		            <td align="center">
+		              <button th:id="${mstD008.id}" class="layui-btn layui-btn-primary layui-btn-xs" onclick="viewMstD008ReqPriceDInfo(this);"><i class="layui-icon">&#xe679;</i>查看</button>
+		              <button th:id="${mstD008.id}" class="layui-btn layui-btn layui-btn-xs"  onclick="updateMstD008ReqPriceDForword(this)" ><i class="layui-icon">&#xe62b;</i>编辑</button>
+		              <button th:id="${mstD008.id}" class="layui-btn-danger layui-btn layui-btn-xs"  onclick="deleteMstD008ReqPriceD(this)"><i class="layui-icon">&#xe640;</i>删除</button>
+		            </td>
+		          </tr>
+		        </tbody>
+		      </table>
+		      <div id="pageTag" th:include="pageTag.html">
+        </div>
+      </div>
+    </div>
+</div>
+</html>       

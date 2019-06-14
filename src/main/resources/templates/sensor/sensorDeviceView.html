@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="resource1.html">
+</head>
+<body>
+	<input type="hidden" id="contextPath" name="contextPath"
+		th:value="${#request.getContextPath()}">
+	<div class="x-body layui-anim">
+		<form class="layui-form layui-form-pane">
+			<table style="width: 100%;">
+				<tr height="60px;">
+					<td>
+						<label class="layui-form-label">设备编号</label>
+						<div class="layui-input-inline" style="width: 250px;">
+							<input type="text" th:value="${sensorDevice.deviceno}" class="layui-input layui-elip layui-disabled">
+						</div>
+					</td>
+					<td>
+						<label class="layui-form-label">设备名称</label>
+						<div class="layui-input-inline" style="width: 250px;">
+							<input type="text" th:value="${sensorDevice.devicename}" class="layui-input layui-elip layui-disabled">
+						</div>
+					</td>
+				</tr>
+				<tr height="60px;">
+					<td>
+						<label class="layui-form-label">设备类型</label>
+						<div class="layui-input-inline" style="width: 250px;">
+							<input type="text" th:value="${sensorDevice.devicetypeName}" class="layui-input layui-elip layui-disabled">
+						</div>
+					</td>
+					<td><label class="layui-form-label">所在单位</label>
+						<div class="layui-input-inline" style="width: 250px;">
+							<input type="text" th:value="${sensorDevice.plantName}" class="layui-input layui-elip layui-disabled">
+						</div></td>
+				</tr>
+				<tr height="60px;">
+					<td>
+						<label class="layui-form-label">所在仓库</label>
+						<div class="layui-input-inline" style="width: 250px;">
+							<input type="text" th:value="${sensorDevice.warehouseName}" class="layui-input layui-elip layui-disabled">
+						</div>
+					</td>
+					<td>
+						<label class="layui-form-label">所在货架</label>
+						<div class="layui-input-inline" style="width: 250px;">
+							<input type="text" th:value="${sensorDevice.shelfName}" class="layui-input layui-elip layui-disabled">
+						</div>
+					</td>
+				</tr>
+				<tr height="60px;">
+					<td>
+						<label class="layui-form-label">设备属性</label>
+						<div class="layui-input-inline" style="width: 250px;">
+							<input type="text" th:value="${sensorDevice.deviceproperty}" class="layui-input layui-disabled">
+						</div>
+					</td>
+					<td><label class="layui-form-label">是否损坏</label>
+						<div class="layui-input-inline" style="width: 250px;">
+							<input type="checkbox" lay-text="否|是" th:checked="${sensorDevice.deleteFlag}==0" lay-skin="switch" class="layui-input">
+						</div>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+	<script type="text/javascript">
+		
+	</script>
+</body>
+</html>

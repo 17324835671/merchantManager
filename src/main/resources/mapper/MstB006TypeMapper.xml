@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sparksys.common.dao.MstB006TypeDao">
+  
+  <select id="findMstB006TypeInfo" parameterType="java.lang.Long" resultType="com.sparksys.common.entity.MstB006Type">
+	select 
+		type_id typeId,
+		cd_time cdTime,
+		delete_flag deleteFlag,
+		type_code typeCode,
+		type_name typeName,
+		up_time upTime
+	from mst_b006_type
+	where delete_flag = 0 and type_id = #{typeId,jdbcType=BIGINT}
+  </select>
+  <select id="findMstB006TypeListByTypeCode" parameterType="java.lang.String" resultType="com.sparksys.common.entity.MstB006Type">
+	select 
+		type_id typeId,
+		cd_time cdTime,
+		delete_flag deleteFlag,
+		type_code typeCode,
+		type_name typeName,
+		up_time upTime
+	from mst_b006_type
+	where delete_flag = 0 and type_code = #{typeCode,jdbcType=VARCHAR}
+	order by type_id asc
+  </select>
+  <select id="findMstB006TypeList" parameterType="java.lang.Long" resultType="com.sparksys.common.entity.MstB006Type">
+	select 
+		type_id typeId,
+		cd_time cdTime,
+		delete_flag deleteFlag,
+		type_code typeCode,
+		type_name typeName,
+		up_time upTime
+	from mst_b006_type
+	where delete_flag = 0
+	order by type_id asc
+  </select>
+</mapper>

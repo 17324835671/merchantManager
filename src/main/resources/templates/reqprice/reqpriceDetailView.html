@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="resource1.html">
+</head>
+  <body>
+  <input type="hidden" id="contextPath" name="contextPath" th:value="${#request.getContextPath()}">
+    <div class="x-body layui-anim" align="center">
+        <form class="layui-form layui-form-pane">
+        	<table style="width: 100%;">
+				<tr height="80px;">
+					<td>
+						<label class="layui-form-label">定价组名称</label>
+						<div class="layui-input-inline">
+							<input type="text" th:value="${mstD008ReqPriceD.mstD007ReqPriceH.reqpName}" class="layui-input layui-elip layui-disabled">
+						</div>
+					</td>
+					<td>
+						<label class="layui-form-label">价格单位</label>
+						<div class="layui-input-inline">
+							<input type="text" th:value="${mstD008ReqPriceD.parity.parityChName}+'('+${mstD008ReqPriceD.parity.parityEnName}+')'" class="layui-input layui-elip layui-disabled">
+						</div>
+					</td>
+				</tr>
+				<tr height="80px;">
+					<td colspan="2">
+						<label class="layui-form-label">定价</label>
+						<div class="layui-input-inline">
+							<input type="text" th:value="${mstD008ReqPriceD.unitPrice}"  class="layui-input layui-elip layui-disabled">
+						</div>
+					</td>
+				</tr>
+			</table>
+      </form>
+    </div>
+  </body>
+</html>

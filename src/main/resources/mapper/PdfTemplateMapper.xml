@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sparksys.common.dao.PdfTemplateDao">
+  <resultMap id="BaseResultMap" type="com.sparksys.common.entity.PdfTemplate">
+    <id column="templateid" jdbcType="BIGINT" property="templateid" />
+    <result column="templatename" jdbcType="VARCHAR" property="templatename" />
+    <result column="cd_time" jdbcType="TIMESTAMP" property="cdTime" />
+    <result column="up_time" jdbcType="TIMESTAMP" property="upTime" />
+    <result column="cd_person" jdbcType="BIGINT" property="cdPerson" />
+    <result column="up_person" jdbcType="BIGINT" property="upPerson" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    templateid, templatename, cd_time, up_time, cd_person, up_person
+  </sql>
+  <select id="findPdfTemplateById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pdf_template
+    where templateid = #{templateid,jdbcType=BIGINT}
+  </select>
+  <delete id="deletePdfTemplateById" parameterType="java.lang.Long">
+    delete from pdf_template
+    where templateid = #{templateid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insertPdfTemplate" parameterType="com.sparksys.common.entity.PdfTemplate">
+    insert into pdf_template 
+   		(templateid,
+   		templatename,
+   		cd_time, 
+     	up_time,
+      	cd_person,
+      	up_person)
+    values (#{templateid,jdbcType=BIGINT},
+    		#{templatename,jdbcType=VARCHAR},
+    		NOW(), 
+      		NOW(),
+      		#{cdPerson,jdbcType=BIGINT},
+      		#{upPerson,jdbcType=BIGINT})
+  </insert>
+  <update id="updatePdfTemplateById" parameterType="com.sparksys.common.entity.PdfTemplate">
+    update pdf_template
+    	set templatename = #{templatename,jdbcType=VARCHAR},
+      	up_time = NOW(),
+      	up_person = #{upPerson,jdbcType=BIGINT}
+    where templateid = #{templateid,jdbcType=BIGINT}
+  </update>
+  <select id="findPdfTemplateList" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pdf_template
+    where 1=1
+    <if test="templatename != null">
+      and templatename = #{templatename,jdbcType=VARCHAR}
+    </if>
+  </select>
+  <select id="findPdfTemplateListCount" parameterType="map" resultType="int">
+    select 
+    count(1) totalCount
+    from pdf_template
+    where 1=1
+    <if test="templatename != null">
+      and templatename = #{templatename,jdbcType=VARCHAR}
+    </if>
+  </select>
+</mapper>

@@ -1,0 +1,6 @@
+*,body,html,ul{ margin: 0; padding: 0; }
+ul,li{ list-style: none; }
+a{ text-decoration: none; }
+.clb:after{overflow: hidden;clear: both;content: "";display: table;}
+.fl{float:left;}
+.fr{float:right;}

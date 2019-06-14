@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="resource1.html">
+</head>
+<body>
+	<input type="hidden" id="contextPath" name="contextPath" th:value="${#request.getContextPath()}">
+	<div class="x-body layui-anim" style="margin-left: 130px;">
+		<form class="layui-form layui-form-pane">
+			<input type="hidden" id="deleteFlag" name="deleteFlag" value="0">
+			<div class="layui-form-item">
+				<label class="layui-form-label">供应商</label>
+				<div class="layui-input-inline">
+					<select name="ownerUid" id="ownerUid">
+						<option th:each="owner : ${owners}" th:value="${owner.ownerUid}" th:text="${owner.ownerName}"></option>
+					</select>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"> <span class="x-red">*</span>部门名称
+				</label>
+				<div class="layui-input-inline">
+					<input type="text" id="deptName" name="deptName" lay-verify="required" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"> <span class="x-red">*</span>部门负责人
+				</label>
+				<div class="layui-input-inline">
+					<input type="text" id="deptHead" name="deptHead" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"><span class="x-red">*</span>部门电话</label>
+				<div class="layui-input-inline">
+					<input type="text" id="deptTelNo" name="deptTelNo" lay-verify="phone" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"><span class="x-red">*</span>状态</label>
+				<div class="layui-input-inline" style="margin-top: 8px;">
+					<input type="checkbox" name="DeleteFlag" id="DeleteFlag" lay-text="正常|停用" lay-filter="DeleteFlag" checked="checked" value="0" lay-skin="switch" class="layui-input">
+				</div>
+			</div>
+			<button id="submitForm" style="display: none;"
+				lay-filter="addOwnerDept" lay-submit=""></button>
+		</form>
+	</div>
+	<script>
+		layui.use([ 'form', 'layer' ], function() {
+			$ = layui.jquery;
+			var form = layui.form, layer = layui.layer;
+			//监听checkbox
+			form.on('switch(DeleteFlag)', function(data) {
+				console.log(data.elem.checked);
+				if (data.elem.checked) {
+					document.getElementById("deleteFlag").value = "0";
+				} else {
+					document.getElementById("deleteFlag").value = "1";
+				}
+			});
+			form.on('submit(addOwnerDept)', function(data) {
+				AjaxHttpRequest("/saveMstD006Department", data.field);
+				return false;
+			});
+		});
+	</script>
+</body>
+
+</html>

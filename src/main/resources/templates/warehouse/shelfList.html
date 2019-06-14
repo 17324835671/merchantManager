@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div class="layui-col-md12">
+      <div class="layui-card">
+        <div class="layui-card-header">查询结果</div>
+        <div class="layui-card-body" style="height: 500px;;overflow: auto;">
+        	<table class="layui-table layui-form">
+		        <thead>
+			        <tr>
+			            <th>序号</th>
+			            <th>所属仓库</th>
+			            <th>货架编号</th>
+						<th>货架名称</th>
+						<th>货架类型</th>
+						<th style="text-align: center;">状态</th>
+						<th style="text-align: center;">操作</th>
+					</tr>
+		        </thead>
+		        <tbody>
+		          <tr th:each="mstD004,iterStat: ${mstD004List}">
+		          	<td th:text="${iterStat.index+1}"></td>
+		            <td th:text="${mstD004.warehouseName}"></td>
+		            <td th:text="${mstD004.shelfCode}"></td>
+		            <td th:text="${mstD004.shelfName}"></td>
+		            <td th:text="${mstD004.shelfTypeName}"></td>
+		            <td align="center">
+		            	<span class="layui-btn layui-btn-xs" th:if="${mstD004.deleteFlag}==0" th:text="正常"></span>
+		            	<span class="layui-btn layui-btn-primary layui-btn-xs layui-btn-disabled" th:if="${mstD004.deleteFlag}==1" th:text="停用"></span>
+		            </td>
+		            <td align="center">
+		              <button th:id="${mstD004.shelfId}" class="layui-btn layui-btn-primary layui-btn-xs" onclick="viewMstD004ShelfInfo(this);"><i class="layui-icon">&#xe679;</i>查看</button>
+		              <button th:id="${mstD004.shelfId}" class="layui-btn layui-btn layui-btn-xs"  onclick="updateMstD004ShelfForword(this)" ><i class="layui-icon">&#xe62b;</i>编辑</button>
+		              <button th:id="${mstD004.shelfId}" class="layui-btn-danger layui-btn layui-btn-xs"  onclick="deleteMstD004Shelf(this)" ><i class="layui-icon">&#xe640;</i>删除</button>
+		            </td>
+		          </tr>
+		        </tbody>
+		      </table>
+		      <div id="pageTag" th:include="pageTag.html">
+        </div>
+      </div>
+    </div>
+</div>
+</html>       

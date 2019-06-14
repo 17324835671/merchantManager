@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sparksys.common.dao.SysUserDao">
+
+  <select id="findSysUserById" parameterType="java.lang.Long" resultType="com.sparksys.common.entity.SysUser">
+    select 
+	    user_id userId,
+	    birth_day birthDay,
+	    cd_time cdTime,
+	    display_name displayName,
+	    email email,
+	    isdel isdel,
+	    password password,
+	    sex sex,
+	    state state,
+	    tel_phone telPhone,
+	    up_time upTime,
+	    user_name userName,
+	    wechat wechat,
+	    last_login_time lastLoginTime,
+	    version version
+    from sys_user
+    where user_id = #{userId,jdbcType=BIGINT}
+  </select>
+  <select id="findSysUserByUserNamePwd" parameterType="map" resultType="com.sparksys.common.entity.SysUser">
+    select 
+	    user_id userId,
+	    birth_day birthDay,
+	    cd_time cdTime,
+	    display_name displayName,
+	    email email,
+	    isdel isdel,
+	    password password,
+	    sex sex,
+	    state state,
+	    tel_phone telPhone,
+	    up_time upTime,
+	    user_name userName,
+	    wechat wechat,
+	    last_login_time lastLoginTime,
+	    version version
+    from sys_user
+    where user_name = #{userName,jdbcType=VARCHAR} and password= #{password,jdbcType=VARCHAR}
+  </select>
+  <!--条件查询用户列表count -->
+  <select id="findSysUserListCount" parameterType="map" resultType="int">
+    select count(1) totalCount from sys_user where 1=1 
+    <if test="displayName != null and displayName !=''">
+      and display_name = #{displayName,jdbcType=VARCHAR}
+    </if>
+    <if test="sex != null and sex !=''">
+      and sex = #{sex,jdbcType=BIGINT}
+    </if>
+    <if test="isdel != null and isdel !=''">
+      and isdel = #{isdel,jdbcType=BIGINT}
+    </if>
+  </select>
+  <!--条件查询用户列表 -->
+  <select id="findSysUserList" parameterType="map" resultType="com.sparksys.common.entity.SysUser">
+    select
+	    user_id userId,
+	    birth_day birthDay,
+	    cd_time cdTime,
+	    display_name displayName,
+	    email email,
+	    isdel isdel,
+	    password password,
+	    sex sex,
+	    state state,
+	    tel_phone telPhone,
+	    up_time upTime,
+	    user_name userName,
+	    wechat wechat,
+	    last_login_time lastLoginTime,
+	    version version
+    from sys_user
+    where 1=1 
+     <if test="displayName != null and displayName !=''">
+      and display_name = #{displayName,jdbcType=VARCHAR}
+    </if>
+    <if test="sex != null and sex !=''">
+      and sex = #{sex,jdbcType=BIGINT}
+    </if>
+    <if test="isdel != null and isdel !=''">
+      and isdel = #{isdel,jdbcType=BIGINT}
+    </if>
+    order by user_id asc
+  </select>
+  
+  <!--查看角色下的用户 -->
+  <select id="findRoleUserList" parameterType="java.lang.Long" resultType="com.sparksys.common.entity.SysUser">
+    select 
+    	su.user_id userId,
+	    su.birth_day birthDay,
+	    su.cd_time cdTime,
+	    su.display_name displayName,
+	    su.email email,
+	    su.isdel isdel,
+	    su.password password,
+	    su.sex sex,
+	    su.state state, 
+	    su.tel_phone telPhone,
+	    su.up_time upTime,
+	    su.user_name userName,
+	    su.wechat wechat,
+	    su.last_login_time lastLoginTime
+    from sys_user su
+    inner join user_role ur on ur.user_id = su.user_id
+    where ur.role_id = #{roleId,jdbcType=BIGINT}
+    order by su.user_id asc
+  </select>
+  <!--查看角色下的用户Id -->
+  <select id="findRoleUserIdList" parameterType="java.lang.Long" resultType="java.lang.Long">
+    select ur.user_id userId
+    from  user_role ur
+    where ur.role_id = #{roleId,jdbcType=BIGINT}
+    order by ur.user_id asc
+  </select> 
+   <!--查看角色下的用户Id -->
+  <select id="findPermissionUserIdList" parameterType="java.lang.Long" resultType="java.lang.Long">
+    select DISTINCT(ur.user_id) userId
+    from role_permission rp
+    inner join user_role ur on rp.role_id=ur.role_id
+    where rp.permission_id = #{permissionId,jdbcType=BIGINT}
+    order by ur.user_id asc
+  </select> 
+  <delete id="deleteSysUserById" parameterType="java.lang.Long">
+    delete from sys_user
+    where user_id = #{userId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insertSysUser" parameterType="com.sparksys.common.entity.SysUser">
+    insert into sys_user (
+	    user_id,
+	    birth_day,
+	    cd_time, 
+	    display_name,
+	    email, isdel, 
+	    password,
+	    sex, 
+	    state,
+	    tel_phone,
+	    up_time, 
+	    user_name,
+	    wechat,
+	    last_login_time)
+	    values (
+		    #{userId,jdbcType=BIGINT},
+		    #{birthDay,jdbcType=TIMESTAMP},
+		    NOW(), 
+		    #{displayName,jdbcType=VARCHAR},
+		    #{email,jdbcType=VARCHAR},
+		    #{isdel,jdbcType=BIGINT}, 
+		    #{password,jdbcType=VARCHAR},
+		    #{sex,jdbcType=BIGINT}, 
+		    #{state,jdbcType=BIGINT},
+		    #{telPhone,jdbcType=VARCHAR},
+		    NOW(), 
+		    #{userName,jdbcType=VARCHAR},
+		    #{wechat,jdbcType=VARCHAR},
+		    NOW())
+  </insert>
+  <update id="updateSysUser" parameterType="com.sparksys.common.entity.SysUser">
+    update sys_user
+	    set birth_day = #{birthDay,jdbcType=TIMESTAMP},
+		      display_name = #{displayName,jdbcType=VARCHAR},
+		      email = #{email,jdbcType=VARCHAR},
+		      isdel = #{isdel,jdbcType=BIGINT},
+		      sex = #{sex,jdbcType=BIGINT},
+		      state = #{state,jdbcType=BIGINT},
+		      tel_phone = #{telPhone,jdbcType=VARCHAR},
+		      up_time = NOW(),
+		      user_name = #{userName,jdbcType=VARCHAR},
+		      wechat = #{wechat,jdbcType=VARCHAR},
+		      last_login_time = NOW()
+    where user_id = #{userId,jdbcType=BIGINT}
+  </update>
+</mapper>

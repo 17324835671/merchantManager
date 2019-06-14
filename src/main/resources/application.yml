@@ -1,0 +1,65 @@
+#Tomcat
+server:
+  port: 8090
+  servlet:
+    session:
+      timeout: 100
+  tomcat:
+    max-threads: 800
+    uri-encoding: UTF-8
+spring:
+  http.encoding:
+    charset: UTF-8
+    encoding:
+      enabled: true
+  messages:
+    encoding: UTF-8
+  thymeleaf:
+    mode: LEGACYHTML5
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+    cache: false
+  cache:
+    type: redis
+  redis:
+    host: 139.196.96.127
+    database: 1
+    port: 6379
+    password: 123456
+    expire: 1800
+    timeout: 0
+    jedis:
+      pool:
+        max-idle: 8
+        min-idle: 0
+        max-wait: -1
+        max-active: 8
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://139.196.96.127:3306/inventory?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
+    username: root
+    password: 123456
+    driverClassName: com.mysql.jdbc.Driver
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    minEvictableIdleTimeMillis: 300000
+    filters: config,stat,log4j2
+
+mybatis:
+  mapper-locations: classpath*:mapper/*Mapper.xml
+  typeAliasesPackage: com.sparksys.common.entity
+logging:
+  level:
+    com:
+      sparksys:
+          common:
+            dao: debug
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params:
+    count: countSql
