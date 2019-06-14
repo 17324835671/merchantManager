@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div class="layui-col-md12">
+    <div class="layui-card">
+        <div class="layui-card-header">查询结果：<span>共计</span> <span style="color: #0000FF" th:text="${totalPrize}">666</span><span>元</span></div>
+        <div class="layui-card-body" style="height: 500px;overflow: auto;">
+            <table class="layui-table layui-form">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>商家名称</th>
+                    <th>数量明细</th>
+                    <th>总价格</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="accountShop,iterStat: ${accountShops}">
+                    <td th:text="${iterStat.index+1}"></td>
+                    <td th:text="${accountShop.name}"></td>
+                    <td th:text="${accountShop.detail}"></td>
+                    <td th:text="${accountShop.totalPrize}"></td>
+                </tr>
+                </tbody>
+            </table>
+            <div id="pageTag" th:include="pageTag.html">
+            </div>
+        </div>
+    </div>
+</div>
+</html>       

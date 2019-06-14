@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sparksys.common.dao.MstD004ShelfDao">
+  
+  <select id="findById" parameterType="java.lang.Long" resultType="com.sparksys.common.entity.MstD004Shelf">
+    select
+	    mst_d004.shelf_id shelfId,
+	    mst_d004.cd_time cdTime,
+	    mst_d004.delete_flag deleteFlag,
+	    mst_d004.shelf_code shelfCode,
+	    mst_d004.shelf_name shelfName,
+	    mst_d004.up_time upTime,
+	    mst_d004.cd_person cdPerson,
+	    mst_d004.location_code locationCode,
+	    mst_d003.warehouse_name warehouseName,
+	    mst_d004.shelf_type_id shelfTypeId,
+	    mst_b006.type_name shelfTypeName,
+	    mst_d004.up_person upPerson,
+	    cd_su.display_name cdName,
+		up_su.display_name upName
+    from mst_d004_shelf mst_d004
+    inner join mst_d003_warehouse mst_d003 on mst_d003.location_code = mst_d004.location_code
+    inner join mst_b006_type mst_b006 on mst_b006.type_id = mst_d004.shelf_type_id
+    inner join sys_user cd_su on mst_d004.cd_person = cd_su.user_id
+	inner join sys_user up_su on mst_d004.up_person = up_su.user_id
+    where mst_d004.shelf_id = #{shelfId,jdbcType=BIGINT}
+  </select>
+  <select id="findMstD004ShelfList" parameterType="map" resultType="com.sparksys.common.entity.MstD004Shelf">
+    select
+	    mst_d004.shelf_id shelfId,
+	    mst_d004.cd_time cdTime,
+	    mst_d004.delete_flag deleteFlag,
+	    mst_d004.shelf_code shelfCode,
+	    mst_d004.shelf_name shelfName,
+	    mst_d004.up_time upTime,
+	    mst_d004.cd_person cdPerson,
+	    mst_d004.location_code locationCode,
+	    mst_d003.warehouse_name warehouseName,
+	    mst_d004.shelf_type_id shelfTypeId,
+	    mst_b006.type_name shelfTypeName,
+	    mst_d004.up_person upPerson,
+	    cd_su.display_name cdName,
+		up_su.display_name upName
+    from mst_d004_shelf mst_d004
+    inner join mst_d003_warehouse mst_d003 on mst_d003.location_code = mst_d004.location_code
+    inner join mst_b006_type mst_b006 on mst_b006.type_id = mst_d004.shelf_type_id
+    inner join sys_user cd_su on mst_d004.cd_person = cd_su.user_id
+	inner join sys_user up_su on mst_d004.up_person = up_su.user_id
+    where 1=1
+    <if test="shelfCode != null and shelfCode !=''">
+      and mst_d004.shelf_code = #{shelfCode,jdbcType=BIGINT}
+    </if>
+    <if test="shelfName != null and shelfName !=''">
+      and mst_d004.shelf_name = #{shelfName,jdbcType=VARCHAR}
+    </if>
+    <if test="deleteFlag != null and deleteFlag !=''">
+      and mst_d004.delete_flag = #{deleteFlag,jdbcType=BIGINT}
+    </if>
+    <if test="locationCode != null and locationCode !=''">
+      and mst_d004.location_code = #{locationCode,jdbcType=BIGINT}
+    </if>
+    order by mst_d004.shelf_id asc
+  </select>
+  <select id="findMstD004ShelfListCount" parameterType="map" resultType="int">
+    select
+	    count(1) totalCount
+    from mst_d004_shelf mst_d004
+    inner join mst_d003_warehouse mst_d003 on mst_d003.location_code = mst_d004.location_code
+    inner join mst_b006_type mst_b006 on mst_b006.type_id = mst_d004.shelf_type_id
+    inner join sys_user cd_su on mst_d004.cd_person = cd_su.user_id
+	inner join sys_user up_su on mst_d004.up_person = up_su.user_id
+    where 1=1
+    <if test="shelfCode != null and shelfCode !=''">
+      and mst_d004.shelf_code = #{shelfCode,jdbcType=BIGINT}
+    </if>
+    <if test="shelfName != null and shelfName !=''">
+      and mst_d004.shelf_name = #{shelfName,jdbcType=VARCHAR}
+    </if>
+    <if test="deleteFlag != null and deleteFlag !=''">
+      and mst_d004.delete_flag = #{deleteFlag,jdbcType=BIGINT}
+    </if>
+    <if test="locationCode != null and locationCode !=''">
+      and mst_d004.location_code = #{locationCode,jdbcType=BIGINT}
+    </if>
+    order by mst_d004.shelf_id asc
+  </select>
+  <select id="findListByLocationCode" parameterType="java.lang.Long" resultType="com.sparksys.common.entity.MstD004Shelf">
+    select
+	    mst_d004.shelf_id shelfId,
+	    mst_d004.cd_time cdTime,
+	    mst_d004.delete_flag deleteFlag,
+	    mst_d004.shelf_code shelfCode,
+	    mst_d004.shelf_name shelfName,
+	    mst_d004.up_time upTime,
+	    mst_d004.cd_person cdPerson,
+	    mst_d004.location_code locationCode,
+	    mst_d003.warehouse_name warehouseName,
+	    mst_d004.shelf_type_id shelfTypeId,
+	    mst_b006.type_name shelfTypeName,
+	    mst_d004.up_person upPerson,
+	    cd_su.display_name cdName,
+		up_su.display_name upName
+    from mst_d004_shelf mst_d004
+    inner join mst_d003_warehouse mst_d003 on mst_d003.location_code = mst_d004.location_code
+    inner join mst_b006_type mst_b006 on mst_b006.type_id = mst_d004.shelf_type_id
+    inner join sys_user cd_su on mst_d004.cd_person = cd_su.user_id
+	inner join sys_user up_su on mst_d004.up_person = up_su.user_id
+    where mst_d004.location_code = #{locationCode,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteById" parameterType="java.lang.Long">
+    delete from mst_d004_shelf
+    where shelf_id = #{shelfId,jdbcType=BIGINT}
+  </delete>
+  
+  <insert id="insertMstD004Shelf" parameterType="com.sparksys.common.entity.MstD004Shelf">
+    insert into mst_d004_shelf
+			(shelf_id,
+			cd_time,
+			delete_flag,
+			shelf_code,
+			shelf_name,
+			up_time, 
+			cd_person,
+			location_code,
+			shelf_type_id, 
+			up_person)
+    values (#{shelfId,jdbcType=BIGINT},
+			NOW(),
+			#{deleteFlag,jdbcType=BIGINT}, 
+			#{shelfCode,jdbcType=VARCHAR},
+			#{shelfName,jdbcType=VARCHAR},
+			NOW(), 
+			#{cdPerson,jdbcType=BIGINT},
+			#{locationCode,jdbcType=BIGINT},
+			#{shelfTypeId,jdbcType=BIGINT}, 
+			#{upPerson,jdbcType=BIGINT})
+  </insert>
+  
+  <update id="updateMstD004Shelf" parameterType="com.sparksys.common.entity.MstD004Shelf">
+    update mst_d004_shelf
+    set cd_time = #{cdTime,jdbcType=TIMESTAMP},
+      	delete_flag = #{deleteFlag,jdbcType=BIGINT},
+      	shelf_code = #{shelfCode,jdbcType=VARCHAR},
+      	shelf_name = #{shelfName,jdbcType=VARCHAR},
+      	up_time = NOW(),
+      	location_code = #{locationCode,jdbcType=BIGINT},
+      	shelf_type_id = #{shelfTypeId,jdbcType=BIGINT},
+      	up_person = #{upPerson,jdbcType=BIGINT}
+    where shelf_id = #{shelfId,jdbcType=BIGINT}
+  </update>
+</mapper>

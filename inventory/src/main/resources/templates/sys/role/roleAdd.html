@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="resource1.html">
+</head>
+  <body>
+  <input type="hidden" id="contextPath" name="contextPath" th:value="${#request.getContextPath()}">
+    <div class="x-body layui-anim" style="margin-left: 140px;">
+        <form class="layui-form layui-form-pane">
+        <input type="hidden" id="available" name="available" value="0">
+          <div class="layui-form-item">
+              <label class="layui-form-label">
+                  <span class="x-red">*</span>角色CODE</label>
+              <div class="layui-input-inline">
+                  <input type="text" id="roleCode" name="roleCode" lay-verify="required"
+                  class="layui-input">
+              </div>
+          </div>
+		  <div class="layui-form-item">
+		   <label class="layui-form-label">
+                  <span class="x-red">*</span>角色名</label>
+		    <div class="layui-input-inline">
+                  <input type="text" id="roleNm" name="roleName" lay-verify="required"
+                  class="layui-input">
+              </div>
+		  </div>
+		  <div class="layui-form-item">
+		    <label class="layui-form-label"><span class="x-red">*</span>状态</label>
+		    <div class="layui-input-inline">
+                  <input type="checkbox" name="selectAvailable"  id="selectAvailable" lay-text="开启|停用" lay-filter="available"  checked="checked" value="0" lay-skin="switch" class="layui-input">
+              </div>
+		  </div>
+		  <button id="submitForm" style="display: none;" lay-filter="addRole" lay-submit=""></button>
+      </form>
+    </div>
+    <script>
+	    layui.use('laydate', function() {
+	    	var laydate = layui.laydate;
+	    	// 执行一个laydate实例
+	    	laydate.render({
+	    		elem : '#birthDay' // 指定元素
+	    	});
+	    });
+        layui.use(['form','layer'], function(){
+            $ = layui.jquery;
+          var form = layui.form
+          ,layer = layui.layer;
+        //监听checkbox
+          form.on('switch(available)', function(data){
+        	  console.log(data.elem.checked);
+        	  if(data.elem.checked){
+        		  document.getElementById("available").value= "0";
+        	  }else{
+        		  document.getElementById("available").value= "1";
+        	  }
+        	});
+          //监听提交
+          form.on('submit(addRole)', function(data){
+        	  data.field.available=document.getElementById("available").value;
+            AjaxHttpRequest("/saveRole",data.field);
+            return false;
+          });
+        });
+    </script>
+  </body>
+
+</html>

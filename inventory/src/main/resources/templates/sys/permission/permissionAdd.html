@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="resource1.html">
+</head>
+  <body>
+  <input type="hidden" id="contextPath" name="contextPath" th:value="${#request.getContextPath()}">
+    <div class="x-body layui-anim" style="margin-left: 180px;">
+        <form class="layui-form layui-form-pane">
+        <input type="hidden" id="deleteFlag" name="deleteFlag" value="0">
+          <div class="layui-form-item">
+              <label class="layui-form-label"><span class="x-red">*</span>父类权限</label>
+               <div class="layui-input-block">
+                   <input type="radio" name="isparend" lay-filter="isparend" value="0" title="是"  checked="checked">
+                   <input type="radio" name="isparend" lay-filter="isparend"  value="1" title="否" >
+               </div>
+          </div>
+          <div id="parentIdSelect" class="layui-form-item" style="display: none;">
+              <label class="layui-form-label">
+                  <span class="x-red">*</span>父类权限
+              </label>
+              <div class="layui-input-inline">
+                  <select name="parentId" >
+                      <option th:each="parentId : ${parentIds}" th:value="${parentId.permissionId}" th:text="${parentId.permissionName}"></option>
+                  </select>
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label class="layui-form-label">
+                  <span class="x-red">*</span>权限CODE</label>
+              <div class="layui-input-inline">
+                  <input type="text" id="permissionCode" name="permissionCode" lay-verify="required"
+                  class="layui-input">
+              </div>
+          </div>
+		  <div class="layui-form-item">
+		    <label class="layui-form-label">权限名称</label>
+		    <div class="layui-input-inline">
+                <input type="text" id="permissionName" name="permissionName" lay-verify="required"
+                       class="layui-input">
+		    </div>
+		  </div>
+		  <div class="layui-form-item">
+		    <label class="layui-form-label"><span class="x-red">*</span>权限URL</label>
+		    <div class="layui-input-inline">
+                <input type="text" id="permissionUrl" name="permissionUrl" lay-verify="required"
+                       class="layui-input">
+              </div>
+		  </div>
+		  <div class="layui-form-item">
+		   <label class="layui-form-label"><span class="x-red">*</span>是否过期</label>
+		    <div class="layui-input-inline">
+                  <input type="checkbox" name="DeleteFlag"  id="DeleteFlag" lay-text="否|是" lay-filter="DeleteFlag"  checked="checked" value="0" lay-skin="switch" class="layui-input">
+             </div>
+		  </div>
+		  <button id="submitForm" style="display: none;" lay-filter="savePermission" lay-submit=""></button>
+      </form>
+    </div>
+    <script>
+        layui.use(['form','layer'], function(){
+            $ = layui.jquery;
+          var form = layui.form
+          ,layer = layui.layer;
+          //监听checkbox
+          form.on('radio(isparend)', function(data){
+        	  console.log(data.elem.checked);
+        	  if(data.elem.checked){
+        		  if(data.elem.value== "0"){
+        			  document.getElementById("parentIdSelect").style.display= "none";
+        		  }else if(data.elem.value== "1"){
+        			  document.getElementById("parentIdSelect").style.display= "";
+        		  }
+        	  }
+        	});
+        //监听checkbox
+          form.on('switch(DeleteFlag)', function(data) {
+				if (data.elem.checked) {
+					document.getElementById("deleteFlag").value = "0";
+				} else {
+					document.getElementById("deleteFlag").value = "1";
+				}
+			});
+        //监听提交
+          form.on('submit(savePermission)', function(data){
+              AjaxHttpRequest("/savePermission",data.field);
+              return false;
+          });
+        });
+    </script>
+  </body>
+
+</html>

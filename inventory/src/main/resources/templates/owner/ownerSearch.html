@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="resource.html">
+</head>
+<script type="text/javascript">
+Ext.onReady(function(){
+	queryOwnerInfoList('1');
+  });
+</script>
+<body>
+<input type="hidden" id="contextPath" name="contextPath" th:value="${#request.getContextPath()}">
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+	<legend>供应商信息管理</legend>
+</fieldset>
+ <div class="main-contain">
+  <div class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+      <div class="layui-card">
+        <div class="layui-card-header">供应商查询条件</div>
+        <div class="layui-card-body">
+        	<div class="layui-form layui-col-md12 x-so">
+		        <div class="layui-form-item">
+		              <label class="layui-form-label" style="margin-left: -30px;">供应商名称
+		              </label>
+		              <div class="layui-input-inline" style="width: 9.2%">
+					      <input type="text" name="ownerName" id="ownerName" class="layui-input">
+					  </div>
+		              <label class="layui-form-label">供应商简称
+		              </label>
+		              <div class="layui-input-inline" style="width: 9.2%">
+					      <input type="text" name="kanaName" id="kanaName" class="layui-input">
+					  </div>
+					  <button class="layui-btn" style="margin-left: 20px;" onclick="queryOwnerInfoList('1');" ><i class="layui-icon">&#xe615;</i></button>
+		          </div>
+	        </div>
+	        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;"></fieldset>
+	        <button class="layui-btn layui-btn-warm" onclick="addOwnerForward()"><i class="layui-icon">&#xe505;</i>添加供应商</button>
+        </div>
+      </div>
+    </div>
+    <div id="returnList"></div>
+</div>
+</div>
+</body>
+</html>        
