@@ -1,0 +1,73 @@
+body .layer-myskin .layui-layer-title{
+	background-color: #F8F8FF;
+    color: #212a31;
+    font-size: 16px;
+    font-weight: 700;
+    height: 46px;
+    line-height: 46px;
+    border-top: 3px solid #005AA7;
+    border-bottom: 1px solid #D5D5D5;}
+    
+body .layer-myskin .layui-layer-btn{text-align: center;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    background: #f0f4f7;
+    border-top: 1px #c7c7c7 solid;}
+body .layer-myskin .layui-layer-btn a{font-size: 12px;
+    font-weight: 400;
+    margin: 0 7px;
+    padding: 6px 20px;
+    color: #000;
+    border: 1px solid #c0c4cd;
+    border-bottom: 3px solid #005AA7;
+    background: no-repeat #fff;
+    border-radius: 5px;
+    display: inline-block;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+    outline: 0;}
+body .layer-myskin .layui-layer-btn .layui-layer-btn1{background: #fff;
+    color: #000;
+    border: 1px solid #c0c4cd;
+    border-bottom: 3px solid #005AA7;
+    border-radius: 4px;}
+body .layer-myskin .layui-layer-btn1 a{font-size: 12px;
+    font-weight: 400;
+    margin: 0 7px;
+    padding: 6px 20px;
+    color: #212a31;
+    border: 1px solid #c0c4cd;
+    border-bottom: 3px solid #005AA7;
+    background: no-repeat #fff;
+    border-radius: 5px;
+    display: inline-block;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+    outline: 0;}
+body .layer-myskin .layui-layer-btn .layui-layer-btn2{background: #fff;
+    color: #000;
+    border: 1px solid #c0c4cd;
+    border-bottom: 3px solid #005AA7;
+    border-radius: 4px;}
+body .layer-myskin .layui-layer-btn2 a{font-size: 12px;
+    font-weight: 400;
+    margin: 0 7px;
+    padding: 6px 20px;
+    color: #212a31;
+    border: 1px solid #c0c4cd;
+    border-bottom: 3px solid #005AA7;
+    background: no-repeat #fff;
+    border-radius: 5px;
+    display: inline-block;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+    outline: 0;}

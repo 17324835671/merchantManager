@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="resource.html">
+</head>
+<body>
+	<input type="hidden" id="contextPath" name="contextPath"
+		th:value="${#request.getContextPath()}">
+	<fieldset class="layui-elem-field layui-field-title"
+		style="margin-top: 20px;">
+		<legend>在线用户管理<i class="layui-icon">&#xe511;</i></legend>
+	</fieldset>
+	<div class="main-contain">
+		<div class="layui-row layui-col-space15">
+			<div class="layui-col-md12">
+				<div class="layui-card">
+					<div class="layui-card-header">在线用户管理列表</div>
+					<div class="layui-card-body" style="height: 650px;;overflow: auto;">
+						<fieldset class="layui-elem-field layui-field-title"
+							style="margin-top: 20px;">
+							<legend>当前在线人数：<span th:text="${#lists.size(onlineList)}"></span></legend>
+						</fieldset>
+						<table class="layui-table layui-form">
+							<thead>
+								<tr>
+									<th>序号</th>
+									<th>会话ID</th>
+									<th>用户名</th>
+									<th>姓名</th>
+									<th>主机地址</th>
+									<th>最后访问时间</th>
+									<th style="text-align: center;">操作</th>
+							</thead>
+							<tbody>
+								<tr th:each="online,iterStat: ${onlineList}">
+									<td th:text="${iterStat.index+1}"></td>
+									<td th:text="${online.sessionId}"></td>
+									<td th:text="${online.userName}"></td>
+									<td th:text="${online.displayName}"></td>
+									<td th:text="${online.host}"></td>
+									<td th:text="${online.lastAccess}"></td>
+									<td align="center">
+										<button th:id="${online.sessionId}" class="layui-btn layui-btn layui-btn-xs"  onclick="kickoutUser(this);" ><i class="layui-icon">&#xe60a;</i>踢出用户</button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+function kickoutUser(obj){
+	var data = "sessionId="+obj.id;
+	var url = "/kickoutUser";
+	layer.confirm('确认踢出用户吗？',{icon: 3,title:'警告',skin:'layer-myskin',},function(index){
+    	AjaxHttpRequestNotClosed(url,data);
+    })
+}
+</script>
+</html>

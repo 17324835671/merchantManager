@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="resource1.html">
+</head>
+  <body>
+  <input type="hidden" id="contextPath" name="contextPath" th:value="${#request.getContextPath()}">
+    <div class="x-body layui-anim">
+        <form class="layui-form layui-form-pane">
+        	<input type="hidden" id="deleteFlag" name="deleteFlag" th:value="${sensorDevice.deleteFlag}">
+        	<input type="hidden" id="deviceid" name="deviceid" th:value="${sensorDevice.deviceid}">
+        	<table style="width: 100%;">
+        		<tr height="60px;">
+        			<td>
+        				  <label class="layui-form-label">
+			                  <span class="x-red">*</span>设备编号
+			              </label>
+			              <div class="layui-input-inline" style="width: 250px;">
+			                  <input type="text" id="deviceno" name="deviceno" lay-verify="required" th:value="${sensorDevice.deviceno}"  class="layui-input">
+			              </div>
+        			</td>
+        			<td>
+        				  <label class="layui-form-label"><span class="x-red">*</span>设备名称</label>
+			              <div class="layui-input-inline" style="width: 250px;">
+			                  <input type="text" id="devicename" name="devicename" lay-verify="required" th:value="${sensorDevice.devicename}" class="layui-input">
+			              </div>	
+        			</td>
+        		</tr>
+        		<tr height="60px;">
+        			<td>
+        				  <label class="layui-form-label">
+			                  <span class="x-red">*</span>设备类型
+			              </label>
+			              <div class="layui-input-inline" style="width: 250px;">
+			                  <select name="devicetype" >
+			                      <option th:each="deviceType : ${deviceTypeList}" th:selected="${deviceType.typeId}==${sensorDevice.devicetype}" th:value="${deviceType.typeId}" th:text="${deviceType.typeName}"></option>
+			                  </select>
+			              </div>
+        			</td>
+        			<td>
+        				<label class="layui-form-label">
+			                  <span class="x-red">*</span>所在货架
+			              </label>
+			              <div class="layui-input-inline" style="width: 250px;">
+			                 <select name="shelfId" class="shelfId" lay-filter="shelfId">
+			                 	<option th:each="shelf : ${shelfList}" th:selected="${shelf.shelfId}==${sensorDevice.shelfId}" th:value="${shelf.shelfId}" th:text="${shelf.shelfName}"></option>
+                             </select>
+			              </div>
+        			</td>
+        		</tr>
+        		<tr height="60px;">
+        			<td>
+	        			<label class="layui-form-label">
+			                  <span class="x-red">*</span>所在单位
+			              </label>
+			              <div class="layui-input-inline" style="width: 250px;">
+			                  <input type="text" id="plantName" name="plantName" th:value="${sensorDevice.plantName}" class="layui-input layui-elip layui-disabled">
+			              </div>
+		            </td>
+        			<td>
+	        			<label class="layui-form-label">
+			                  <span class="x-red">*</span>所在仓库
+			              </label>
+			              <div class="layui-input-inline" style="width: 250px;">
+			                  <input type="text" id="warehouseName" name="warehouseName" th:value="${sensorDevice.warehouseName}" class="layui-input layui-elip layui-disabled">
+			              </div>
+        			</td>
+        		</tr>
+        		<tr height="60px;">
+        			<td>
+        				<label class="layui-form-label"><span class="x-red">*</span>设备属性</label>
+			              <div class="layui-input-inline" style="width: 250px;">
+			                  <input type="text" id="deviceproperty" name="deviceproperty" th:value="${sensorDevice.deviceproperty}" lay-verify="required"  class="layui-input">
+			              </div>
+        			</td>
+        			<td>
+	        			<label class="layui-form-label"><span class="x-red">*</span>是否损坏</label>
+					    <div class="layui-input-inline" style="width: 250px;">
+			                  <input type="checkbox" name="DeleteFlag"  id="DeleteFlag" lay-text="否|是" lay-filter="DeleteFlag" th:checked="${sensorDevice.deleteFlag}==0" value="0" lay-skin="switch"  class="layui-input">
+			             </div>
+        			</td>
+        		</tr>
+        	</table>
+		  <button id="submitForm" style="display: none;" lay-filter="updateSensorDevice" lay-submit=""></button>
+      </form>
+    </div>
+    <script>
+        layui.use(['form','layer'], function(){
+            $ = layui.jquery;
+          var form = layui.form
+          ,layer = layui.layer;
+          var contextPath = getContextPath();
+      	  var initurl = contextPath+'/queryPlantAndWarehouseData';
+      	form.on('select(shelfId)', function (data) {
+      		var html = "";
+      	    urls = initurl + "?shelfId=" + data.value;
+      		Ext.Ajax.request({
+      			  url : urls,
+      			  success : function(request) {
+      				  var data = jQuery.parseJSON(request.responseText);
+				  	  data = data.data;
+      				  $("#plantName").val(data.plantName);
+      				  $("#warehouseName").val(data.warehouseName);
+      			  }
+      		});
+      	});
+        //监听checkbox
+          form.on('switch(DeleteFlag)', function(data){
+        	  console.log(data.elem.checked);
+        	  if(data.elem.checked){
+        		  document.getElementById("deleteFlag").value= "0";
+        	  }else{
+        		  document.getElementById("deleteFlag").value= "1";
+        	  }
+        	});
+          form.on('submit(updateSensorDevice)', function(data){
+              AjaxHttpRequest("/updateSensorDevice",data.field);
+              return false;
+          });
+        });
+    </script>
+  </body>
+
+</html>

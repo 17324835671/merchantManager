@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div class="layui-col-md12">
+      <div class="layui-card">
+        <div class="layui-card-header">查询结果</div>
+        <div class="layui-card-body" style="height: 500px;;overflow: auto;">
+        	<table class="layui-table layui-form">
+		        <thead>
+			        <tr>
+			            <th>序号</th>
+			            <th>所属单位</th>
+			            <th>所属仓库</th>
+			            <th>所属货架</th>
+			            <th>商品名称</th>
+			            <th>英文名</th>
+			            <th style="text-align: center;">批次管理</th>
+			            <th>单位</th>
+						<th>供应商</th>
+						<th style="text-align: center;">操作</th>
+					</tr>
+		        </thead>
+		        <tbody>
+		          <tr th:each="mstD002,iterStat: ${mstD002List}">
+		          	<td th:text="${iterStat.index+1}"></td>
+		            <td th:text="${mstD002.plantName}"></td>
+		            <td th:text="${mstD002.warehouseName}"></td>
+		            <td th:text="${mstD002.shelfName}"></td>
+		            <td th:text="${mstD002.materialName}"></td>
+		            <td th:text="${mstD002.enName}"></td>
+		            <td align="center">
+		            	<span class="layui-btn layui-btn-xs" th:if="${mstD002.lotMangFlag}==0" th:text="已管理"></span>
+		            	<span class="layui-btn layui-btn-primary layui-btn-xs layui-btn-disabled" th:if="${mstD002.lotMangFlag}==1" th:text="未管理"></span>
+		            </td>
+					<td th:text="${mstD002.unitCode}"></td>
+					<td th:text="${mstD002.ownerName}"></td>
+		            <td align="center">
+		              <button th:id="${mstD002.materialId}" class="layui-btn layui-btn-primary layui-btn-xs" onclick="viewMaterialInfo(this);"><i class="layui-icon">&#xe679;</i>查看</button>
+		              <button th:id="${mstD002.materialId}" class="layui-btn layui-btn layui-btn-xs"  onclick="updateMaterialForword(this)" ><i class="layui-icon">&#xe62b;</i>编辑</button>
+		              <button th:id="${mstD002.materialId}" class="layui-btn-danger layui-btn layui-btn-xs"  onclick="deleteMaterial(this)"><i class="layui-icon">&#xe640;</i>删除</button>
+		            </td>
+		          </tr>
+		        </tbody>
+		      </table>
+		      <div id="pageTag" th:include="pageTag.html">
+        </div>
+      </div>
+    </div>
+</div>
+</html>       

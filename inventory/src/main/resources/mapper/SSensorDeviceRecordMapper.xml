@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sparksys.common.dao.SSensorDeviceRecordDao">
+
+  <select id="findById" parameterType="java.lang.Long" resultType="com.sparksys.common.entity.SSensorDeviceRecord" >
+    select 
+	   	ssdr.deviceecordid deviceecordid,
+	    ssdr.altitude altitude,
+	    ssdr.cd_time cdTime,
+	    ssdr.delete_flag deleteFlag,
+	    ssdr.fire fire,
+	    ssdr.gas gas,
+	    ssdr.humidity humidity,
+	    ssdr.latitude latitude,
+	    ssdr.longitude longitude, 
+	    ssdr.pressure pressure,
+	    ssdr.temperature temperature,
+	    ssdr.up_time upTime,
+	    ssdr.recorder recorder,
+	    ssdr.deviceid deviceid,
+	    ssd.deviceno deviceno,
+	    ssd.devicename devicename,
+	    su.display_name cdName
+    from s_sensor_devicerecord ssdr
+    left join s_sensor_device ssd on ssdr.deviceid=ssd.deviceid
+    left join sys_user su on ssdr.recorder = su.user_id
+    where deviceecordid = #{deviceecordid,jdbcType=BIGINT}
+  </select>
+  
+  <select id="findSSensorDeviceRecordList" parameterType="map" resultType="com.sparksys.common.entity.SSensorDeviceRecord" >
+   select 
+	   	ssdr.deviceecordid deviceecordid,
+	    ssdr.altitude altitude,
+	    ssdr.cd_time cdTime,
+	    ssdr.delete_flag deleteFlag,
+	    ssdr.fire fire,
+	    ssdr.gas gas,
+	    ssdr.humidity humidity,
+	    ssdr.latitude latitude,
+	    ssdr.longitude longitude, 
+	    ssdr.pressure pressure,
+	    ssdr.temperature temperature,
+	    ssdr.up_time upTime,
+	    ssdr.recorder recorder,
+	    ssdr.deviceid deviceid,
+	    ssd.deviceno deviceno,
+	    ssd.devicename devicename,
+	    su.display_name cdName
+    from s_sensor_devicerecord ssdr
+    left join s_sensor_device ssd on ssdr.deviceid=ssd.deviceid
+    left join sys_user su on ssdr.recorder = su.user_id
+    where 1=1
+    <if test="devicename != null and devicename !=''">
+      and ssd.devicename = #{devicename,jdbcType=VARCHAR}
+    </if>
+    <if test="deviceno != null and deviceno !=''">
+      and ssd.deviceno = #{deviceno,jdbcType=VARCHAR}
+    </if>
+    order by ssdr.deviceecordid asc
+  </select>
+  <select id="findSSensorDeviceRecordListCount" parameterType="map" resultType="int" >
+    select 
+	   	count(1)
+    from s_sensor_devicerecord ssdr
+    left join s_sensor_device ssd on ssdr.deviceid=ssd.deviceid
+    where 1=1
+    <if test="devicename != null and devicename !=''">
+      and ssd.devicename = #{devicename,jdbcType=VARCHAR}
+    </if>
+    <if test="deviceno != null and deviceno !=''">
+      and ssd.deviceno = #{deviceno,jdbcType=VARCHAR}
+    </if>
+  </select>
+  <delete id="deleteById" parameterType="java.lang.Long">
+    delete from s_sensor_devicerecord
+    where deviceecordid = #{deviceecordid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insertSSensorDeviceRecord" parameterType="com.sparksys.common.entity.SSensorDeviceRecord">
+    insert into s_sensor_devicerecord 
+    		(deviceecordid,
+    		altitude,
+    		cd_time, 
+      		delete_flag,
+      		fire, gas, 
+      		humidity,
+      		latitude,
+      		longitude, 
+      		pressure,
+      		temperature,
+      		up_time, 
+      		recorder,
+      		deviceid)
+    values (#{deviceecordid,jdbcType=BIGINT},
+			#{altitude,jdbcType=VARCHAR},
+			NOW(), 
+			#{deleteFlag,jdbcType=BIGINT},
+			#{fire,jdbcType=VARCHAR},
+			#{gas,jdbcType=VARCHAR}, 
+			#{humidity,jdbcType=VARCHAR},
+			#{latitude,jdbcType=VARCHAR},
+			#{longitude,jdbcType=VARCHAR}, 
+			#{pressure,jdbcType=VARCHAR},
+			#{temperature,jdbcType=VARCHAR},
+			NOW(), 
+			#{recorder,jdbcType=BIGINT},
+			#{deviceid,jdbcType=BIGINT})
+  </insert>
+  <update id="updateSSensorDeviceRecord" parameterType="com.sparksys.common.entity.SSensorDeviceRecord">
+    update s_sensor_devicerecord
+	    set altitude = #{altitude,jdbcType=VARCHAR},
+			delete_flag = #{deleteFlag,jdbcType=BIGINT},
+			fire = #{fire,jdbcType=VARCHAR},
+			gas = #{gas,jdbcType=VARCHAR},
+			humidity = #{humidity,jdbcType=VARCHAR},
+			latitude = #{latitude,jdbcType=VARCHAR},
+			longitude = #{longitude,jdbcType=VARCHAR},
+			pressure = #{pressure,jdbcType=VARCHAR},
+			temperature = #{temperature,jdbcType=VARCHAR},
+			up_time = NOW(),
+			recorder = #{recorder,jdbcType=BIGINT},
+			deviceid = #{deviceid,jdbcType=BIGINT}
+    where deviceecordid = #{deviceecordid,jdbcType=BIGINT}
+  </update>
+</mapper>
