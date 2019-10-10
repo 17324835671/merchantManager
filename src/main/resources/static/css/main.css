@@ -1,8 +1,0 @@
-.main-contain{
-	padding: 20px;
-	background: url("../images/system_bgimg.png");
-	background-repeat: repeat;
-	z-index: -1;
-	height: 85%;
-	overflow: hidden;
-}
