@@ -10,6 +10,10 @@ import org.springframework.cache.annotation.EnableCaching;
 @EnableCaching
 public class InventoryApplication {
 
+	/**
+	 * 666
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		SpringApplication.run(InventoryApplication.class, args);
 	}
