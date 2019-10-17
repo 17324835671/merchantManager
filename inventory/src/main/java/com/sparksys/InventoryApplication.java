@@ -11,7 +11,7 @@ import org.springframework.cache.annotation.EnableCaching;
 public class InventoryApplication {
 
 	/**
-	 * 666
+	 * 666777
 	 * @param args
 	 */
 	public static void main(String[] args) {
