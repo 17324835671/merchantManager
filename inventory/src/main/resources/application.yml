@@ -23,7 +23,7 @@ spring:
   cache:
     type: redis
   redis:
-    host: 139.196.96.127
+    host: 49.235.113.84
     database: 1
     port: 6379
     password: 123456
@@ -37,7 +37,7 @@ spring:
         max-active: 8
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://139.196.96.127:3306/inventory?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
+    url: jdbc:mysql://49.235.113.84:3306/inventory?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
     username: root
     password: 123456
     driverClassName: com.mysql.jdbc.Driver
