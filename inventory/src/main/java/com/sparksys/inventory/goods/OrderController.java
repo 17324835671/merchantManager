@@ -1,18 +1,16 @@
 package com.sparksys.inventory.goods;
 
 import com.sparksys.common.controller.CommonController;
+import com.sparksys.common.dao.GoodsDao;
 import com.sparksys.common.dao.OrderDao;
 import com.sparksys.common.dao.OrderInfoDao;
 import com.sparksys.common.dao.ShopDao;
-import com.sparksys.common.dao.VegetablesDao;
 import com.sparksys.common.entity.*;
 import com.sparksys.common.utils.DateUtil;
-import org.mvel2.ast.Or;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
@@ -28,7 +26,7 @@ public class OrderController extends CommonController {
     ShopDao shopDao;
 
     @Resource
-    private VegetablesDao vegetablesDao;
+    private GoodsDao vegetablesDao;
 
     @Resource
     private OrderDao orderDao;
@@ -72,7 +70,7 @@ public class OrderController extends CommonController {
     @RequestMapping(value = "/addOrderForworrd")
     public String addOrderForworrd() {
         List<Shop> shopList = shopDao.findAll();
-        List<Vegetables> vegetablesList = vegetablesDao.findAll();
+        List<Goods> vegetablesList = vegetablesDao.findAll();
         List<String> units = new ArrayList<>();
         units.add("斤");
         units.add("颗");
@@ -119,7 +117,7 @@ public class OrderController extends CommonController {
         List<OrderInfo> orderInfos=orderInfoDao.findByOrderId(Integer.valueOf(orderId));
         Order order=orderDao.findById(Integer.valueOf(orderId));
         List<Shop> shopList = shopDao.findAll();
-        List<Vegetables> vegetablesList = vegetablesDao.findAll();
+        List<Goods> vegetablesList = vegetablesDao.findAll();
         List<String> units = new ArrayList<>();
         units.add("斤");
         units.add("颗");

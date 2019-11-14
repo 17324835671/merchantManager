@@ -1,9 +1,9 @@
 package com.sparksys.inventory.goods;
 
 import com.github.pagehelper.PageHelper;
-import com.sparksys.common.dao.VegetablesDao;
+import com.sparksys.common.dao.GoodsDao;
+import com.sparksys.common.entity.Goods;
 import com.sparksys.common.entity.PageBean;
-import com.sparksys.common.entity.Vegetables;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -14,18 +14,18 @@ import java.util.Map;
 public class VegetablesService {
 
     @Resource
-    private VegetablesDao vegetablesDao;
+    private GoodsDao vegetablesDao;
 
-    public PageBean<Vegetables> findByName(int currentPage, int pageSize, Map<String, Object> map) {
+    public PageBean<Goods> findByName(int currentPage, int pageSize, Map<String, Object> map) {
         PageHelper.startPage(currentPage, pageSize);
-        List<Vegetables> list = vegetablesDao.findByName(map);
+        List<Goods> list = vegetablesDao.findByName(map);
         int totalCount = vegetablesDao.findVegetablesCount(map);
-        PageBean<Vegetables> pageData = new PageBean<>(currentPage, pageSize, totalCount);
+        PageBean<Goods> pageData = new PageBean<>(currentPage, pageSize, totalCount);
         pageData.setItems(list);
         return pageData;
     }
 
-    public Vegetables findGoodsById(Integer id) {
+    public Goods findGoodsById(Integer id) {
         return vegetablesDao.findById(id);
     }
 }

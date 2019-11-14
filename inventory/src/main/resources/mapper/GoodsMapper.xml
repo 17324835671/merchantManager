@@ -1,18 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sparksys.common.dao.VegetablesDao">
+<mapper namespace="com.sparksys.common.dao.GoodsDao">
 
-    <select id="findAll"  resultType="com.sparksys.common.entity.Vegetables">
+    <select id="findAll"  resultType="com.sparksys.common.entity.Goods">
         select
         *
-        from t_vegetables
+        from tb_product
         order by id desc
     </select>
 
-    <select id="findByName" parameterType="map" resultType="com.sparksys.common.entity.Vegetables">
+    <select id="findByName" parameterType="map" resultType="com.sparksys.common.entity.Goods">
         select
-        *
-        from t_vegetables
+        id,
+        cate_id as cateId,
+        pro_no as proNo,
+        name as name,
+        color as color,
+        image_url as imageUrl,
+        buy_prize as buyPrize,
+        sale_prize as salePrize
+        from tb_product
         where 1=1
         <if test="name != null and name !=''">
             and name LIKE "%"#{name}"%"
@@ -24,15 +31,15 @@
     <select id="findVegetablesCount" parameterType="map" resultType="int">
         select
         count(1)
-        from t_vegetables
+        from tb_product
         where 1=1
         <if test="name != null and name !=''">
             and name LIKE "%"#{name}"%"
         </if>
     </select>
 
-    <insert id="saveGoods" parameterType="com.sparksys.common.entity.Vegetables">
-        insert into t_vegetables
+    <insert id="saveGoods" parameterType="com.sparksys.common.entity.Goods">
+        insert into tb_product
         (
         name,
         prize)
@@ -42,22 +49,22 @@
     </insert>
 
 
-    <select id="findById" parameterType="int" resultType="com.sparksys.common.entity.Vegetables">
+    <select id="findById" parameterType="int" resultType="com.sparksys.common.entity.Goods">
         select
         *
-        from t_vegetables
+        from tb_product
         where id=#{id}
     </select>
 
-    <update id="updateGoods" parameterType="com.sparksys.common.entity.Vegetables">
-        update t_vegetables
+    <update id="updateGoods" parameterType="com.sparksys.common.entity.Goods">
+        update tb_product
         set name = #{name,jdbcType=VARCHAR},
         prize = #{prize}
         where id = #{id}
     </update>
 
     <update id="deleteGoods" parameterType="int">
-       delete from t_vegetables
+       delete from tb_product
         where id = #{id}
     </update>
 

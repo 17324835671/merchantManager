@@ -56,7 +56,7 @@ logging:
     com:
       sparksys:
           common:
-            dao: debug
+            dao: info
 pagehelper:
   helperDialect: mysql
   reasonable: true

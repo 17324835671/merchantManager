@@ -1,9 +1,9 @@
 package com.sparksys.inventory.goods;
 
 import com.sparksys.common.controller.CommonController;
-import com.sparksys.common.dao.VegetablesDao;
+import com.sparksys.common.dao.GoodsDao;
+import com.sparksys.common.entity.Goods;
 import com.sparksys.common.entity.PageBean;
-import com.sparksys.common.entity.Vegetables;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +23,7 @@ public class VegetablesController extends CommonController {
 
 
     @Resource
-    private VegetablesDao vegetablesDao;
+    private GoodsDao vegetablesDao;
 
 
     @RequestMapping(value ="/vegetablesSearch",method = RequestMethod.GET)
@@ -40,7 +40,7 @@ public class VegetablesController extends CommonController {
         }
         Map<String, Object> map = new HashMap<>();
         map.put("name", name);
-        PageBean<Vegetables> list = goodService.findByName(pageNum, 10, map);
+        PageBean<Goods> list = goodService.findByName(pageNum, 10, map);
         this.getRequest().setAttribute("goods", list.getItems());
         this.getRequest().setAttribute("pageTag", list);
         return "vegetables/vegetablesList";
@@ -56,13 +56,13 @@ public class VegetablesController extends CommonController {
         String name= this.getRequest().getParameter("name");
         String prize= this.getRequest().getParameter("prize");
         try {
-            Vegetables vegetables=new Vegetables();
+            Goods vegetables=new Goods();
             vegetables.setName(name);
-            if(prize==null||prize==""){
+           /* if(prize==null||prize==""){
                 vegetables.setPrize(null);
             }else {
                 vegetables.setPrize(Double.valueOf(prize));
-            }
+            }*/
             vegetablesDao.saveGoods(vegetables);
             this.success("新增菜品成功",null);
         }catch (DuplicateKeyException d) {
@@ -90,8 +90,7 @@ public class VegetablesController extends CommonController {
     @RequestMapping(value ="/updateVegetablesForword",method = RequestMethod.GET)
     public String updateVegetablesForword(){
         String id= this.getRequest().getParameter("id");
-        Vegetables vegetables =null;
-        vegetables=goodService.findGoodsById(Integer.valueOf(id));
+        Goods vegetables=goodService.findGoodsById(Integer.valueOf(id));
         this.getRequest().setAttribute("goods", vegetables);
         return "vegetables/vegetablesUpdate";
     }
@@ -107,14 +106,14 @@ public class VegetablesController extends CommonController {
         String name= this.getRequest().getParameter("name");
         String prize= this.getRequest().getParameter("prize");
         try {
-            Vegetables vegetables=new Vegetables();
+            Goods vegetables=new Goods();
             vegetables.setId(Integer.valueOf(id));
             vegetables.setName(name);
-            if(prize==null||prize==""){
+           /* if(prize==null||prize==""){
                 vegetables.setPrize(null);
             }else {
                 vegetables.setPrize(Double.valueOf(prize));
-            }
+            }*/
             vegetablesDao.updateGoods(vegetables);
             this.success("编辑菜品成功",null);
         } catch (DuplicateKeyException d) {
