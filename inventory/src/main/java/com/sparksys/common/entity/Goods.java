@@ -18,8 +18,6 @@ public class Goods {
      */
     private String name;
 
-    private Integer cateId;
-
     private String proNo;
 
     private String color;

@@ -54,19 +54,29 @@ public class GoodsController extends CommonController {
     @ResponseBody
     public void saveGoods(){
         String name= this.getRequest().getParameter("name");
-        String prize= this.getRequest().getParameter("prize");
+        String proNo = this.getRequest().getParameter("proNo");
+        String color = this.getRequest().getParameter("color");
+        String buyPrize = this.getRequest().getParameter("buyPrize");
+        String salePrize = this.getRequest().getParameter("salePrize");
         try {
-            Goods vegetables=new Goods();
-            vegetables.setName(name);
-           /* if(prize==null||prize==""){
-                vegetables.setPrize(null);
+            Goods goods=new Goods();
+            goods.setName(name);
+            goods.setProNo(proNo);
+            goods.setColor(color);
+            if(buyPrize==null||buyPrize==""){
+                goods.setBuyPrize(null);
             }else {
-                vegetables.setPrize(Double.valueOf(prize));
-            }*/
-            vegetablesDao.saveGoods(vegetables);
-            this.success("新增菜品成功",null);
+                goods.setBuyPrize(Double.valueOf(buyPrize));
+            }
+            if(salePrize==null||salePrize==""){
+                goods.setSalePrize(null);
+            }else {
+                goods.setSalePrize(Double.valueOf(salePrize));
+            }
+            vegetablesDao.saveGoods(goods);
+            this.success("新增商品成功",null);
         }catch (DuplicateKeyException d) {
-            this.error("菜品名称重复，请确认",null);
+            this.error("商品编号重复，请确认",null);
         } catch (Exception e) {
             e.printStackTrace();
             this.error("新增菜品失败",null);
@@ -90,8 +100,8 @@ public class GoodsController extends CommonController {
     @RequestMapping(value ="/updateGoodsForword",method = RequestMethod.GET)
     public String updateGoodsForword(){
         String id= this.getRequest().getParameter("id");
-        Goods vegetables=goodService.findGoodsById(Integer.valueOf(id));
-        this.getRequest().setAttribute("goods", vegetables);
+        Goods goods=goodService.findGoodsById(Integer.valueOf(id));
+        this.getRequest().setAttribute("goods", goods);
         return "goods/goodsUpdate";
     }
 
@@ -104,23 +114,33 @@ public class GoodsController extends CommonController {
     public void updateGoods(){
         String id= this.getRequest().getParameter("id");
         String name= this.getRequest().getParameter("name");
-        String prize= this.getRequest().getParameter("prize");
+        String proNo = this.getRequest().getParameter("proNo");
+        String color = this.getRequest().getParameter("color");
+        String buyPrize = this.getRequest().getParameter("buyPrize");
+        String salePrize = this.getRequest().getParameter("salePrize");
         try {
-            Goods vegetables=new Goods();
-            vegetables.setId(Integer.valueOf(id));
-            vegetables.setName(name);
-            /*if(prize==null||prize==""){
-                vegetables.setPrize(null);
+            Goods goods=new Goods();
+            goods.setId(Integer.valueOf(id));
+            goods.setName(name);
+            goods.setProNo(proNo);
+            goods.setColor(color);
+            if(buyPrize==null||buyPrize==""){
+                goods.setBuyPrize(null);
             }else {
-                vegetables.setPrize(Double.valueOf(prize));
-            }*/
-            vegetablesDao.updateGoods(vegetables);
-            this.success("编辑菜品成功",null);
+                goods.setBuyPrize(Double.valueOf(buyPrize));
+            }
+            if(salePrize==null||salePrize==""){
+                goods.setSalePrize(null);
+            }else {
+                goods.setSalePrize(Double.valueOf(salePrize));
+            }
+            vegetablesDao.updateGoods(goods);
+            this.success("编辑商品品成功",null);
         } catch (DuplicateKeyException d) {
-            this.error("菜品名称重复，请确认",null);
+            this.error("商品编号重复，请确认",null);
         }catch (Exception e) {
             e.printStackTrace();
-            this.error("编辑菜品失败",null);
+            this.error("编辑商品失败",null);
         }
     }
 
@@ -135,10 +155,10 @@ public class GoodsController extends CommonController {
 
         try {
             vegetablesDao.deleteGoods(Integer.valueOf(id));
-            this.success("删除菜品成功",null);
+            this.success("删除商品成功",null);
         } catch (Exception e) {
             e.printStackTrace();
-            this.error("删除菜品失败",null);
+            this.error("删除菜商失败",null);
         }
     }
 

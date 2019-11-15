@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sparksys.common.dao.GoodsDao">
 
-    <select id="findAll"  resultType="com.sparksys.common.entity.Goods">
+    <select id="findAll" resultType="com.sparksys.common.entity.Goods">
         select
         *
         from tb_product
@@ -12,7 +12,6 @@
     <select id="findByName" parameterType="map" resultType="com.sparksys.common.entity.Goods">
         select
         id,
-        cate_id as cateId,
         pro_no as proNo,
         name as name,
         color as color,
@@ -42,16 +41,33 @@
         insert into tb_product
         (
         name,
-        prize)
+        pro_no,
+        color,
+        buy_prize,
+        sale_prize,
+        create_time,
+        update_time)
         values (
          #{name},
-        #{prize})
+        #{proNo},
+        #{color},
+        #{buyPrize},
+        #{salePrize},
+        now(),
+        now()
+        )
     </insert>
 
 
     <select id="findById" parameterType="int" resultType="com.sparksys.common.entity.Goods">
         select
-        *
+        id,
+        pro_no as proNo,
+        name as name,
+        color as color,
+        image_url as imageUrl,
+        buy_prize as buyPrize,
+        sale_prize as salePrize
         from tb_product
         where id=#{id}
     </select>
@@ -59,7 +75,11 @@
     <update id="updateGoods" parameterType="com.sparksys.common.entity.Goods">
         update tb_product
         set name = #{name,jdbcType=VARCHAR},
-        prize = #{prize}
+        pro_no = #{proNo,jdbcType=VARCHAR},
+        color = #{color,jdbcType=VARCHAR},
+        buy_prize = #{buyPrize},
+        sale_prize = #{salePrize},
+        update_time=now()
         where id = #{id}
     </update>
 
