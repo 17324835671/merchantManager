@@ -52,10 +52,14 @@ public class ShopController extends CommonController {
     public void saveGoods(){
         String name= this.getRequest().getParameter("name");
         String address= this.getRequest().getParameter("address");
+        String mobile= this.getRequest().getParameter("mobile");
+        String card= this.getRequest().getParameter("card");
         try {
             Shop shop=new Shop();
             shop.setName(name);
             shop.setAddress(address);
+            shop.setMobile(mobile);
+            shop.setCard(card);
             shopDao.saveShop(shop);
             this.success("新增商家成功",null);
         }catch (DuplicateKeyException d) {
@@ -99,11 +103,15 @@ public class ShopController extends CommonController {
         String id= this.getRequest().getParameter("id");
         String name= this.getRequest().getParameter("name");
         String address= this.getRequest().getParameter("address");
+        String mobile= this.getRequest().getParameter("mobile");
+        String card= this.getRequest().getParameter("card");
         try {
             Shop shop=new Shop();
             shop.setId(Integer.valueOf(id));
             shop.setName(name);
             shop.setAddress(address);
+            shop.setMobile(mobile);
+            shop.setCard(card);
             shopDao.updateShop(shop);
             this.success("编辑商家成功",null);
         } catch (DuplicateKeyException d) {

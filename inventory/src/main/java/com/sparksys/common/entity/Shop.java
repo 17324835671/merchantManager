@@ -3,6 +3,8 @@ package com.sparksys.common.entity;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 
+import java.util.Date;
+
 @Data
 public class Shop {
     @Id
@@ -17,4 +19,13 @@ public class Shop {
      * 商家地址
      */
     private String address;
+
+    private String mobile;
+
+    private String card;
+
+
+    private Date createTime;
+
+    private Date updateTime;
 }

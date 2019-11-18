@@ -2,10 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sparksys.common.dao.ShopDao">
 
-    <select id="findAll"  resultType="com.sparksys.common.entity.Shop">
+    <select id="findAll" resultType="com.sparksys.common.entity.Shop">
         select
         *
-        from t_shop
+        from tb_shop
         where 1=1
         order by id desc
     </select>
@@ -13,7 +13,7 @@
     <select id="findByName" parameterType="map" resultType="com.sparksys.common.entity.Shop">
         select
         *
-        from t_shop
+        from tb_shop
         where 1=1
         <if test="name != null and name !=''">
             and name LIKE "%"#{name}"%"
@@ -25,7 +25,7 @@
     <select id="findShopCount" parameterType="map" resultType="int">
         select
         count(1)
-        from t_shop
+        from tb_shop
         where 1=1
         <if test="name != null and name !=''">
             and name LIKE "%"#{name}"%"
@@ -33,32 +33,43 @@
     </select>
 
     <insert id="saveShop" parameterType="com.sparksys.common.entity.Shop">
-        insert into t_shop
+        insert into tb_shop
         (
         name,
-        address)
+        address,
+        mobile,
+        card,
+        create_time,
+        update_time)
         values (
          #{name},
-        #{address})
+        #{address},
+        #{mobile},
+        #{card},
+        now(),
+        now())
     </insert>
 
 
     <select id="findById" parameterType="int" resultType="com.sparksys.common.entity.Shop">
         select
         *
-        from t_shop
+        from tb_shop
         where id=#{id}
     </select>
 
     <update id="updateShop" parameterType="com.sparksys.common.entity.Shop">
-        update t_shop
+        update tb_shop
         set name = #{name,jdbcType=VARCHAR},
-        address = #{address}
+        address = #{address},
+        mobile=#{mobile},
+        card=#{card},
+        update_time=now()
         where id = #{id}
     </update>
 
     <update id="deleteShop" parameterType="int">
-       delete from t_shop
+       delete from tb_shop
         where id = #{id}
     </update>
 

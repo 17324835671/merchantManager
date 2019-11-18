@@ -22,6 +22,20 @@
 						</div>
 					</td>
 				</tr>
+				<tr height="50px;">
+					<td>
+						<label class="layui-form-label"><span class="x-red">*</span>手机号</label>
+						<div class="layui-input-inline">
+							<input type="text" name="mobile" id="mobile" th:value="${shop.mobile}" lay-verify="mobile" class="layui-input">
+						</div>
+					</td>
+					<td>
+						<label class="layui-form-label"> <span class="x-red">*</span>车牌号</label>
+						<div class="layui-input-inline">
+							<input type="text" name="card" id="card" th:value="${shop.card}" lay-verify="card" class="layui-input">
+						</div>
+					</td>
+				</tr>
 			</table>
 			<button id="submitForm" style="display: none;" lay-filter="updateshop" lay-submit=""></button>
 		</form>
