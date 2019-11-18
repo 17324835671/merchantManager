@@ -1,45 +1,37 @@
 ﻿<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <div class="layui-col-md12">
-      <div class="layui-card">
+    <div class="layui-card">
         <div class="layui-card-header">查询结果</div>
         <div class="layui-card-body" style="height: 500px;overflow: auto;">
-        	<table class="layui-table layui-form">
-		        <thead>
-			        <tr>
-			            <th>序号</th>
-			            <th>单位简称</th>
-						<th>单位名称</th>
-						<th>单位地址</th>
-						<th>单位类型</th>
-						<th>供应商</th>
-						<th style="text-align: center;">状态</th>
-						<th style="text-align: center;">操作</th>
-					</tr>
-		        </thead>
-		        <tbody>
-		          <tr th:each="mstD001,iterStat: ${mstD001List}">
-		          	<td th:text="${iterStat.index+1}"></td>
-		            <td th:text="${mstD001.kanaName}"></td>
-		            <td th:text="${mstD001.plantName}"></td>
-		            <td th:text="${mstD001.address}"></td>
-		            <td th:text="${mstD001.plantTypeName}"></td>
-					<td th:text="${mstD001.ownerName}"></td>
-		            <td align="center">
-		            	<span class="layui-btn layui-btn-xs" th:if="${mstD001.deleteFlag}==0" th:text="已启用"></span>
-		            	<span class="layui-btn layui-btn-primary layui-btn-xs layui-btn-disabled" th:if="${mstD001.deleteFlag}==1" th:text="已停用"></span>
-		            </td>
-		            <td align="center">
-		              <button th:id="${mstD001.plantCode}" class="layui-btn layui-btn-primary layui-btn-xs" onclick="viewPlantInfo(this);"><i class="layui-icon">&#xe679;</i>查看</button>
-		              <button th:id="${mstD001.plantCode}" class="layui-btn layui-btn layui-btn-xs"  onclick="updatePlantForward(this)" ><i class="layui-icon">&#xe62b;</i>编辑</button>
-		              <button th:id="${mstD001.plantCode}" class="layui-btn-danger layui-btn layui-btn-xs"  onclick="deletePlant(this)" href="javascript:;" ><i class="layui-icon">&#xe640;</i>删除</button>
-		            </td>
-		          </tr>
-		        </tbody>
-		      </table>
-		      <div id="pageTag" th:include="pageTag.html">
+            <table class="layui-table layui-form">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>名称</th>
+                    <th>地址</th>
+                    <th style="text-align: center;">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="plant,iterStat: ${plants}">
+                    <td th:text="${iterStat.index+1}"></td>
+                    <td th:text="${plant.name}"></td>
+                    <td th:text="${plant.address}"></td>
+                    <td align="center">
+                        <button th:id="${plant.id}" class="layui-btn layui-btn layui-btn-xs"
+                                onclick="updatePlant(this)"><i class="layui-icon">&#xe62b;</i>编辑
+                        </button>
+                        <button th:id="${plant.id}" class="layui-btn-danger layui-btn layui-btn-xs"
+                                onclick="deletePlant(this)" href="javascript:;"><i class="layui-icon">&#xe640;</i>删除
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div id="pageTag" th:include="pageTag.html">
+            </div>
         </div>
-      </div>
     </div>
 </div>
 </html>       

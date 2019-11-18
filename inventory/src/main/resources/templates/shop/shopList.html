@@ -9,6 +9,7 @@
                 <tr>
                     <th>序号</th>
                     <th>名称</th>
+                    <th>车牌号</th>
                     <th>地址</th>
                     <th style="text-align: center;">操作</th>
                 </tr>
@@ -17,6 +18,7 @@
                 <tr th:each="shop,iterStat: ${shops}">
                     <td th:text="${iterStat.index+1}"></td>
                     <td th:text="${shop.name}"></td>
+                    <td th:text="${shop.card}"></td>
                     <td th:text="${shop.address}"></td>
                     <td align="center">
                         <button th:id="${shop.id}" class="layui-btn layui-btn layui-btn-xs"

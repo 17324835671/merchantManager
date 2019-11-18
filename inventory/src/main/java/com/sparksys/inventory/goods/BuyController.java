@@ -1,17 +1,13 @@
 package com.sparksys.inventory.goods;
 
 import com.sparksys.common.controller.CommonController;
-import com.sparksys.common.dao.VegetablesDao;
 import com.sparksys.common.entity.Account;
 import com.sparksys.common.entity.Buy;
 import com.sparksys.common.entity.PageBean;
-import com.sparksys.common.entity.Vegetables;
 import com.sparksys.common.utils.DateUtil;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;

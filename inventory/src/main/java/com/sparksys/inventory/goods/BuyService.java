@@ -2,11 +2,9 @@ package com.sparksys.inventory.goods;
 
 import com.github.pagehelper.PageHelper;
 import com.sparksys.common.dao.BuyDao;
-import com.sparksys.common.dao.VegetablesDao;
 import com.sparksys.common.entity.Account;
 import com.sparksys.common.entity.Buy;
 import com.sparksys.common.entity.PageBean;
-import com.sparksys.common.entity.Vegetables;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

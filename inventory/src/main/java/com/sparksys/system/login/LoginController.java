@@ -36,7 +36,7 @@ public class LoginController extends CommonController{
 	@Resource
 	private ISysPermissionService permissionService;
 	@Resource
-	private IMstD001Service plantService;
+	private IMstD001Service iMstD001Service;
 	@RequestMapping(value = "/index")
 	public String index(){
 		SysUser sessionUserBean = getSessionUserBean();
@@ -46,7 +46,7 @@ public class LoginController extends CommonController{
 		this.getRequest().setAttribute("menuSize", permissionList.size());
 		Map<String, String> system = this.SystemInfo();
 		String data = "";
-		List<MstD001PlantCount> list = plantService.findMstD001PlantCount();
+		List<MstD001PlantCount> list = iMstD001Service.findMstD001PlantCount();
 		JSONArray jsonArray = new JSONArray();
 		for (MstD001PlantCount plantCount : list) {
 			JSONObject jsonObject = new JSONObject();
@@ -68,8 +68,8 @@ public class LoginController extends CommonController{
 	}
 	/**
 	 * ajax登录请求
-	 * @param username
-	 * @param password
+	 * @param
+	 * @param
 	 * @return
 	 */
 	@RequestMapping(value ="/ajaxLogin",produces="application/json;charset=UTF-8")

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sparksys.common.dao.PlantDao">
+
+    <select id="findAll" resultType="com.sparksys.common.entity.Plant">
+        select
+        *
+        from tb_shop
+        where 1=1
+        order by id desc
+    </select>
+
+    <select id="findByName" parameterType="map" resultType="com.sparksys.common.entity.Plant">
+        select
+        *
+        from tb_plant
+        where 1=1
+        <if test="name != null and name !=''">
+            and name LIKE "%"#{name}"%"
+        </if>
+
+        order by id desc
+    </select>
+
+    <select id="findShopCount" parameterType="map" resultType="int">
+        select
+        count(1)
+        from tb_plant
+        where 1=1
+        <if test="name != null and name !=''">
+            and name LIKE "%"#{name}"%"
+        </if>
+    </select>
+
+    <insert id="saveShop" parameterType="com.sparksys.common.entity.Plant">
+        insert into tb_plant
+        (
+        name,
+        address,
+        mobile,
+        create_time,
+        update_time)
+        values (
+         #{name},
+        #{address},
+        #{mobile},
+        now(),
+        now())
+    </insert>
+
+
+    <select id="findById" parameterType="int" resultType="com.sparksys.common.entity.Plant">
+        select
+        *
+        from tb_plant
+        where id=#{id}
+    </select>
+
+    <update id="updateShop" parameterType="com.sparksys.common.entity.Plant">
+        update tb_plant
+        set name = #{name,jdbcType=VARCHAR},
+        address = #{address},
+        mobile=#{mobile},
+        update_time=now()
+        where id = #{id}
+    </update>
+
+    <update id="deleteShop" parameterType="int">
+       delete from tb_plant
+        where id = #{id}
+    </update>
+
+</mapper>

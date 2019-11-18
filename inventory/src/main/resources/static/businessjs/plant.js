@@ -1,9 +1,8 @@
 function queryPlantInfoList(pageNum) {
+	console.log('queryPlantInfoList')
 	var contextPath = getContextPath();
-	var plantName = $("#plantName").val();
-	var kanaName = $("#kanaName").val();
-	var plantType = $("#plantType").val();
-	var url = contextPath+"/queryMstD001InfoList?currentNum="+pageNum+"&kanaName="+kanaName+"&plantName="+plantName+"&plantType="+plantType;
+	var name = $("#name").val();
+	var url = contextPath+"/findPlantList?currentNum="+pageNum+"&name="+name;
 	var index;
 	layui.use("layer",function(){
 		var layer = layui.layer;
@@ -19,49 +18,27 @@ function queryPlantInfoList(pageNum) {
 		 }
 	 });
 }
-function queryMstD002ByPlantInfoList(pageNum) {
-	var contextPath = getContextPath();
-	var plantCode = $("#plantCode").val();
-	var url = contextPath+"/queryMstD002ByPlantInfoList?currentNum="+pageNum+"&plantCode="+plantCode;
-	Ext.Ajax.request({
-		 url: url,
-		 method : 'post',
-		 success: function(request){
-		    Ext.getDom("returnList").innerHTML=request.responseText;
-		    getPage("queryMstD002ByPlantInfoList");
-		 }
-	 });
-}
+
+
 
 //新增单位
-function savePlantForward() {
+function savePlant() {
 	var contextPath = getContextPath();
-	var url = contextPath+"/addMstD001PlantForworrd";
+	var url = contextPath+"/addPlantForworrd";
 	Modalshow('添加单位',url,700,520,2,true);
 	
 }
-//查看单位信息
-function viewPlantInfo(obj) {
-	var contextPath = getContextPath();
-	var url = contextPath+"/viewPlantInfo?plantCode=" + obj.id;
-	Modalshow('查看单位',url,800,680,1);
-}
+
 //删除用户
 function deletePlant(obj){
-	var data = "plantCode="+obj.id;
-	deleteDataCommon("/deletePlant",data);
+	console.log("deleteShop",obj)
+	deleteDataCommon("/deletePlant",obj);
 }
 //修改单位信息
-function updatePlantForward(obj) {
+function updatePlant(obj) {
+	console.log("updatePlant",obj)
 	var contextPath = getContextPath();
-	var url = contextPath+"/updatePlantForword?plantCode="+obj.id;
+	var url = contextPath+"/updatePlantForword?id="+obj.id;
 	Modalshow('修改单位',url,700,580,3,true);
 }
-function exportPlantInfo(obj){
-	var contextPath = getContextPath();
-	var plantName = $("#plantName").val();
-	var kanaName = $("#kanaName").val();
-	var plantType = $("#plantType").val();
-	var url = contextPath+"/queryMstD001InfoList?currentNum="+obj.id+"&kanaName="+kanaName+"&plantName="+plantName+"&plantType="+plantType;
-	ExcelExport(url);
-}
+

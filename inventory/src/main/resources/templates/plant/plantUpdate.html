@@ -3,137 +3,60 @@
 <head th:replace="resource1.html">
 </head>
 <body>
-	<input type="hidden" id="contextPath" name="contextPath"
-		th:value="${#request.getContextPath()}">
+	<input type="hidden" id="contextPath" name="contextPath" th:value="${#request.getContextPath()}">
 	<div class="x-body layui-anim">
-    	<form class="layui-form layui-form-pane">
-			<input type="hidden" id="plantCode" name="plantCode" th:value="${mstD001Plant.plantCode}">
-			<input type="hidden" id="deleteFlag" name="deleteFlag" th:value="${mstD001Plant.deleteFlag}">
-			<table>
+		<form class="layui-form layui-form-pane">
+			<input type="hidden" id="id" name="id" th:value="${plant.id}">
+			<table style="width: 100%">
 				<tr height="50px;">
 					<td>
-						<label class="layui-form-label"><span class="x-red">*</span>单位名称</label>
-						<div class="layui-input-inline" style="width: 60%;">
-							<input type="text" id="plantName" name="plantName" lay-verify="required" th:value="${mstD001Plant.plantName}" class="layui-input layui-elip ">
-						</div>
-					</td>
-					<td>
-					<label class="layui-form-label">单位简称</label>
-						<div class="layui-input-inline" style="width: 60%;">
-							<input type="text" id="kanaName" name="kanaName" th:value="${mstD001Plant.kanaName}" class="layui-input layui-elip ">
-						</div>
-					</td>
-				</tr>
-				<tr height="50px;">
-					<td>
-						<label class="layui-form-label"><span class="x-red">*</span>单位类型</label>
-						<div class="layui-input-inline" style="width: 60%;">
-							<select name="plantType">
-								<option th:each="plantType : ${plantTypes}" th:selected="${plantType.typeId}==${mstD001Plant.plantTypeId}" th:value="${plantType.typeId}" th:text="${plantType.typeName}"></option>
-							</select>
-						</div>
-					</td>
-					<td>
-						<label class="layui-form-label"><span class="x-red">*</span>供应商</label>
-						<div class="layui-input-inline" style="width: 60%;">
-							<select name="ownerUId">
-								<option th:each="owner : ${owners}" th:selected="${owner.ownerUid}==${mstD001Plant.ownerUid}" th:value="${owner.ownerUid}" th:text="${owner.ownerName}"></option>
-							</select>
-						</div>
-					</td>
-				</tr>
-				<tr height="50px;">
-					<td>
-						<label class="layui-form-label">客服部门</label>
-						<div class="layui-input-inline" style="width: 60%;">
-							<input type="text" id="buDeptName" name="buDeptName" th:value="${mstD001Plant.buDeptName}" class="layui-input layui-elip">
-						</div>
-					</td>
-					<td>
-						<label class="layui-form-label">客服电话</label>
-						<div class="layui-input-inline" style="width: 60%;">
-							<input type="text" id="buDeptTel" name="buDeptTel" th:value="${mstD001Plant.buDeptTel}" lay-verify="phone" class="layui-input layui-elip">
-						</div>
-					</td>
-				</tr>
-				<tr height="50px;">
-					<td>
-						<label class="layui-form-label"><span class="x-red">*</span>状态</label>
+						<label class="layui-form-label"><span class="x-red">*</span>商家名称</label>
 						<div class="layui-input-inline">
-							<input type="checkbox" name="DeleteFlag" id="DeleteFlag" lay-text="开启|停用" lay-filter="DeleteFlag" th:checked="${mstD001Plant.deleteFlag}==0" value="0"
-								lay-skin="switch" class="layui-input">
+							<input type="text" name="name" id="name" th:value="${plant.name}" lay-verify="required" class="layui-input">
+						</div>
+					</td>
+					<td>
+						<label class="layui-form-label"> <span class="x-red">*</span>商家地址</label>
+						<div class="layui-input-inline">
+							<input type="text" name="address" id="address" th:value="${plant.address}" lay-verify="prize" class="layui-input">
 						</div>
 					</td>
 				</tr>
 				<tr height="50px;">
-					<td colspan="2">
-						<label class="layui-form-label"><span class="x-red">*</span>详细地址</label>
-						<div class="layui-input-inline" style="width: 82%;">
-							<textarea id="address" name="address" lay-verify="required" th:text="${mstD001Plant.address}" class="layui-textarea layui-elip"></textarea>
+					<td>
+						<label class="layui-form-label">手机号</label>
+						<div class="layui-input-inline">
+							<input type="text" name="mobile" id="mobile" th:value="${plant.mobile}" lay-verify="mobile" class="layui-input">
 						</div>
 					</td>
 				</tr>
 			</table>
-			<button id="submitForm" style="display: none;"
-				lay-filter="updatePlant" lay-submit=""></button>
+			<button id="submitForm" style="display: none;" lay-filter="updatePlant" lay-submit=""></button>
 		</form>
 	</div>
 	<script>
-	layui.use('upload', function(){
-		var contextPath = getContextPath();
-		var url = contextPath+"/uploadFile/";
-	  	var upload = layui.upload;
-	  	var $ = layui.jquery
-	    ,upload = layui.upload;
-	    //普通图片上传
-	    var uploadInst = upload.render({
-	      elem: '#upload'
-	      ,url: url
-	      ,before: function(obj){
-	        obj.preview(function(index, file, result){
-	          $('#uploadFile').attr('src', result);
-	        });
-	      }
-	      ,done: function(res){
-	        if(res.code < 0){
-	          return layer.msg(res.message,{icon:2,shift: 6});
-	        }else{
-	        	var fileId = res.data.id;
-	        	document.getElementById("fileId").value = fileId;
-	        	var demoText = $('#textMeaasge');
-	        	demoText.html('');
-	        	return layer.msg(res.message,{icon:1,shift:6});
-	        }
-	      }
-	      ,error: function(){
-	        //失败状态，并实现重传
-	        var demoText = $('#textMeaasge');
-	        demoText.html('<span style="color: #D32F2F;">上传失败</span> <a class="layui-btn layui-btn-xs reUpload">重试</a>');
-	        demoText.find('.reUpload').on('click', function(){
-	          uploadInst.upload();
-	        });
-	      }
-	    });
-	});
+		layui.use('laydate', function() {
+			var laydate = layui.laydate;
+
+			// 执行一个laydate实例
+			laydate.render({
+				elem : '#birthDay' // 指定元素
+			});
+		});
 		layui.use([ 'form', 'layer' ], function() {
 			$ = layui.jquery;
-			var form = layui.form
-			,layer = layui.layer;
-			//监听checkbox
-			form.on('switch(DeleteFlag)', function(data) {
-				console.log(data.elem.checked);
-				if (data.elem.checked) {
-					document.getElementById("deleteFlag").value = "0";
-				} else {
-					document.getElementById("deleteFlag").value = "1";
-				}
-			});
-			form.on('submit(updatePlant)', function(data) {
+			var form = layui.form, layer = layui.layer;
+
+			form.on('submit(updateplant)', function(data) {
+                var name = $('#name').val();
+                if (name == '') {
+                    layer.alert('请填写工厂名称');
+                    return
+                }
 				AjaxHttpRequest("/updatePlant", data.field);
 				return false;
 			});
 		});
 	</script>
 </body>
-
 </html>
