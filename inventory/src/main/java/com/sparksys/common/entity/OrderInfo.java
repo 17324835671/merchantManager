@@ -15,39 +15,36 @@ public class OrderInfo {
      */
     private Integer orderId;
 
-    /**
-     * 商家id
-     */
-    private Integer shopId;
-
 
     /**
-     * 菜品id
+     * 商品id
      */
-    private String vegetablesId;
+    private String goodsId;
 
     /**
-     * 菜品名称
+     * 商品名称
      */
-    private String vegetablesName;
+    private String goodsName;
 
     /**
-     * 菜品数量
+     * 商品数量
      */
-    private Double number;
+    private Double amount;
 
     /**
-     * 菜品单位
+     * 商品价格
      */
-    private String unit;
+    private Double salePrice;
 
-    /**
-     * 菜品备注
-     */
-    private String remark;
+
 
     /**
      * 订单时间
      */
     private Date createTime;
+
+    /**
+     * 订单时间
+     */
+    private Date updateTime;
 }

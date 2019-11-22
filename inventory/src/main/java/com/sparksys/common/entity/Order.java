@@ -25,16 +25,23 @@ public class Order {
     /**
      * 商家名称
      */
-    private List<OrderInfo> orderInfo;
-
-    /**
-     * 商家名称
-     */
     private String shopName;
 
 
+
     /**
-     * 菜品备注
+     * 总价
+     */
+    private Double totalPrice;
+
+    /**
+     * 是否支付
+     */
+    private Boolean isPay;
+
+
+    /**
+     * 备注
      */
     private String remark;
 
@@ -47,4 +54,11 @@ public class Order {
      * 订单时间
      */
     private Date createTime;
+
+    /**
+     * 订单时间
+     */
+    private Date updateTime;
+
+    private List<OrderInfo> orderInfo;
 }

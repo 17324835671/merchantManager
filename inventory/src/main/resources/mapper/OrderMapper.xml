@@ -3,8 +3,8 @@
 <mapper namespace="com.sparksys.common.dao.OrderDao">
 
     <select id="findByName" parameterType="map" resultType="com.sparksys.common.entity.Order">
-        SELECT t.id, t.shop_name shopName,GROUP_CONCAT(ti.vegetables_name,ti.number,ti.unit) remark from t_order t JOIN
-        t_order_info ti on t.id=ti.order_id
+        SELECT t.id, t.shop_name shopName,GROUP_CONCAT(ti.goods_name,ti.amount) remark from tb_order t JOIN
+        tb_order_info ti on t.id=ti.order_id
         where 1=1
         <if test="shopName != null and shopName !=''">
             and shop_name LIKE "%"#{shopName}"%"
@@ -18,8 +18,8 @@
 
     <select id="findOrderCount" parameterType="map" resultType="int">
         SELECT COUNT(1) from
-        (SELECT t.shop_name shopName,GROUP_CONCAT(ti.vegetables_name,ti.number,ti.unit) remakr from t_order t JOIN
-        t_order_info ti on t.id=ti.order_id
+        (SELECT t.shop_name shopName,GROUP_CONCAT(ti.goods_name,ti.amount) remakr from tb_order t JOIN
+        tb_order_info ti on t.id=ti.order_id
         where 1=1
         <if test="shopName != null and shopName !=''">
             and shop_name LIKE "%"#{shopName}"%"
@@ -31,15 +31,22 @@
     </select>
 
     <insert id="saveOrder" parameterType="com.sparksys.common.entity.Order" useGeneratedKeys="true" keyProperty="id">
-        insert into t_order
+        insert into tb_order
         (
         shop_id,
         shop_name,
+        total_price,
+        is_pay,
+        remark,
         time_desc,
-        create_time)
+        create_time,
+        update_time)
         values (
          #{shopId},
         #{shopName},
+        #{totalPrice},
+        #{isPay},
+        #{remark},
         #{timeDesc},
         NOW())
     </insert>

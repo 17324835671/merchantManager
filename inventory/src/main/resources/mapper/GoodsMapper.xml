@@ -4,7 +4,13 @@
 
     <select id="findAll" resultType="com.sparksys.common.entity.Goods">
         select
-        *
+        id,
+        pro_no as proNo,
+        name as name,
+        color as color,
+        image_url as imageUrl,
+        buy_prize as buyPrize,
+        sale_prize as salePrize
         from tb_product
         order by id desc
     </select>

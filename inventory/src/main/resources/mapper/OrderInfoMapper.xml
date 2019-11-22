@@ -34,17 +34,21 @@
         insert into t_order_info
         (
         order_id,
-        vegetables_id,
-        vegetables_name,
-        number,
-        unit,
-        create_time)
+        goods_id,
+        goods_name,
+        price,
+        amount,
+        total_price,
+        create_time,
+        update_time)
         values (
          #{orderId},
-        #{vegetablesId},
-        #{vegetablesName},
-        #{number},
-        #{unit},
+        #{goodsId},
+        #{goodsName},
+        #{price},
+        #{amount},
+        #{totalPrice},
+        NOW(),
         NOW())
     </insert>
 

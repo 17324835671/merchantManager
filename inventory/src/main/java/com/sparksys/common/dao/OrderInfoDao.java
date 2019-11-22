@@ -2,7 +2,6 @@ package com.sparksys.common.dao;
 
 import com.sparksys.common.entity.Order;
 import com.sparksys.common.entity.OrderInfo;
-import com.sparksys.common.entity.Shop;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

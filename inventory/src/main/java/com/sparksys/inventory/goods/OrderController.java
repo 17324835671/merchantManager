@@ -26,7 +26,7 @@ public class OrderController extends CommonController {
     ShopDao shopDao;
 
     @Resource
-    private GoodsDao vegetablesDao;
+    private GoodsDao goodsDao;
 
     @Resource
     private OrderDao orderDao;
@@ -70,14 +70,9 @@ public class OrderController extends CommonController {
     @RequestMapping(value = "/addOrderForworrd")
     public String addOrderForworrd() {
         List<Shop> shopList = shopDao.findAll();
-        List<Goods> vegetablesList = vegetablesDao.findAll();
-        List<String> units = new ArrayList<>();
-        units.add("斤");
-        units.add("颗");
-        units.add("袋");
+        List<Goods> goods = goodsDao.findAll();
         this.getRequest().setAttribute("shops", shopList);
-        this.getRequest().setAttribute("vegetables", vegetablesList);
-        this.getRequest().setAttribute("units", units);
+        this.getRequest().setAttribute("goods", goods);
         return "order/orderAdd";
     }
 
@@ -104,7 +99,7 @@ public class OrderController extends CommonController {
     }
 
     /**
-     * 编辑菜品转发
+     * 编辑订单转发
      *
      * @return
      * @throws Exception
@@ -117,7 +112,7 @@ public class OrderController extends CommonController {
         List<OrderInfo> orderInfos=orderInfoDao.findByOrderId(Integer.valueOf(orderId));
         Order order=orderDao.findById(Integer.valueOf(orderId));
         List<Shop> shopList = shopDao.findAll();
-        List<Goods> vegetablesList = vegetablesDao.findAll();
+        List<Goods> vegetablesList = goodsDao.findAll();
         List<String> units = new ArrayList<>();
         units.add("斤");
         units.add("颗");
