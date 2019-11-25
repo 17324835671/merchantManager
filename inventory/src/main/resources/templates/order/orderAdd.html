@@ -34,6 +34,21 @@
                 </tr>
                 <tr height="50px;">
                     <td>
+                        <label class="layui-form-label">是否付款</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="isPay" value="1" title="是" lay-filter="isPay" checked>
+                            <input type="radio" name="isPay" value="0" title="否" lay-filter="isPay">
+                        </div>
+                    </td>
+                    <td>
+                        <label class="layui-form-label">备注</label>
+                        <div class="layui-input-inline" style="width: 60%;">
+                            <input type="text" id="remark" name="remark" class="layui-input">
+                        </div>
+                    </td>
+                </tr>
+                <tr height="50px;">
+                    <td>
                         <label class="layui-form-label"><span class="x-red">*</span>商品名称</label>
                         <div class="layui-input-inline" style="width: 60%;">
                             <select name="goodsId" class="goodsId" lay-search lay-filter="goodsId">
@@ -49,7 +64,7 @@
                         <div class="layui-input-inline" style="width: 30%;">
                             <input type="text" id="amount" name="amount" class="layui-input">
                         </div>
-                        <label class="layui-form-label">价格</label>
+                        <label class="layui-form-label">单价</label>
                         <div class="layui-input-inline" style="width: 30%;">
                             <input type="text" id="salePrice" name="salePrice" class="layui-input">
                         </div>
@@ -61,6 +76,12 @@
                 </tr>
                 </tbody>
             </table>
+            <div height="50px;">
+                <label class="layui-form-label">总计</label>
+                <div class="layui-input-inline" style="width: 30%;">
+                    <input type="text" readonly id="totalPrice" name="totalPrice" class="layui-input">
+                </div>
+            </div>
         </div>
         <button id="submitForm" style="display: none;" lay-filter="saveOrder" lay-submit=""></button>
     </form>
@@ -76,12 +97,17 @@
     var amountName = "";
     var priceName = "";
     var orderList = new Array();
+    var totalPrice="";
+    var isPay=true;
+    var remark="";
+    var price="";
     $(".shop2").hide();
     $('body').on('click', '.add', function () {
 
         amountName = $('#amount').val();
         priceName = $('#salePrice').val();
         shopName2 = $('#shopName2').val();
+        remark=$('#remark').val();
         if (shopName == '' && shopName2 == '') {
             layer.alert('请先选择商家');
             return
@@ -98,15 +124,19 @@
             layer.alert('请选择金额');
             return
         }
-
+        price=Number(priceName*amountName);
+        totalPrice=Number(totalPrice)+Number(priceName*amountName);
+        $('#totalPrice').val(totalPrice);
         var orderInfo = {};
         index++;
         orderInfo.index = index;
         orderInfo.shopId = shopId;
         orderInfo.goodsId = goodsId;
         orderInfo.goodsName = goodsName;
-        orderInfo.salePrize = priceName;
+        orderInfo.salePrice = priceName;
         orderInfo.amount = amountName;
+        orderInfo.remark=remark;
+        orderInfo.totalPrice=price;
         console.log(orderInfo)
         orderList.push(orderInfo)
         var html = '<tr height="50px;" ' +
@@ -122,15 +152,21 @@
             '</td>' +
             '<td>' +
             '<label class="layui-form-label">数量</label>' +
-            '<div class="layui-input-inline" style="width: 30%;">' +
+            '<div class="layui-input-inline" style="width: 20%;">' +
             '<input readonly="readonly" type="text" id="amount" name="amount"' +
             "value=" + amountName +
             ' class="layui-input">' +
             '</div>' +
-            '<label class="layui-form-label">价格</label>' +
-            '<div class="layui-input-inline" style="width: 30%;">' +
+            '<label class="layui-form-label">单价</label>' +
+            '<div class="layui-input-inline" style="width: 10%;">' +
             '<input readonly="readonly" type="text" id="salePrice" name="salePrice"' +
             "value=" + priceName +
+            ' class="layui-input">' +
+            ' </div>' +
+            '<label class="layui-form-label">金额</label>' +
+            '<div class="layui-input-inline" style="width: 10%;">' +
+            '<input readonly="readonly" type="text" id="price" name="price"' +
+            "value=" + price +
             ' class="layui-input">' +
             ' </div>' +
             '</td>' +
@@ -147,6 +183,8 @@
     function deleteTr(index) {
         for (var i = 0; i < orderList.length; i++) {
             if (orderList[i].index == index) {
+                totalPrice=Number(totalPrice)-Number((orderList[i].salePrice)*(orderList[i].amount));
+                $('#totalPrice').val(totalPrice);
                 orderList.splice(i, 1)
                 return
             }
@@ -201,6 +239,13 @@
                 $(".shop1").hide();
             }
         });
+        form.on('radio(isPay)', function (data) {
+            if (data.value == '1') {
+                isPay=true;
+            } else {
+                isPay=false;
+            }
+        });
 
         form.on('submit(saveOrder)', function () {
             console.log(orderList)
@@ -210,9 +255,13 @@
                 order["orderInfo[" + i + "].goodsName"] = orderList[i].goodsName;
                 order["orderInfo[" + i + "].amount"] = orderList[i].amount;
                 order["orderInfo[" + i + "].salePrice"] = orderList[i].salePrice;
+                order["orderInfo[" + i + "].totalPrice"] = orderList[i].totalPrice;
             }
             order.shopId = shopId;
             order.shopName = shopName;
+            order.isPay = isPay;
+            order.remark = remark;
+            order.totalPrice = totalPrice;
             AjaxHttpRequest("/saveOrder", order);
             return false;
         });

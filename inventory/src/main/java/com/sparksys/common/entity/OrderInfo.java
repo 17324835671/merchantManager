@@ -36,7 +36,10 @@ public class OrderInfo {
      */
     private Double salePrice;
 
-
+    /**
+     * 商品总价
+     */
+    private Double totalPrice;
 
     /**
      * 订单时间

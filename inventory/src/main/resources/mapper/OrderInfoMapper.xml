@@ -31,7 +31,7 @@
     </select>
 
     <insert id="saveOrderInfo" parameterType="com.sparksys.common.entity.Shop">
-        insert into t_order_info
+        insert into tb_order_info
         (
         order_id,
         goods_id,
@@ -45,7 +45,7 @@
          #{orderId},
         #{goodsId},
         #{goodsName},
-        #{price},
+        #{salePrice},
         #{amount},
         #{totalPrice},
         NOW(),

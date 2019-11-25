@@ -8,9 +8,11 @@ import com.sparksys.common.entity.Order;
 import com.sparksys.common.entity.OrderInfo;
 import com.sparksys.common.entity.PageBean;
 import com.sparksys.common.entity.Shop;
+import com.sparksys.common.utils.DateUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -32,7 +34,11 @@ public class OrderService {
     }
 
     public void saveOrder(Order order) {
+        order.setTimeDesc(DateUtil.getDateAsYYMMDD(new Date()));
         orderDao.saveOrder(order);
+        if(order.getShopId()!=null){
+
+        }
         List<OrderInfo> orderInfos=order.getOrderInfo();
         for (OrderInfo orderInfo:orderInfos){
             orderInfo.setOrderId(order.getId());

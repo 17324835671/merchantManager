@@ -25,7 +25,7 @@ spring:
   redis:
     host: 49.235.113.84
     database: 1
-    port: 6380
+    port: 6379
     password:
     expire: 1800
     timeout: 0

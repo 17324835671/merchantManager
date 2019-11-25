@@ -48,6 +48,7 @@
         #{isPay},
         #{remark},
         #{timeDesc},
+        NOW(),
         NOW())
     </insert>
 
