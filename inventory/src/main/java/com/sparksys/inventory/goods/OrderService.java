@@ -3,11 +3,11 @@ package com.sparksys.inventory.goods;
 import com.github.pagehelper.PageHelper;
 import com.sparksys.common.dao.OrderDao;
 import com.sparksys.common.dao.OrderInfoDao;
-import com.sparksys.common.dao.ShopDao;
+import com.sparksys.common.dao.StockDao;
 import com.sparksys.common.entity.Order;
 import com.sparksys.common.entity.OrderInfo;
 import com.sparksys.common.entity.PageBean;
-import com.sparksys.common.entity.Shop;
+import com.sparksys.common.entity.Stock;
 import com.sparksys.common.utils.DateUtil;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +23,10 @@ public class OrderService {
 
     @Resource
     OrderInfoDao orderInfoDao;
+
+    @Resource
+    ComService comService;
+
 
     public PageBean<Order> findByName(int currentPage, int pageSize, Map<String, Object> map) {
         PageHelper.startPage(currentPage, pageSize);
@@ -43,6 +47,10 @@ public class OrderService {
         for (OrderInfo orderInfo:orderInfos){
             orderInfo.setOrderId(order.getId());
             orderInfoDao.saveOrderInfo(orderInfo);
+            Stock stock=new Stock();
+            stock.setProId(orderInfo.getGoodsId());
+            stock.setAmount(orderInfo.getAmount());
+            comService.updateStock(stock);
         }
     }
 
@@ -59,4 +67,6 @@ public class OrderService {
         orderInfoDao.deleteByOrderId(orderId);
         orderDao.deleteById(orderId);
     }
+
+
 }

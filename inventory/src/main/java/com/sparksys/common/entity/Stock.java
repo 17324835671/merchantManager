@@ -3,43 +3,34 @@ package com.sparksys.common.entity;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import java.util.Date;
+import java.util.List;
 
 @Data
-public class OrderInfo {
+public class Stock {
     @Id
+    @Column(name = "Id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     /**
-     * 总订单id
+     * 产品id
      */
-    private Integer orderId;
-
+    private Integer proId;
 
     /**
-     * 商品id
-     */
-    private Integer goodsId;
-
-    /**
-     * 商品名称
-     */
-    private String goodsName;
-
-    /**
-     * 商品数量
+     * 数量
      */
     private Integer amount;
 
     /**
-     * 商品价格
+     * 库存
      */
-    private Double salePrice;
+    private Integer stock;
 
-    /**
-     * 商品总价
-     */
-    private Double totalPrice;
 
     /**
      * 订单时间
@@ -50,4 +41,6 @@ public class OrderInfo {
      * 订单时间
      */
     private Date updateTime;
+
+
 }

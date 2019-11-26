@@ -15,14 +15,14 @@
     <select id="findByOrderId" parameterType="map" resultType="com.sparksys.common.entity.OrderInfo">
         SELECT t.id,t.vegetables_id vegetablesId,t.vegetables_name vegetablesName,t.unit,t.number,
         t.order_id orderId
-         from t_order_info t
+         from tb_order_info t
         where order_id=#{orderId}
     </select>
 
 
     <select id="findOrderCount" parameterType="map" resultType="int">
         SELECT COUNT(1) from
-        (SELECT t.shop_name,GROUP_CONCAT(t.vegetables_name,t.number,t.unit) remark from t_order t
+        (SELECT t.shop_name,GROUP_CONCAT(t.vegetables_name,t.number,t.unit) remark from tb_order t
         where date(t.create_time) = curdate()
         <if test="shopName != null and shopName !=''">
             and shop_name LIKE "%"#{shopName}"%"
@@ -53,7 +53,7 @@
     </insert>
 
     <delete id="deleteByOrderId" parameterType="int">
-        delete from t_order_info
+        delete from tb_order_info
         where order_id = #{orderId}
     </delete>
 

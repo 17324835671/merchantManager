@@ -4,6 +4,7 @@ import com.sparksys.common.controller.CommonController;
 import com.sparksys.common.dao.GoodsDao;
 import com.sparksys.common.entity.Goods;
 import com.sparksys.common.entity.PageBean;
+import com.sparksys.common.entity.Stock;
 import com.sparksys.common.entity.Vegetables;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
@@ -20,10 +21,11 @@ public class GoodsController extends CommonController {
     @Resource
     private GoodService goodService;
 
-
+    @Resource
+    private GoodsDao goodsDao;
 
     @Resource
-    private GoodsDao vegetablesDao;
+    private ComService comService;
 
 
     @RequestMapping(value ="/goodsSearch",method = RequestMethod.GET)
@@ -56,6 +58,7 @@ public class GoodsController extends CommonController {
         String name= this.getRequest().getParameter("name");
         String proNo = this.getRequest().getParameter("proNo");
         String color = this.getRequest().getParameter("color");
+        String stock = this.getRequest().getParameter("stock");
         String buyPrize = this.getRequest().getParameter("buyPrize");
         String salePrize = this.getRequest().getParameter("salePrize");
         try {
@@ -63,6 +66,12 @@ public class GoodsController extends CommonController {
             goods.setName(name);
             goods.setProNo(proNo);
             goods.setColor(color);
+            if(stock==null||stock==""){
+                goods.setStock(0);
+            }else {
+                goods.setStock(Integer.valueOf(stock));
+            }
+
             if(buyPrize==null||buyPrize==""){
                 goods.setBuyPrize(null);
             }else {
@@ -73,7 +82,8 @@ public class GoodsController extends CommonController {
             }else {
                 goods.setSalePrize(Double.valueOf(salePrize));
             }
-            vegetablesDao.saveGoods(goods);
+            goodsDao.saveGoods(goods);
+           comService.saveStock(goods.getStock(),goods.getId());
             this.success("新增商品成功",null);
         }catch (DuplicateKeyException d) {
             this.error("商品编号重复，请确认",null);
@@ -118,12 +128,18 @@ public class GoodsController extends CommonController {
         String color = this.getRequest().getParameter("color");
         String buyPrize = this.getRequest().getParameter("buyPrize");
         String salePrize = this.getRequest().getParameter("salePrize");
+        String stock = this.getRequest().getParameter("stock");
         try {
             Goods goods=new Goods();
             goods.setId(Integer.valueOf(id));
             goods.setName(name);
             goods.setProNo(proNo);
             goods.setColor(color);
+            if(stock==null||stock==""){
+                goods.setStock(0);
+            }else {
+                goods.setStock(Integer.valueOf(stock));
+            }
             if(buyPrize==null||buyPrize==""){
                 goods.setBuyPrize(null);
             }else {
@@ -134,7 +150,11 @@ public class GoodsController extends CommonController {
             }else {
                 goods.setSalePrize(Double.valueOf(salePrize));
             }
-            vegetablesDao.updateGoods(goods);
+            goodsDao.updateGoods(goods);
+            Stock stock1=new Stock();
+            stock1.setStock(goods.getStock());
+            stock1.setProId(goods.getId());
+            comService.updateStock(stock1);
             this.success("编辑商品品成功",null);
         } catch (DuplicateKeyException d) {
             this.error("商品编号重复，请确认",null);
@@ -145,7 +165,7 @@ public class GoodsController extends CommonController {
     }
 
     /**
-     * 删除菜品
+     * 删除商品
      * @throws Exception
      */
     @RequestMapping(value ="/deleteGoods")
@@ -154,7 +174,8 @@ public class GoodsController extends CommonController {
         String id= this.getRequest().getParameter("id");
 
         try {
-            vegetablesDao.deleteGoods(Integer.valueOf(id));
+            goodsDao.deleteGoods(Integer.valueOf(id));
+            comService.deleteStock(Integer.valueOf(id));
             this.success("删除商品成功",null);
         } catch (Exception e) {
             e.printStackTrace();

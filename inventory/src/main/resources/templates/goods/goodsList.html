@@ -10,7 +10,7 @@
                     <th>序号</th>
                     <th>名称</th>
                     <th>编号</th>
-                    <th>颜色</th>
+                    <th>库存</th>
                     <th style="text-align: center;">操作</th>
                 </tr>
                 </thead>
@@ -19,7 +19,7 @@
                     <td th:text="${iterStat.index+1}"></td>
                     <td th:text="${good.name}"></td>
                     <td th:text="${good.proNo}"></td>
-                    <td th:text="${good.color}"></td>
+                    <td th:text="${good.stock}"></td>
                     <td align="center">
                         <button th:id="${good.id}" class="layui-btn layui-btn layui-btn-xs"
                                 onclick="updateGoods(this)"><i class="layui-icon">&#xe62b;</i>编辑

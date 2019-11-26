@@ -56,14 +56,14 @@
     <select id="findById" parameterType="int" resultType="com.sparksys.common.entity.Order">
         select
         id,shop_id shopId,shop_name shopName
-        from t_order
+        from tb_order
         where id=#{id}
         limit 1
     </select>
 
 
     <delete id="deleteById" parameterType="int">
-        delete from t_order
+        delete from tb_order
         where id = #{orderId}
     </delete>
 

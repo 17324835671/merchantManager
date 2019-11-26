@@ -22,6 +22,8 @@ public class Goods {
 
     private String color;
 
+    private Integer stock;
+
     private String imageUrl;
 
     private Date createTime;

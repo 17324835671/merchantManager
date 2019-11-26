@@ -14,18 +14,18 @@ import java.util.Map;
 public class GoodService {
 
     @Resource
-    private GoodsDao vegetablesDao;
+    private GoodsDao goodsDao;
 
     public PageBean<Goods> findByName(int currentPage, int pageSize, Map<String, Object> map) {
         PageHelper.startPage(currentPage, pageSize);
-        List<Goods> list = vegetablesDao.findByName(map);
-        int totalCount = vegetablesDao.findVegetablesCount(map);
+        List<Goods> list = goodsDao.findByName(map);
+        int totalCount = goodsDao.findVegetablesCount(map);
         PageBean<Goods> pageData = new PageBean<>(currentPage, pageSize, totalCount);
         pageData.setItems(list);
         return pageData;
     }
 
     public Goods findGoodsById(Integer id) {
-        return vegetablesDao.findById(id);
+        return goodsDao.findById(id);
     }
 }

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sparksys.common.dao.StockDao">
+
+
+
+    <update id="updateStockByProId" parameterType="com.sparksys.common.entity.Stock">
+        update tb_stock
+        set
+        <if test="stock!='' and stock!=null">
+            stock=#{stock},
+        </if>
+        <if test="amount!='' and amount!=null">
+            stock=stock-#{amount},
+        </if>
+        update_time=now()
+        where pro_id = #{proId}
+    </update>
+
+    <insert id="saveStock" parameterType="com.sparksys.common.entity.Stock" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_stock
+        (
+        pro_id,
+        stock,
+        create_time,
+        update_time)
+        values (
+         #{proId},
+        #{stock},
+        now(),
+        now())
+    </insert>
+
+    <update id="deleteStock" parameterType="int">
+        delete from tb_stock
+        where pro_id = #{id}
+    </update>
+
+
+
+</mapper>

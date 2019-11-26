@@ -32,6 +32,14 @@
 								   class="layui-input">
 						</div>
 					</td>
+					<td>
+						<label class="layui-form-label">库存</label>
+						<div class="layui-input-inline">
+							<input type="text" id="stock" name="stock"
+								   class="layui-input">
+						</div>
+					</td>
+
 				</tr>
 				<tr height="50px;">
 					<td>
@@ -79,7 +87,7 @@
           form.on('submit(saveGoods)', function(data){
               var name = $('#name').val();
               if (name == '') {
-                  layer.alert('请填写菜品名称');
+                  layer.alert('请填写商品名称');
                   return
               }
               AjaxHttpRequest("/saveGoods",data.field);

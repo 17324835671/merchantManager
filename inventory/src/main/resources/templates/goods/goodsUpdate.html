@@ -16,17 +16,24 @@
 						</div>
 					</td>
 					<td>
+						<label class="layui-form-label">颜色</label>
+						<div class="layui-input-inline">
+							<input type="text" name="color" id="color" th:value="${goods.color}" lay-verify="color" class="layui-input">
+						</div>
+					</td>
+
+				</tr>
+				<tr height="50px;">
+					<td>
 						<label class="layui-form-label"> <span class="x-red">*</span>商品编号</label>
 						<div class="layui-input-inline">
 							<input type="text" name="proNo" id="proNo" th:value="${goods.proNo}" lay-verify="proNo" class="layui-input">
 						</div>
 					</td>
-				</tr>
-				<tr height="50px;">
 					<td>
-						<label class="layui-form-label"><span class="x-red">*</span>颜色</label>
+						<label class="layui-form-label">库存</label>
 						<div class="layui-input-inline">
-							<input type="text" name="color" id="color" th:value="${goods.color}" lay-verify="color" class="layui-input">
+							<input type="text" name="stock" id="stock" th:value="${goods.stock}" lay-verify="stock" class="layui-input">
 						</div>
 					</td>
 				</tr>

@@ -17,20 +17,21 @@
 
     <select id="findByName" parameterType="map" resultType="com.sparksys.common.entity.Goods">
         select
-        id,
-        pro_no as proNo,
-        name as name,
-        color as color,
-        image_url as imageUrl,
-        buy_prize as buyPrize,
-        sale_prize as salePrize
-        from tb_product
+        tp.id,
+        tp.pro_no as proNo,
+        tp.name as name,
+        tp.color as color,
+        tp.image_url as imageUrl,
+        tp.buy_prize as buyPrize,
+        tp.sale_prize as salePrize,
+        ts.stock
+        from tb_product tp
+        LEFT join tb_stock ts on tp.id=ts.pro_id
         where 1=1
         <if test="name != null and name !=''">
-            and name LIKE "%"#{name}"%"
+            and tp.name LIKE "%"#{name}"%"
         </if>
-
-        order by id desc
+        order by tp.id desc
     </select>
 
     <select id="findVegetablesCount" parameterType="map" resultType="int">
@@ -43,7 +44,7 @@
         </if>
     </select>
 
-    <insert id="saveGoods" parameterType="com.sparksys.common.entity.Goods">
+    <insert id="saveGoods" parameterType="com.sparksys.common.entity.Goods" useGeneratedKeys="true" keyProperty="id">
         insert into tb_product
         (
         name,
@@ -67,15 +68,17 @@
 
     <select id="findById" parameterType="int" resultType="com.sparksys.common.entity.Goods">
         select
-        id,
-        pro_no as proNo,
-        name as name,
-        color as color,
-        image_url as imageUrl,
-        buy_prize as buyPrize,
-        sale_prize as salePrize
-        from tb_product
-        where id=#{id}
+        tp.id,
+        tp.pro_no as proNo,
+        tp.name as name,
+        tp.color as color,
+        tp.image_url as imageUrl,
+        tp.buy_prize as buyPrize,
+        tp.sale_prize as salePrize,
+        ts.stock
+        from tb_product tp
+         LEFT join tb_stock ts on tp.id=ts.pro_id
+        where tp.id=#{id}
     </select>
 
     <update id="updateGoods" parameterType="com.sparksys.common.entity.Goods">
