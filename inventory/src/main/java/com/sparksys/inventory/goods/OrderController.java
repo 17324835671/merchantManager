@@ -50,8 +50,8 @@ public class OrderController extends CommonController {
         }
         Map<String, Object> map = new HashMap<>();
         map.put("shopName", name);
-        if(timeDesc==""||timeDesc==null){
-            timeDesc=DateUtil.getDateAsYYMMDD(new Date());
+        if (timeDesc == "" || timeDesc == null) {
+            timeDesc = DateUtil.getDateAsYYMMDD(new Date());
         }
         map.put("timeDesc", timeDesc);
         PageBean<Order> list = orderService.findByName(pageNum, 10, map);
@@ -107,19 +107,19 @@ public class OrderController extends CommonController {
     @RequestMapping(value = "/updateOrderForword")
     public String updateOrderForworrd() {
 
-        String orderId= this.getRequest().getParameter("id");
+        String orderId = this.getRequest().getParameter("id");
 
-        List<OrderInfo> orderInfos=orderInfoDao.findByOrderId(Integer.valueOf(orderId));
-        Order order=orderDao.findById(Integer.valueOf(orderId));
+        List<OrderInfo> orderInfos = orderInfoDao.findByOrderId(Integer.valueOf(orderId));
+        Order order = orderDao.findById(Integer.valueOf(orderId));
+        if (order.getShopId() == null) {
+            order.setIsOld(false);
+        }else {
+            order.setIsOld(true);
+        }
         List<Shop> shopList = shopDao.findAll();
-        List<Goods> vegetablesList = goodsDao.findAll();
-        List<String> units = new ArrayList<>();
-        units.add("斤");
-        units.add("颗");
-        units.add("袋");
+        List<Goods> goods = goodsDao.findAll();
         this.getRequest().setAttribute("shops", shopList);
-        this.getRequest().setAttribute("vegetables", vegetablesList);
-        this.getRequest().setAttribute("units", units);
+        this.getRequest().setAttribute("goods", goods);
         this.getRequest().setAttribute("orderInfos", orderInfos);
         this.getRequest().setAttribute("order", order);
         return "order/orderUpdate";
@@ -127,36 +127,38 @@ public class OrderController extends CommonController {
 
     /**
      * 编辑订单
+     *
      * @throws Exception
      */
-    @RequestMapping(value ="/updateOrder")
+    @RequestMapping(value = "/updateOrder")
     @ResponseBody
-    public void updateOrder(Order order){
+    public void updateOrder(Order order) {
 
         try {
             orderService.updateOrder(order);
-            this.success("编辑订单成功",null);
+            this.success("编辑订单成功", null);
         } catch (Exception e) {
             e.printStackTrace();
-            this.error("编辑订单失败",null);
+            this.error("编辑订单失败", null);
         }
     }
 
     /**
      * 删除订单
+     *
      * @throws Exception
      */
-    @RequestMapping(value ="/deleteOrder")
+    @RequestMapping(value = "/deleteOrder")
     @ResponseBody
-    public void deleteOrder(){
-        String id= this.getRequest().getParameter("id");
+    public void deleteOrder() {
+        String id = this.getRequest().getParameter("id");
 
         try {
             orderService.deleteOrder(Integer.valueOf(id));
-            this.success("删除订单成功",null);
+            this.success("删除订单成功", null);
         } catch (Exception e) {
             e.printStackTrace();
-            this.error("删除订单失败",null);
+            this.error("删除订单失败", null);
         }
     }
 

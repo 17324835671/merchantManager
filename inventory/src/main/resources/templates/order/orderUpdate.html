@@ -11,42 +11,59 @@
                 <tbody>
                 <tr height="50px;">
                     <td>
+                        <label class="layui-form-label">是否老客户</label>
+                        <div class="layui-input-block">
+                            <input disabled  type="radio" name="isOld" value="1" title="是" lay-filter="isOld">
+                            <input disabled type="radio" name="isOld" value="0" title="否" lay-filter="isOld">
+                        </div>
+                    </td>
+                    <td>
                         <label class="layui-form-label"><span class="x-red">*</span>商家名称</label>
-                        <div class="layui-input-inline" style="width: 60%;">
-                            <div class="layui-input-inline" style="width: 60%;">
-                                <input readonly type="text" id="shopName" name="shopName" class="layui-input">
-                            </div>
+                        <div class="layui-input-inline shop" style="width: 60%;">
+                            <input readonly type="text" id="shopName" name="shopName" class="layui-input">
                         </div>
                     </td>
                 </tr>
                 <tr height="50px;">
                     <td>
-                        <label class="layui-form-label"><span class="x-red">*</span>菜品名称</label>
+                        <label class="layui-form-label">是否付款</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="isPay" value="1" title="是" lay-filter="isPay">
+                            <input type="radio" name="isPay" value="0" title="否" lay-filter="isPay">
+                        </div>
+                    </td>
+                    <td>
+                        <label class="layui-form-label">备注</label>
                         <div class="layui-input-inline" style="width: 60%;">
-                            <select name="vegetablesId" class="vegetablesId" lay-search lay-filter="vegetablesId">
+                            <input type="text" id="remark" name="remark" class="layui-input">
+                        </div>
+                    </td>
+                </tr>
+                <tr height="50px;">
+                    <td>
+                        <label class="layui-form-label"><span class="x-red">*</span>商品名称</label>
+                        <div class="layui-input-inline" style="width: 50%;">
+                            <select name="goodsId" class="goodsId" lay-search lay-filter="goodsId">
                                 <option value="请选择"
                                         text="请选择"></option>
-                                <option th:each="vegetable : ${vegetables}" th:value="${vegetable.id}"
-                                        th:text="${vegetable.name}"></option>
+                                <option th:each="good : ${goods}" th:value="${good.id}"
+                                        th:text="${good.name}"></option>
                             </select>
                         </div>
                     </td>
                     <td>
                         <label class="layui-form-label">数量</label>
-                        <div class="layui-input-inline" style="width: 60%;">
-                            <input type="text" id="number" name="number" class="layui-input">
+                        <div class="layui-input-inline" style="width: 20%;">
+                            <input type="text" id="amount" name="amount" class="layui-input">
+                        </div>
+
+                        <label class="layui-form-label">单价</label>
+                        <div class="layui-input-inline" style="width: 20%;">
+                            <input type="text" id="salePrice" name="salePrice" class="layui-input">
                         </div>
                     </td>
-                    <td>
-                        <label class="layui-form-label"><span class="x-red">*</span>单位</label>
-                        <div class="layui-input-inline" style="width: 60%;">
-                            <select name="unit" class="unit" lay-filter="unit" lay-search>
-                                <option value="请选择"
-                                        text="请选择"></option>
-                                <option th:each="unit : ${units}" th:value="${unit}" th:text="${unit}"></option>
-                            </select>
-                        </div>
-                    </td>
+
+
                     <td>
                         <a class="layui-btn layui-btn-xs add">添加</a>
                         <!--<a class="layui-btn layui-btn-danger layui-btn-xs del">删除</a>-->
@@ -54,6 +71,12 @@
                 </tr>
                 </tbody>
             </table>
+            <div height="50px;">
+                <label class="layui-form-label">总计</label>
+                <div class="layui-input-inline" style="width: 30%;">
+                    <input type="text" readonly id="totalPrice" name="totalPrice" class="layui-input">
+                </div>
+            </div>
         </div>
         <button id="submitForm" style="display: none;" lay-filter="updateOrder" lay-submit=""></button>
     </form>
@@ -65,6 +88,24 @@
         var order=[[${order}]];
         orderId=order.id;
         $('#shopName').val(order.shopName);
+        $('#remark').val(order.remark);
+        $('#totalPrice').val(order.totalPrice);
+        totalPrice=order.totalPrice;
+        if(order.isPay){
+            order.isPay=1;
+        }else {
+            order.isPay=0;
+        }
+        $("input[type=radio][name=isOld]").each(function() {
+            if ($(this).val() ==order.isOld ) {
+                $(this).attr("checked", "checked");
+            }
+        });
+        $("input[type=radio][name=isPay]").each(function() {
+            if ($(this).val() ==order.isPay ) {
+                $(this).attr("checked", "checked");
+            }
+        });
         orderList=[[${orderInfos}]];
 
         for (var i = 0; i < orderList.length; i++) {
@@ -74,28 +115,34 @@
                 "id=" + index + '>' +
                 '<td>' +
                 '<label class="layui-form-label">菜品名称</label>' +
-                '<div class="layui-input-inline" style="width: 60%;">' +
+                '<div class="layui-input-inline" style="width: 50%;">' +
                 '<input readonly="readonly" type="text" id="number" name="number" ' +
-                "value=" + orderList[i].vegetablesName +
+                "value=" + orderList[i].goodsName +
                 '  class="layui-input">' +
                 '</div>' +
                 '</div>' +
                 '</td>' +
                 '<td>' +
                 '<label class="layui-form-label">数量</label>' +
-                '<div class="layui-input-inline" style="width: 60%;">' +
-                '<input readonly="readonly" type="text" id="number" name="number"' +
-                "value=" + orderList[i].number +
+                '<div class="layui-input-inline" style="width: 20%;">' +
+                '<input readonly="readonly" type="text" id="amount" name="amount"' +
+                "value=" + orderList[i].amount +
                 ' class="layui-input">' +
                 '</div>' +
+                '<label class="layui-form-label">单价</label>' +
+                '<div class="layui-input-inline" style="width: 10%;">' +
+                '<input readonly="readonly" type="text" id="salePrice" name="salePrice"' +
+                "value=" + orderList[i].salePrice +
+                ' class="layui-input">' +
+                ' </div>' +
+                '<label class="layui-form-label">金额</label>' +
+                '<div class="layui-input-inline" style="width: 10%;">' +
+                '<input readonly="readonly" type="text" id="price" name="price"' +
+                "value=" + orderList[i].totalPrice +
+                ' class="layui-input">' +
+                ' </div>' +
                 '</td>' +
-                '<td>' +
-                '<label class="layui-form-label"><span class="x-red">*</span>单位</label>' +
-                '<div class="layui-input-inline" style="width: 60%;">' +
-                '<input readonly="readonly" type="text" id="number" name="number" ' +
-                "value=" + orderList[i].unit +
-                '  class="layui-input">' +
-                ' </div> </td> <td>' +
+                ' <td>' +
                 '<a onclick="deleteTr(' + index + ')" class="layui-btn layui-btn-danger layui-btn-xs del">删除</a>' +
                 ' </td> </tr>';
 
@@ -107,64 +154,75 @@
     var index = 0;
     var shopName = "";
     var shopId = "";
-    var vegetablesName = "";
-    var vegetablesId = "";
-    var numberName = "";
-    var unitName = "";
-    var unitId = "";
+    var goodsName = "";
+    var goodsId = "";
+    var amountName = "";
     var orderList = new Array();
+    var priceName="";
+    var totalPrice="";
+    var price="";
     $('body').on('click', '.add', function () {
-
-        numberName = $('#number').val();
-        console.log('vegetablesName', vegetablesName)
-        if (vegetablesName == '') {
-            layer.alert('请选择菜品');
+        priceName = $('#salePrice').val();
+        amountName = $('#amount').val();
+        console.log('goodsName', goodsName)
+        if (goodsName == '') {
+            layer.alert('请选择商品');
             return
         }
-        if (numberName == '') {
+        if (amountName == '') {
             layer.alert('请选择数量');
             return
         }
-        if (unitName == '') {
-            layer.alert('请选择单位');
+        if (priceName == '') {
+            layer.alert('请选择金额');
             return
         }
+        price=Number(priceName*amountName);
+        totalPrice=Number(totalPrice)+Number(priceName*amountName);
+        $('#totalPrice').val(totalPrice);
         var orderInfo = {};
         index++;
         orderInfo.index = index;
         orderInfo.shopId = shopId;
-        orderInfo.vegetablesId = vegetablesId;
-        orderInfo.vegetablesName = vegetablesName;
-        orderInfo.number = numberName;
-        orderInfo.unit = unitName;
-        console.log(orderInfo)
+        orderInfo.goodsId = goodsId;
+        orderInfo.goodsName = goodsName;
+        orderInfo.amount = Number(amountName);
+        orderInfo.salePrice=Number(priceName);
+        orderInfo.totalPrice=price;
         orderList.push(orderInfo)
+        console.log(orderList)
         var html = '<tr height="50px;" ' +
             "id=" + index + '>' +
             '<td>' +
             '<label class="layui-form-label">菜品名称</label>' +
             '<div class="layui-input-inline" style="width: 60%;">' +
             '<input readonly="readonly" type="text" id="number" name="number" ' +
-            "value=" + vegetablesName +
+            "value=" + goodsName +
             '  class="layui-input">' +
             '</div>' +
             '</div>' +
             '</td>' +
             '<td>' +
             '<label class="layui-form-label">数量</label>' +
-            '<div class="layui-input-inline" style="width: 60%;">' +
-            '<input readonly="readonly" type="text" id="number" name="number"' +
-            "value=" + numberName +
+            '<div class="layui-input-inline" style="width: 20%;">' +
+            '<input readonly="readonly" type="text" id="amount" name="amount"' +
+            "value=" + amountName +
             ' class="layui-input">' +
             '</div>' +
+            '<label class="layui-form-label">单价</label>' +
+            '<div class="layui-input-inline" style="width: 10%;">' +
+            '<input readonly="readonly" type="text" id="salePrice" name="salePrice"' +
+            "value=" + priceName +
+            ' class="layui-input">' +
+            ' </div>' +
+            '<label class="layui-form-label">金额</label>' +
+            '<div class="layui-input-inline" style="width: 10%;">' +
+            '<input readonly="readonly" type="text" id="price" name="price"' +
+            "value=" + price +
+            ' class="layui-input">' +
+            ' </div>' +
             '</td>' +
-            '<td>' +
-            '<label class="layui-form-label"><span class="x-red">*</span>单位</label>' +
-            '<div class="layui-input-inline" style="width: 60%;">' +
-            '<input readonly="readonly" type="text" id="number" name="number" ' +
-            "value=" + unitName +
-            '  class="layui-input">' +
-            ' </div> </td> <td>' +
+            ' <td>' +
             '<a onclick="deleteTr(' + index + ')" class="layui-btn layui-btn-danger layui-btn-xs del">删除</a>' +
             ' </td> </tr>';
 
@@ -176,6 +234,8 @@
     function deleteTr(index) {
         for (var i = 0; i < orderList.length; i++) {
             if (orderList[i].index == index) {
+                totalPrice=totalPrice-(orderList[i].salePrice)*(orderList[i].amount);
+                $('#totalPrice').val(totalPrice);
                 orderList.splice(i, 1)
                 return
             }
@@ -208,24 +268,14 @@
         $ = layui.jquery;
         var form = layui.form
         //监听下拉框
-        form.on('select(shopId)', function (data) {
+
+        form.on('select(goodsId)', function (data) {
             console.log(data.value);
             console.log(data.elem[data.elem.selectedIndex].text);
-            shopId = data.value;
-            shopName = data.elem[data.elem.selectedIndex].text;
+            goodsId = data.value;
+            goodsName = data.elem[data.elem.selectedIndex].text;
         });
-        form.on('select(vegetablesId)', function (data) {
-            console.log(data.value);
-            console.log(data.elem[data.elem.selectedIndex].text);
-            vegetablesId = data.value;
-            vegetablesName = data.elem[data.elem.selectedIndex].text;
-        });
-        form.on('select(unit)', function (data) {
-            console.log(data.value);
-            console.log(data.elem[data.elem.selectedIndex].text);
-            unitId = data.value;
-            unitName = data.elem[data.elem.selectedIndex].text;
-        });
+
 
         form.on('submit(updateOrder)', function () {
             console.log(orderList)

@@ -55,7 +55,12 @@
 
     <select id="findById" parameterType="int" resultType="com.sparksys.common.entity.Order">
         select
-        id,shop_id shopId,shop_name shopName
+        id,
+        shop_id shopId,
+        shop_name shopName,
+        is_pay isPay,
+        total_price totalPrice,
+        remark
         from tb_order
         where id=#{id}
         limit 1

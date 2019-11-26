@@ -39,6 +39,11 @@ public class Order {
      */
     private Boolean isPay;
 
+    /**
+     * 是否老客户
+     */
+    private Boolean isOld;
+
 
     /**
      * 备注
