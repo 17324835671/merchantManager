@@ -40,9 +40,7 @@ public class OrderService {
     public void saveOrder(Order order) {
         order.setTimeDesc(DateUtil.getDateAsYYMMDD(new Date()));
         orderDao.saveOrder(order);
-        if(order.getShopId()!=null){
 
-        }
         List<OrderInfo> orderInfos=order.getOrderInfo();
         for (OrderInfo orderInfo:orderInfos){
             orderInfo.setOrderId(order.getId());
@@ -55,11 +53,25 @@ public class OrderService {
     }
 
     public void updateOrder(Order order) {
+        orderDao.updateOrder(order);
+
+        //先查询编辑前的订单把库存回滚
+        List<OrderInfo> orderInfoList = orderInfoDao.findByOrderId(Integer.valueOf(order.getId()));
+        for (OrderInfo orderInfo:orderInfoList){
+            Stock stock=new Stock();
+            stock.setProId(orderInfo.getGoodsId());
+            stock.setAmount(-orderInfo.getAmount());
+            comService.updateStock(stock);
+        }
         orderInfoDao.deleteByOrderId(order.getId());
         List<OrderInfo> orderInfos=order.getOrderInfo();
         for (OrderInfo orderInfo:orderInfos){
             orderInfo.setOrderId(order.getId());
             orderInfoDao.saveOrderInfo(orderInfo);
+            Stock stock=new Stock();
+            stock.setProId(orderInfo.getGoodsId());
+            stock.setAmount(orderInfo.getAmount());
+            comService.updateStock(stock);
         }
     }
 

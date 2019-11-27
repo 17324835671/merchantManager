@@ -107,7 +107,6 @@
         amountName = $('#amount').val();
         priceName = $('#salePrice').val();
         shopName2 = $('#shopName2').val();
-        remark=$('#remark').val();
         if (shopName == '' && shopName2 == '') {
             layer.alert('请先选择商家');
             return
@@ -260,7 +259,7 @@
             order.shopId = shopId;
             order.shopName = shopName;
             order.isPay = isPay;
-            order.remark = remark;
+            order.remark = $('#remark').val();
             order.totalPrice = totalPrice;
             AjaxHttpRequest("/saveOrder", order);
             return false;

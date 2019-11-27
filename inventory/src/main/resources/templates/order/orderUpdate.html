@@ -87,6 +87,10 @@
 
         var order=[[${order}]];
         orderId=order.id;
+        shopId=order.shopId;
+        shopName=order.shopName;
+        isPay=order.isPay;
+        remark=order.remark;
         $('#shopName').val(order.shopName);
         $('#remark').val(order.remark);
         $('#totalPrice').val(order.totalPrice);
@@ -161,6 +165,8 @@
     var priceName="";
     var totalPrice="";
     var price="";
+    var isPay=true;
+    var remark="";
     $('body').on('click', '.add', function () {
         priceName = $('#salePrice').val();
         amountName = $('#amount').val();
@@ -276,18 +282,29 @@
             goodsName = data.elem[data.elem.selectedIndex].text;
         });
 
+        form.on('radio(isPay)', function (data) {
+            if (data.value == '1') {
+                isPay=true;
+            } else {
+                isPay=false;
+            }
+        });
 
         form.on('submit(updateOrder)', function () {
             console.log(orderList)
             var order = {}
             for (var i = 0; i < orderList.length; i++) {
-                order["orderInfo[" + i + "].vegetablesId"] = orderList[i].vegetablesId;
-                order["orderInfo[" + i + "].vegetablesName"] = orderList[i].vegetablesName;
-                order["orderInfo[" + i + "].number"] = orderList[i].number;
-                order["orderInfo[" + i + "].unit"] = orderList[i].unit;
+                order["orderInfo[" + i + "].goodsId"] = orderList[i].goodsId;
+                order["orderInfo[" + i + "].goodsName"] = orderList[i].goodsName;
+                order["orderInfo[" + i + "].amount"] = orderList[i].amount;
+                order["orderInfo[" + i + "].salePrice"] = orderList[i].salePrice;
+                order["orderInfo[" + i + "].totalPrice"] = orderList[i].totalPrice;
             }
             order.shopId = shopId;
             order.shopName = shopName;
+            order.isPay = isPay;
+            order.remark = $('#remark').val();
+            order.totalPrice = totalPrice;
             order.id=orderId;
             AjaxHttpRequest("/updateOrder", order);
             return false;

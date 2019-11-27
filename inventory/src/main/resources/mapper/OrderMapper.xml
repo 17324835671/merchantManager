@@ -52,6 +52,15 @@
         NOW())
     </insert>
 
+    <update id="updateOrder" parameterType="com.sparksys.common.entity.Order">
+        update tb_order
+        set
+        is_pay = #{isPay},
+        remark=#{remark},
+        total_price=#{totalPrice},
+        update_time=now()
+        where id = #{id}
+    </update>
 
     <select id="findById" parameterType="int" resultType="com.sparksys.common.entity.Order">
         select

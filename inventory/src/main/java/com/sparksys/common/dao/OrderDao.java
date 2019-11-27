@@ -17,6 +17,8 @@ public interface OrderDao {
 
 	public Integer saveOrder(Order order);
 
+    public Integer updateOrder(Order order);
+
     Order findById(Integer id);
 
     Order findByShopId(Integer shopId);
