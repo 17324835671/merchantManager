@@ -58,6 +58,7 @@
         is_pay = #{isPay},
         remark=#{remark},
         total_price=#{totalPrice},
+        time_desc=#{timeDesc},
         update_time=now()
         where id = #{id}
     </update>
@@ -69,7 +70,8 @@
         shop_name shopName,
         is_pay isPay,
         total_price totalPrice,
-        remark
+        remark,
+        time_desc timeDesc
         from tb_order
         where id=#{id}
         limit 1

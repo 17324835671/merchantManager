@@ -106,7 +106,7 @@ public class ShiroConfig {
 		redisManager.setPort(port);
 		redisManager.setExpire(expire);
 		redisManager.setTimeout(expire);
-		//redisManager.setPassword(password);
+		redisManager.setPassword(password);
 		return redisManager;
 	}
 	

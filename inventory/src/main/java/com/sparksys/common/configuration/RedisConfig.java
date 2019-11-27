@@ -85,7 +85,7 @@ public class RedisConfig extends CachingConfigurerSupport {
         factory.setHostName(host);
         factory.setPort(port);
         factory.setTimeout(timeout);
-        //factory.setPassword(password);
+        factory.setPassword(password);
         return factory;
     }
     @Bean

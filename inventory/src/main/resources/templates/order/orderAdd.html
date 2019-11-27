@@ -6,6 +6,12 @@
 <input type="hidden" id="contextPath" name="contextPath" th:value="${#request.getContextPath()}">
 <div class="x-body layui-anim">
     <form class="layui-form layui-form-pane">
+        <div height="50px;">
+            <label class="layui-form-label">订单时间</label>
+            <div class="layui-input-inline" style="width: 30%">
+                <input type="text" name="timeDesc" id="timeDesc" class="layui-input" lay-verify="date">
+            </div>
+        </div>
         <div class="layui-form-item">
             <table id="table">
                 <tbody>
@@ -76,6 +82,7 @@
                 </tr>
                 </tbody>
             </table>
+
             <div height="50px;">
                 <label class="layui-form-label">总计</label>
                 <div class="layui-input-inline" style="width: 30%;">
@@ -97,10 +104,10 @@
     var amountName = "";
     var priceName = "";
     var orderList = new Array();
-    var totalPrice="";
-    var isPay=true;
-    var remark="";
-    var price="";
+    var totalPrice = "";
+    var isPay = true;
+    var remark = "";
+    var price = "";
     $(".shop2").hide();
     $('body').on('click', '.add', function () {
 
@@ -123,8 +130,8 @@
             layer.alert('请选择金额');
             return
         }
-        price=Number(priceName*amountName);
-        totalPrice=Number(totalPrice)+Number(priceName*amountName);
+        price = Number(priceName * amountName);
+        totalPrice = Number(totalPrice) + Number(priceName * amountName);
         $('#totalPrice').val(totalPrice);
         var orderInfo = {};
         index++;
@@ -134,8 +141,8 @@
         orderInfo.goodsName = goodsName;
         orderInfo.salePrice = priceName;
         orderInfo.amount = amountName;
-        orderInfo.remark=remark;
-        orderInfo.totalPrice=price;
+        orderInfo.remark = remark;
+        orderInfo.totalPrice = price;
         console.log(orderInfo)
         orderList.push(orderInfo)
         var html = '<tr height="50px;" ' +
@@ -182,7 +189,7 @@
     function deleteTr(index) {
         for (var i = 0; i < orderList.length; i++) {
             if (orderList[i].index == index) {
-                totalPrice=Number(totalPrice)-Number((orderList[i].salePrice)*(orderList[i].amount));
+                totalPrice = Number(totalPrice) - Number((orderList[i].salePrice) * (orderList[i].amount));
                 $('#totalPrice').val(totalPrice);
                 orderList.splice(i, 1)
                 return
@@ -203,13 +210,13 @@
             $(this).closest('tr').remove();
         }
     });
-
     layui.use('laydate', function () {
         var laydate = layui.laydate;
 
         // 执行一个laydate实例
         laydate.render({
-            elem: '#birthDay' // 指定元素
+            elem: '#timeDesc', // 指定元素
+            value: new Date()
         });
     });
     layui.use(['form', 'layer'], function () {
@@ -240,9 +247,9 @@
         });
         form.on('radio(isPay)', function (data) {
             if (data.value == '1') {
-                isPay=true;
+                isPay = true;
             } else {
-                isPay=false;
+                isPay = false;
             }
         });
 
@@ -257,10 +264,14 @@
                 order["orderInfo[" + i + "].totalPrice"] = orderList[i].totalPrice;
             }
             order.shopId = shopId;
+            if(shopName==''){
+                shopName=$('#shopName2').val();
+            }
             order.shopName = shopName;
             order.isPay = isPay;
             order.remark = $('#remark').val();
             order.totalPrice = totalPrice;
+            order.timeDesc=$('#timeDesc').val();
             AjaxHttpRequest("/saveOrder", order);
             return false;
         });

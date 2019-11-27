@@ -86,7 +86,6 @@ public class OrderController extends CommonController {
     public void saveOrder(Order order) {
 
         try {
-            order.setTimeDesc(DateUtil.getDateAsYYMMDD(new Date()));
             orderService.saveOrder(order);
             this.success("新增订单成功", null);
         } catch (DuplicateKeyException d) {

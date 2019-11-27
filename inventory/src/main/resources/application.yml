@@ -26,7 +26,7 @@ spring:
     host: 49.235.113.84
     database: 1
     port: 6379
-    password:
+    password: Li123456
     expire: 1800
     timeout: 0
     jedis:
