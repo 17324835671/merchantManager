@@ -35,10 +35,7 @@ public class SysUserServiceImpl implements ISysUserService {
 		}
 	}
 
-	@Caching(evict = { @CacheEvict(key="#p0.userId",allEntries=true,beforeInvocation=true),
-			@CacheEvict(key="#p0.userName",allEntries=true,beforeInvocation=true),
-			@CacheEvict(value="findSysUserPageList",allEntries=true,beforeInvocation=true),
-			@CacheEvict(value="findSysUserList",allEntries=true,beforeInvocation=true)})
+
 	public void saveSysUer(SysUser user) {
 		if(user.getUserId()==null||"".equals(user.getUserId())) {
 			user.setUserId(SnowFlakeId.getSnowFlakeId());
@@ -46,13 +43,13 @@ public class SysUserServiceImpl implements ISysUserService {
 		}
 	}
 
-	@Cacheable(key ="#p0")
+
 	public SysUser findSysUerById(Long userId) {
 		SysUser user = userDao.findSysUserById(userId);
 		return user;
 	}
 
-	@Cacheable(key ="#p0")
+
 	public SysUser findSysUerByUserNamePwd(Map<String, Object> map) {
 		SysUser user = userDao.findSysUserByUserNamePwd(map);
 		return user;

@@ -40,6 +40,8 @@ spring:
     url: jdbc:mysql://49.235.113.84:3306/inventory?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
     username: root
     password: 123456
+    #url: jdbc:mysql://localhost:3306/inventory?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
+    #password: Li123456
     driverClassName: com.mysql.jdbc.Driver
     initialSize: 5
     minIdle: 5

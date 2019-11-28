@@ -24,6 +24,8 @@ public class Shop {
 
     private String card;
 
+    private Double totalPrice;
+
 
     private Date createTime;
 

@@ -11,6 +11,7 @@
                     <th>名称</th>
                     <th>车牌号</th>
                     <th>地址</th>
+                    <th>欠款金额</th>
                     <th style="text-align: center;">操作</th>
                 </tr>
                 </thead>
@@ -20,6 +21,7 @@
                     <td th:text="${shop.name}"></td>
                     <td th:text="${shop.card}"></td>
                     <td th:text="${shop.address}"></td>
+                    <td th:text="${shop.totalPrice}"></td>
                     <td align="center">
                         <button th:id="${shop.id}" class="layui-btn layui-btn layui-btn-xs"
                                 onclick="updateShop(this)"><i class="layui-icon">&#xe62b;</i>编辑
