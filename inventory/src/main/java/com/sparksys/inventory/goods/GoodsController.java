@@ -61,11 +61,13 @@ public class GoodsController extends CommonController {
         String stock = this.getRequest().getParameter("stock");
         String buyPrize = this.getRequest().getParameter("buyPrize");
         String salePrize = this.getRequest().getParameter("salePrize");
+        String remark = this.getRequest().getParameter("remark");
         try {
             Goods goods=new Goods();
             goods.setName(name);
             goods.setProNo(proNo);
             goods.setColor(color);
+            goods.setRemark(remark);
             if(stock==null||stock==""){
                 goods.setStock(0);
             }else {
@@ -129,12 +131,14 @@ public class GoodsController extends CommonController {
         String buyPrize = this.getRequest().getParameter("buyPrize");
         String salePrize = this.getRequest().getParameter("salePrize");
         String stock = this.getRequest().getParameter("stock");
+        String remark = this.getRequest().getParameter("remark");
         try {
             Goods goods=new Goods();
             goods.setId(Integer.valueOf(id));
             goods.setName(name);
             goods.setProNo(proNo);
             goods.setColor(color);
+            goods.setRemark(remark);
             if(stock==null||stock==""){
                 goods.setStock(0);
             }else {

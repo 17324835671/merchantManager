@@ -9,6 +9,7 @@ import com.sparksys.common.entity.OrderInfo;
 import com.sparksys.common.entity.PageBean;
 import com.sparksys.common.entity.Stock;
 import com.sparksys.common.utils.DateUtil;
+import com.sparksys.common.utils.PriceUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -31,6 +32,19 @@ public class OrderService {
     public PageBean<Order> findByName(int currentPage, int pageSize, Map<String, Object> map) {
         PageHelper.startPage(currentPage, pageSize);
         List<Order> list = orderDao.findByName(map);
+        for (Order order:list){
+            String showName="";
+            for (OrderInfo orderInfo:order.getOrderInfo()){
+                showName+=orderInfo.getGoodsName()+":"+orderInfo.getAmount()+"米/"+ PriceUtil.formatPrice(orderInfo.getSalePrice()+"")+"元   ";
+            }
+            if(order.getIsPay()){
+                order.setIsPayShow("是");
+            }else {
+                order.setIsPayShow("否");
+            }
+            order.setShowName(showName);
+        }
+
         int totalCount = orderDao.findOrderCount(map);
         PageBean<Order> pageData = new PageBean<>(currentPage, pageSize, totalCount);
         pageData.setItems(list);

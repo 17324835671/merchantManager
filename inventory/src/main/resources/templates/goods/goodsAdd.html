@@ -57,6 +57,15 @@
 						</div>
 					</td>
 				</tr>
+				<tr height="50px;">
+					<td>
+						<label class="layui-form-label">备注</label>
+						<div class="layui-input-inline">
+							<input type="text" id="remark" name="remark"
+								   class="layui-input">
+						</div>
+					</td>
+				</tr>
 
           	</table>
           </div>
@@ -75,15 +84,6 @@
         layui.use(['form','layer'], function(){
             $ = layui.jquery;
           var form = layui.form
-        /*//监听checkbox
-          form.on('switch(addIsdel)', function(data){
-        	  console.log(data.elem.checked);
-        	  if(data.elem.checked){
-        		  document.getElementById("isdel").value= "0";
-        	  }else{
-        		  document.getElementById("isdel").value= "1";
-        	  }
-        	});*/
           form.on('submit(saveGoods)', function(data){
               var name = $('#name').val();
               if (name == '') {

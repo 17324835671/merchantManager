@@ -33,4 +33,6 @@ public class Goods {
     private Double buyPrize;
 
     private Double salePrize;
+
+    private String remark;
 }

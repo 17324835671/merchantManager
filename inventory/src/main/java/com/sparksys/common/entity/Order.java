@@ -40,6 +40,11 @@ public class Order {
     private Boolean isPay;
 
     /**
+     * 是否支付(显示是否)
+     */
+    private String isPayShow;
+
+    /**
      * 是否老客户
      */
     private Boolean isOld;
@@ -49,6 +54,11 @@ public class Order {
      * 备注
      */
     private String remark;
+
+    /**
+     * 展示名称
+     */
+    private String showName;
 
     /**
      * 订单创建时间

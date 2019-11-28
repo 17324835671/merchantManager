@@ -11,6 +11,7 @@
                     <th>名称</th>
                     <th>编号</th>
                     <th>库存</th>
+                    <th>备注</th>
                     <th style="text-align: center;">操作</th>
                 </tr>
                 </thead>
@@ -20,6 +21,7 @@
                     <td th:text="${good.name}"></td>
                     <td th:text="${good.proNo}"></td>
                     <td th:text="${good.stock}"></td>
+                    <td th:text="${good.remark}"></td>
                     <td align="center">
                         <button th:id="${good.id}" class="layui-btn layui-btn layui-btn-xs"
                                 onclick="updateGoods(this)"><i class="layui-icon">&#xe62b;</i>编辑

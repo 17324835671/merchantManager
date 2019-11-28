@@ -9,23 +9,20 @@
                 <tr>
                     <th>序号</th>
                     <th>商家名称</th>
+                    <th>订单时间</th>
                     <th>商品列表</th>
-                    <th style="text-align: center;">操作</th>
+                    <th>金额</th>
+                    <th>是否付款</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="order,iterStat: ${orders}">
                     <td th:text="${iterStat.index+1}"></td>
                     <td th:text="${order.shopName}"></td>
+                    <td th:text="${order.timeDesc}"></td>
                     <td   style="max-width: 500px;"   th:text="${order.showName}"></td>
-                    <td align="center">
-                        <button th:id="${order.id}" class="layui-btn layui-btn layui-btn-xs"
-                                onclick="updateOrder(this)"><i class="layui-icon">&#xe62b;</i>编辑
-                        </button>
-                        <button th:id="${order.id}" class="layui-btn-danger layui-btn layui-btn-xs"
-                                onclick="deleteOrder(this)" href="javascript:;"><i class="layui-icon">&#xe640;</i>删除
-                        </button>
-                    </td>
+                    <td th:text="${order.totalPrice}"></td>
+                    <td th:text="${order.isPayShow}"></td>
                 </tr>
                 </tbody>
             </table>

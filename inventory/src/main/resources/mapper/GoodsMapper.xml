@@ -10,7 +10,8 @@
         color as color,
         image_url as imageUrl,
         buy_prize as buyPrize,
-        sale_prize as salePrize
+        sale_prize as salePrize,
+        remark
         from tb_product
         order by id desc
     </select>
@@ -24,6 +25,7 @@
         tp.image_url as imageUrl,
         tp.buy_prize as buyPrize,
         tp.sale_prize as salePrize,
+        tp.remark,
         ts.stock
         from tb_product tp
         LEFT join tb_stock ts on tp.id=ts.pro_id
@@ -52,12 +54,14 @@
         color,
         buy_prize,
         sale_prize,
+        remark,
         create_time,
         update_time)
         values (
          #{name},
         #{proNo},
         #{color},
+        #{remark},
         #{buyPrize},
         #{salePrize},
         now(),
@@ -75,6 +79,7 @@
         tp.image_url as imageUrl,
         tp.buy_prize as buyPrize,
         tp.sale_prize as salePrize,
+        tp.remark,
         ts.stock
         from tb_product tp
          LEFT join tb_stock ts on tp.id=ts.pro_id
@@ -88,6 +93,7 @@
         color = #{color,jdbcType=VARCHAR},
         buy_prize = #{buyPrize},
         sale_prize = #{salePrize},
+        remark=#{remark},
         update_time=now()
         where id = #{id}
     </update>

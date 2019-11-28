@@ -60,6 +60,29 @@ public class OrderController extends CommonController {
         return "order/orderList";
     }
 
+    @RequestMapping(value = "/orderInfoSearch", method = RequestMethod.GET)
+    public String orderInfoSearch() {
+        return "order/orderInfoSearch";
+    }
+
+    @RequestMapping(value = "/findOrderInfoList")
+    public String findOrderInfoList() {
+        int pageNum = 0;
+        String currentNum = this.getRequest().getParameter("currentNum");
+        String timeDesc = this.getRequest().getParameter("timeDesc");
+        String name = this.getRequest().getParameter("shopName");
+        if (currentNum != null && !"".equals(currentNum)) {
+            pageNum = Integer.valueOf(currentNum);
+        }
+        Map<String, Object> map = new HashMap<>();
+        map.put("shopName", name);
+        map.put("timeDesc", timeDesc);
+        PageBean<Order> list = orderService.findByName(pageNum, 10, map);
+        this.getRequest().setAttribute("orders", list.getItems());
+        this.getRequest().setAttribute("pageTag", list);
+        return "order/orderInfoList";
+    }
+
 
     /**
      * 新增菜品转发

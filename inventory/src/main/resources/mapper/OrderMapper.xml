@@ -2,8 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sparksys.common.dao.OrderDao">
 
-    <select id="findByName" parameterType="map" resultType="com.sparksys.common.entity.Order">
-        SELECT t.id, t.shop_name shopName,GROUP_CONCAT(ti.goods_name,ti.amount) remark from tb_order t JOIN
+    <resultMap id="ResultMap" type="com.sparksys.common.entity.Order">
+        <id property="id" column="id"/>
+        <result property="shopName" column="shopName"/>
+        <result property="timeDesc" column="timeDesc"/>
+        <result property="totalPrice" column="totalPrice"/>
+        <result property="isPay" column="isPay"/>
+        <collection property="orderInfo" ofType="com.sparksys.common.entity.OrderInfo">
+            <id property="id" column="tid"/>
+            <result property="goodsName" column="goodsName"/>
+            <result property="amount" column="amount"/>
+            <result property="salePrice" column="price"/>
+        </collection>
+
+    </resultMap>
+
+    <select id="findByName" parameterType="map" resultMap="ResultMap">
+        SELECT t.id,
+        t.shop_name shopName,
+        t.time_desc timeDesc,
+        t.is_pay isPay,
+        t.total_price totalPrice,
+        ti.id tid,
+        ti.goods_name goodsName,
+        ti.amount,
+        ti.price
+        from tb_order t left JOIN
         tb_order_info ti on t.id=ti.order_id
         where 1=1
         <if test="shopName != null and shopName !=''">
@@ -12,7 +36,6 @@
         <if test="timeDesc != null and timeDesc !=''">
             and time_desc= #{timeDesc}
         </if>
-        GROUP BY ti.order_id
         order by t.id desc
     </select>
 
