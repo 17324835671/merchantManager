@@ -15,23 +15,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-public class VegetablesController extends CommonController {
+public class StockController extends CommonController {
 
     @Resource
     private GoodService goodService;
 
-
+    @Resource
+    private StockService stockService;
 
     @Resource
     private GoodsDao vegetablesDao;
 
 
-    @RequestMapping(value ="/vegetablesSearch",method = RequestMethod.GET)
+    @RequestMapping(value ="/findStockSearch",method = RequestMethod.GET)
     public String vegetablesSearch(){
         return "vegetables/vegetablesSearch";
     }
-    @RequestMapping(value ="/findVegetablesList")
-    public String findVegetablesList() throws Exception {
+    @RequestMapping(value ="/findStockList")
+    public String findStockList() {
         int pageNum = 0;
         String currentNum = this.getRequest().getParameter("currentNum");
         String name = this.getRequest().getParameter("name");

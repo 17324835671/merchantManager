@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class VegetablesService {
+public class StockService {
 
     @Resource
     private GoodsDao vegetablesDao;

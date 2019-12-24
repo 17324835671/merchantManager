@@ -24,11 +24,7 @@ public class SysUserServiceImpl implements ISysUserService {
 
 	@Resource
 	private SysUserDao userDao;
-	
-	@Caching(evict = { @CacheEvict(key="#p0.userId",allEntries=true,beforeInvocation=true),
-			@CacheEvict(key="#p0.userName",allEntries=true,beforeInvocation=true),
-			@CacheEvict(value="findSysUserPageList",allEntries=true,beforeInvocation=true),
-			@CacheEvict(value="findSysUserList",allEntries=true,beforeInvocation=true)})
+
 	public void deleteSysUer(SysUser user) {
 		if(user.getUserId()!=null&&!user.getUserId().equals(0L)) {
 			userDao.deleteSysUserById(user.getUserId());
@@ -55,23 +51,19 @@ public class SysUserServiceImpl implements ISysUserService {
 		return user;
 	}
 
-	@Caching(evict = { @CacheEvict(key="#p0.userId",allEntries=true,beforeInvocation=true),
-			@CacheEvict(key="#p0.userName",allEntries=true,beforeInvocation=true),
-			@CacheEvict(value="findSysUserPageList",allEntries=true,beforeInvocation=true),
-			@CacheEvict(value="findSysUserList",allEntries=true,beforeInvocation=true)})
 	public void updateSysUer(SysUser user) {
 		if(user.getUserId()!=null&&!"".equals(user.getUserId())) {
 			userDao.updateSysUser(user);
 		}
 	}
 
-	@Cacheable(value ="findSysUserList")
+
 	public List<SysUser> findSysUserList(Map<String, Object> map) {
 		List<SysUser> list = userDao.findSysUserList(map);
 		return list;
 	}
 
-	@Cacheable(value="findSysUserPageList")
+
 	public PageBean<SysUser> findSysUserPageList(int currentPage,int pageSize,Map<String, Object> map) {
 		PageHelper.startPage(currentPage, pageSize);
 		List<SysUser> list = userDao.findSysUserList(map);
