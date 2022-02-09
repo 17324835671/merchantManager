@@ -21,7 +21,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
         <redis-version>1.5.9.RELEASE</redis-version>
-        <shiro.version>1.2.4</shiro.version>
+        <shiro.version>1.7.1</shiro.version>
         <drools-version>7.12.0.Final</drools-version>
         <docker.image.prefix>springboot</docker.image.prefix>
 	</properties>
